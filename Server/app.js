@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
+
 import rateLimit from 'express-rate-limit';
 import pinoHttp from 'pino-http';
 import mongoose from 'mongoose';
@@ -17,13 +17,13 @@ app.use(helmet());
 app.use(cors({ origin: env.CLIENT_URL.split(','), credentials: true }));
 app.use(pinoHttp({ logger }));
 app.use(express.json({ limit: '1mb' }));
-app.use(cookieParser());
-app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: true, legacyHeaders: false }));
 
-app.get('/healthz', (req, res) =>
-  res.json({ ok: true, db: mongoose.connection.readyState === 1 }),
+app.use(
+  '/api',
+  rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: true, legacyHeaders: false }),
 );
 
+app.get('/healthz', (req, res) => res.json({ ok: true, db: mongoose.connection.readyState === 1 }));
 
 app.use('/api/v1', routes);
 
