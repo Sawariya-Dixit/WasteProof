@@ -6,8 +6,9 @@ const schema = z.object({
   PORT: z.coerce.number().default(5000),
   MONGO_URI: z.string().min(1, 'MONGO_URI required'),
   CLIENT_URL: z.string().default('http://localhost:5173'),
-  JWT_ACCESS_SECRET: z.string().min(8),
-  JWT_REFRESH_SECRET: z.string().min(8),
+  AWS_REGION: z.string().default('ap-south-1'),
+  COGNITO_USER_POOL_ID: z.string().min(1),
+  COGNITO_CLIENT_ID: z.string().min(1),
 });
 
 const parsed = schema.safeParse(process.env);

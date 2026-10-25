@@ -16,7 +16,8 @@ export function errorHandler(err, req, res, next) {
     success: false,
     error: {
       code: err.code || 'INTERNAL_ERROR',
-      message: status >= 500 && env.NODE_ENV === 'production' ? 'Something went wrong' : err.message,
+      message:
+        status >= 500 && env.NODE_ENV === 'production' ? 'Something went wrong' : err.message,
       details: err.details,
     },
   });
