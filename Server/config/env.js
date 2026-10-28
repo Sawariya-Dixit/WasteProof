@@ -9,6 +9,9 @@ const schema = z.object({
   AWS_REGION: z.string().default('ap-south-1'),
   COGNITO_USER_POOL_ID: z.string().min(1),
   COGNITO_CLIENT_ID: z.string().min(1),
+  NOMINATIM_URL: z.string().default('https://nominatim.openstreetmap.org'),
+  // Nominatim ki policy: apni app ka naam + contact do
+  NOMINATIM_USER_AGENT: z.string().min(1, 'NOMINATIM_USER_AGENT required'),
 });
 
 const parsed = schema.safeParse(process.env);
