@@ -10,5 +10,9 @@ if (!email) {
 
 await connectDB();
 const r = await User.updateOne({ email }, { role: 'admin' });
-console.log(r.matchedCount ? `${email} ab admin hai` : 'User nahi mila (pehle ek baar login karke /users/me bulao)');
+console.log(
+  r.matchedCount
+    ? `${email} ab admin hai`
+    : 'User nahi mila (pehle ek baar login karke /users/me bulao)',
+);
 await mongoose.connection.close();
