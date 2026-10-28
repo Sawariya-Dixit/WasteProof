@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { REPORT_TYPES, PUBLIC_SITE_STATUSES, MAX_SITES_PER_QUERY, MAX_BBOX_SPAN_DEG } from '../config/defaults.js';
+import {
+  REPORT_TYPES,
+  PUBLIC_SITE_STATUSES,
+  MAX_SITES_PER_QUERY,
+  MAX_BBOX_SPAN_DEG,
+} from '../config/defaults.js';
 
 const bbox = z
   .string()
@@ -7,7 +12,12 @@ const bbox = z
   .pipe(z.array(z.number()).length(4, 'bbox = minLng,minLat,maxLng,maxLat'))
   .refine(
     ([minLng, minLat, maxLng, maxLat]) =>
-      minLng >= -180 && maxLng <= 180 && minLat >= -90 && maxLat <= 90 && minLng < maxLng && minLat < maxLat,
+      minLng >= -180 &&
+      maxLng <= 180 &&
+      minLat >= -90 &&
+      maxLat <= 90 &&
+      minLng < maxLng &&
+      minLat < maxLat,
     'bbox ki values galat hain',
   )
   .refine(
