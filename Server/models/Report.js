@@ -21,7 +21,14 @@ const reportSchema = new mongoose.Schema(
     note: { type: String, maxlength: 300 },
     status: {
       type: String,
-      enum: ['pending', 'passed', 'rejected', 'community_check', 'needs_reporter_confirm', 'needs_review'],
+      enum: [
+        'pending',
+        'passed',
+        'rejected',
+        'community_check',
+        'needs_reporter_confirm',
+        'needs_review',
+      ],
       default: 'pending',
     },
     pipeline: { type: Mixed, default: {} },
