@@ -20,3 +20,7 @@ export const CLOCK_SKEW_MS = 60 * 1000; // phone ki ghadi thodi aage ho to chale
 export const MAX_ACCURACY_M = 500;
 export const SNAPS_PER_HOUR = 20; // field-test ke din badha sakte ho
 export const NOTE_MAX_CHARS = 300;
+export const REPORT_QUEUE = 'report-pipeline'; // BullMQ queue ka naam
+export const REPORT_JOB_ATTEMPTS = 3; // 3 try, phir needs_review
+export const REPORT_JOB_BACKOFF_MS = 5000; // retry se pehle 5s, 10s...
+export const WORKER_CONCURRENCY = 3; // ek saath kitne jobs

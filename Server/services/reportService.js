@@ -2,6 +2,8 @@ import { Report } from '../models/Report.js';
 import { AppError } from '../utils/AppError.js';
 import { isOwnKey, verifyUploadedOriginal } from './storageService.js';
 import { REPORT_MAX_AGE_MS, CLOCK_SKEW_MS, SNAPS_PER_HOUR } from '../config/defaults.js';
+import { enqueueReport } from '../queues/reportQueue.js';
+import { logger } from '../utils/logger.js';
 
 export async function createReport(user, input) {
   const { key, sha256, lat, lng, accuracyM, capturedAt, type, note } = input;
@@ -55,6 +57,17 @@ export async function createReport(user, input) {
     });
 
     // TODO Day 6: yahan BullMQ queue me job daalna hai (jobId = report._id)
+    // Report DB me save ho chuki hai. Ab queue me daalo.
+    // Queue fail ho to bhi user ko 202 do. Report pending rahegi, baad me requeue kar sakte hain.
+    try {
+      await enqueueReport(report._id);
+    } catch (err) {
+      logger.error(
+        { err, reportId: String(report._id) },
+        'Enqueue failed, report pending hi rahegi',
+      );
+    }
+
     return report;
   } catch (err) {
     if (err.code === 11000) {

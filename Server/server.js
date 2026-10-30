@@ -3,6 +3,8 @@ import app from './app.js';
 import { env } from './config/env.js';
 import { connectDB } from './config/db.js';
 import { logger } from './utils/logger.js';
+import { closeReportQueue } from './queues/reportQueue.js';
+import { closeRedis } from './config/redis.js';
 
 async function start() {
   await connectDB();
@@ -11,6 +13,8 @@ async function start() {
   const shutdown = (signal) => {
     logger.info(`${signal} received, shutting down`);
     server.close(async () => {
+      await closeReportQueue();
+      await closeRedis();
       await mongoose.connection.close();
       process.exit(0);
     });
