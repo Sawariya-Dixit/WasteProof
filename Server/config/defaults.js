@@ -24,3 +24,5 @@ export const REPORT_QUEUE = 'report-pipeline'; // BullMQ queue ka naam
 export const REPORT_JOB_ATTEMPTS = 3; // 3 try, phir needs_review
 export const REPORT_JOB_BACKOFF_MS = 5000; // retry se pehle 5s, 10s...
 export const WORKER_CONCURRENCY = 3; // ek saath kitne jobs
+export const REQUEUE_AFTER_MS = 10 * 60 * 1000;
+export const REQUEUE_EVERY_MS = 5 * 60 * 1000;

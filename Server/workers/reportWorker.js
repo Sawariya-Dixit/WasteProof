@@ -2,10 +2,16 @@ import mongoose from 'mongoose';
 import { Worker } from 'bullmq';
 import { connectDB } from '../config/db.js';
 import { createRedis } from '../config/redis.js';
-import { REPORT_QUEUE, WORKER_CONCURRENCY } from '../config/defaults.js';
+import {
+  REPORT_QUEUE,
+  WORKER_CONCURRENCY,
+  REQUEUE_AFTER_MS,
+  REQUEUE_EVERY_MS,
+} from '../config/defaults.js';
 import { Report } from '../models/Report.js';
 import { logger } from '../utils/logger.js';
 import { runPipeline } from './pipeline.js';
+import { requeuePending } from '../jobs/requeuePending.js';
 
 async function start() {
   await connectDB();
@@ -49,10 +55,19 @@ async function start() {
   });
 
   worker.on('error', (err) => logger.error({ err }, 'worker error'));
+
+  // Safety net: har REQUEUE_EVERY_MS par atki pending reports dobara queue me
+  const sweep = () =>
+    requeuePending({ olderThanMs: REQUEUE_AFTER_MS }).catch((err) =>
+      logger.error({ err }, 'requeuePending failed'),
+    );
+  sweep(); // start par ek baar
+  const sweeper = setInterval(sweep, REQUEUE_EVERY_MS);
   logger.info(`Worker ready, queue=${REPORT_QUEUE}, concurrency=${WORKER_CONCURRENCY}`);
 
   const shutdown = async (signal) => {
     logger.info(`${signal} received, worker band ho raha hai`);
+    clearInterval(sweeper);
     await worker.close(); // chalte hue job ko khatam hone do
     await connection.quit();
     await mongoose.connection.close();

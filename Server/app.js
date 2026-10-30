@@ -10,9 +10,20 @@ import { logger } from './utils/logger.js';
 import routes from './routes/index.js';
 import { notFound, errorHandler } from './middleware/error.js';
 import { sanitize } from './middleware/sanitize.js';
+import swaggerUi from 'swagger-ui-express';
+import { openapi } from './docs/openapi.js';
 const app = express();
 
 app.set('trust proxy', 1); // Render/Railway ke peeche sahi IP ke liye
+// Swagger UI (helmet se pehle, warna CSP uski inline script rok deti hai). Production me band.
+if (env.NODE_ENV !== 'production') {
+  app.use(
+    '/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(openapi, { swaggerOptions: { persistAuthorization: true } }),
+  );
+}
+
 app.use(helmet());
 app.use(cors({ origin: env.CLIENT_URL.split(','), credentials: true }));
 app.use(pinoHttp({ logger }));
