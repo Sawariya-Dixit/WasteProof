@@ -15,3 +15,8 @@ export const MAX_BBOX_SPAN_DEG = 5; // bahut bada map box reject
 export const INDIA_BOUNDS = { minLat: 6.0, maxLat: 37.6, minLng: 68.0, maxLng: 97.5 };
 export const GEO_CACHE_TTL_DAYS = 30;
 export const GEO_CACHE_DECIMALS = 3; // 3 decimal = lagbhag 110 m
+export const REPORT_MAX_AGE_MS = 10 * 60 * 1000; // capturedAt 10 min se purana nahi
+export const CLOCK_SKEW_MS = 60 * 1000; // phone ki ghadi thodi aage ho to chalega
+export const MAX_ACCURACY_M = 500;
+export const SNAPS_PER_HOUR = 20; // field-test ke din badha sakte ho
+export const NOTE_MAX_CHARS = 300;
