@@ -1,0 +1,93 @@
+{
+  "app": { "name": "JunkSnap", "tagline": "Snap the junk. Prove it. Get it cleared." },
+  "nav": {
+    "map": "Map",
+    "snap": "Snap",
+    "areas": "Areas",
+    "activity": "Activity",
+    "account": "Account",
+    "about": "About",
+    "admin": "Admin",
+    "login": "Log in"
+  },
+  "common": {
+    "loading": "Loading...",
+    "submit": "Submit",
+    "back": "Back",
+    "comingSoon": "This screen will be built soon.",
+    "theme": "Theme",
+    "language": "Language",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "login": "Log in",
+    "registerTitle": "Create your account",
+    "register": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgot": "Forgot password?",
+    "noAccount": "New here?",
+    "haveAccount": "Already have an account?",
+    "verifyTitle": "Verify your email",
+    "verifyHint": "We sent a 6-digit code to {{email}}.",
+    "code": "6-digit code",
+    "verify": "Verify",
+    "resend": "Resend code",
+    "codeSent": "A new code has been sent.",
+    "verified": "Email verified. You can log in now.",
+    "forgotTitle": "Reset your password",
+    "sendCode": "Send code",
+    "newPassword": "New password",
+    "resetPassword": "Reset password",
+    "passwordReset": "Password changed. Please log in.",
+    "logout": "Log out"
+  },
+  "account": { "title": "Your account", "role": "Role" },
+  "pages": {
+    "map": "Map of reports",
+    "snap": "Snap a report",
+    "site": "Site details",
+    "areas": "Area ranking",
+    "area": "Area details",
+    "letter": "Letter",
+    "activity": "My reports",
+    "admin": "Admin panel",
+    "notFound": "Page not found",
+    "goHome": "Go to home"
+  },
+  "about": {
+    "title": "How JunkSnap works",
+    "intro": "Snap a photo of waste, 10 people confirm it, and we draft a letter for the right authority.",
+    "cityTitle": "City response",
+    "cityText": "How quickly the city clears waste and services bins.",
+    "citizenTitle": "Citizen behaviour",
+    "citizenText": "How much waste people are dumping.",
+    "binTitle": "Bin access",
+    "binText": "Whether people have a legal place to dump waste at all."
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Enter a valid email",
+    "pwMin": "At least 8 characters",
+    "pwLower": "Add a small letter",
+    "pwUpper": "Add a capital letter",
+    "pwNumber": "Add a number",
+    "pwSpecial": "Add a special character",
+    "pwMatch": "Passwords do not match",
+    "code": "Enter the 6-digit code"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network problem. Check your internet and try again.",
+    "emailExists": "An account with this email already exists.",
+    "wrongCredentials": "Wrong email or password.",
+    "wrongCode": "That code is wrong.",
+    "codeExpired": "That code has expired. Request a new one.",
+    "tooMany": "Too many attempts. Please wait a while.",
+    "weakPassword": "Password is too weak."
+  }
+}
