@@ -90,4 +90,19 @@
     "tooMany": "Too many attempts. Please wait a while.",
     "weakPassword": "Password is too weak."
   }
+  ,
+  "map": {
+    "loading": "Loading reports...",
+    "zoomIn": "Zoom in to see reports",
+    "count_one": "{{count}} report here",
+    "count_other": "{{count}} reports here",
+    "loadError": "Could not load reports.",
+    "retry": "Retry",
+    "legend": {
+      "unverified": "Waiting for 10 people",
+      "verified": "Verified by 10 people",
+      "cleaned": "Cleaned"
+    }
 }
+}
+  

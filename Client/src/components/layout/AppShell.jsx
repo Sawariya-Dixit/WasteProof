@@ -8,7 +8,7 @@ export default function AppShell() {
   return (
     <div className="flex h-dvh flex-col">
       <TopBar />
-      <main className="min-h-0 flex-1 overflow-y-auto">
+<main className="relative min-h-0 flex-1 overflow-y-auto">
         <Outlet />
       </main>
       <BottomNav />
