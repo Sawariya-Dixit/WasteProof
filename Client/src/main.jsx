@@ -9,7 +9,7 @@ import App from './App.jsx';
 import { useUiStore, applyTheme } from './store/uiStore';
 import { useAuthStore } from './store/authStore';
 import { setUnauthorizedHandler } from './api/client';
-
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false, staleTime: 30_000 } },
 });
@@ -34,8 +34,10 @@ useAuthStore.getState().init();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </ErrorBoundary>
   </StrictMode>,
 );
