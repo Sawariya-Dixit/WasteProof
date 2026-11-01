@@ -12,6 +12,7 @@
     "seed:bodies": "node scripts/seedLocalBodies.js",
     "worker": "node --watch workers/reportWorker.js",
     "start:worker": "node workers/reportWorker.js"
+    
   },
   "main": "server.js",
   "dependencies": {
