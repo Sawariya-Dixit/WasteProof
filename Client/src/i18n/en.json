@@ -119,5 +119,32 @@
       "contaminated_water": "Contaminated water",
       "open_construction": "Open construction"
     }
-  }
+  },
+  "snap": {
+  "shutter": "Take photo",
+  "retake": "Retake",
+  "continue": "Continue",
+  "retry": "Try again",
+  "cameraStarting": "Starting camera...",
+  "cameraDenied": "Camera permission is blocked. Allow the camera in your browser settings and try again.",
+  "cameraNotFound": "No camera found on this device.",
+  "cameraBusy": "Another app is using the camera. Close it and try again.",
+  "cameraInsecure": "The camera needs a secure (HTTPS) connection.",
+  "cameraUnknown": "Could not start the camera.",
+  "gpsLocating": "Finding your location...",
+  "gpsGood": "GPS ±{{m}} m",
+  "gpsPoor": "Weak GPS ±{{m}} m",
+  "gpsDenied": "Location permission is blocked. Allow location and try again.",
+  "gpsUnavailable": "Location is not available right now.",
+  "gpsUnsupported": "This device does not support location.",
+  "gpsTimeout": "Could not get your location. Move to an open area.",
+  "problemNoGps": "No location yet. Wait for GPS and retake the photo.",
+  "problemPoorGps": "GPS is too weak (needs ±{{max}} m or better). Move to an open area, wait, and retake.",
+  "problemOutsideIndia": "Your location is outside India.",
+  "problemTooBig": "The photo is larger than 8 MB.",
+  "location": "Location",
+  "takenAt": "Taken at",
+  "size": "Size",
+  "fingerprint": "Photo fingerprint"
+}
 }
