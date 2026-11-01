@@ -120,10 +120,10 @@
       "open_construction": "Open construction"
     }
   },
-  "snap": {
+ "snap": {
   "shutter": "Take photo",
   "retake": "Retake",
-  "continue": "Continue",
+  "submit": "Submit report",
   "retry": "Try again",
   "cameraStarting": "Starting camera...",
   "cameraDenied": "Camera permission is blocked. Allow the camera in your browser settings and try again.",
@@ -144,7 +144,19 @@
   "problemTooBig": "The photo is larger than 8 MB.",
   "location": "Location",
   "takenAt": "Taken at",
-  "size": "Size",
-  "fingerprint": "Photo fingerprint"
+  "type": "What are you reporting?",
+  "note": "Note (optional)",
+  "notePlaceholder": "Anything that helps, for example: near the school gate",
+  "uploading": "Uploading photo... {{pct}}%",
+  "saving": "Saving your report...",
+  "savedTitle": "Report received",
+  "savedText": "We are checking your photo. Faces and number plates are blurred before anything is shown on the map, and other people need to confirm the site before it is verified.",
+  "snapAnother": "Report another",
+  "viewReports": "My reports",
+  "backToMap": "Back to map",
+  "errStale": "This photo is more than 10 minutes old. Please retake it.",
+  "errDuplicate": "This photo was already reported.",
+  "errRate": "Too many reports this hour. Please try again later.",
+  "errUpload": "Photo upload failed. Check your internet and try again."
 }
 }

@@ -7,3 +7,11 @@ export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
 const INDIA = { minLat: 6.0, maxLat: 37.6, minLng: 68.0, maxLng: 97.5 };
 export const inIndia = (lat, lng) =>
   lat >= INDIA.minLat && lat <= INDIA.maxLat && lng >= INDIA.minLng && lng <= INDIA.maxLng;
+export const REPORT_TYPES = [
+  'waste_dump',
+  'no_bin',
+  'overflowing_bin',
+  'contaminated_water',
+  'open_construction',
+];
+export const NOTE_MAX_CHARS = 300;

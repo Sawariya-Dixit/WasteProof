@@ -12,15 +12,16 @@ const variants = {
 export default function Button({
   variant = 'primary',
   loading = false,
+  disabled = false,
   className = '',
   children,
   ...props
 }) {
   return (
     <button
-      disabled={loading || props.disabled}
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed ${variants[variant]} ${className}`}
       {...props}
+      disabled={loading || disabled}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed ${variants[variant]} ${className}`}
     >
       {loading && <Spinner className="h-4 w-4" />}
       {children}
