@@ -4,7 +4,7 @@ import { isOwnKey, verifyUploadedOriginal } from './storageService.js';
 import { REPORT_MAX_AGE_MS, CLOCK_SKEW_MS, SNAPS_PER_HOUR } from '../config/defaults.js';
 import { enqueueReport } from '../queues/reportQueue.js';
 import { logger } from '../utils/logger.js';
-
+import { REPORT_MAX_AGE_MS, CLOCK_SKEW_MS, SNAPS_PER_HOUR, PIPELINE_STEP_NAMES } from '../config/defaults.js';
 export async function createReport(user, input) {
   const { key, sha256, lat, lng, accuracyM, capturedAt, type, note } = input;
 
@@ -75,4 +75,48 @@ export async function createReport(user, input) {
     }
     throw err;
   }
+}
+const summarize = (r) => ({
+  id: r._id,
+  type: r.type,
+  status: r.status,
+  siteId: r.siteId ?? null,
+  blurredUrl: r.blurredUrl ?? null,
+  note: r.note ?? null,
+  capturedAt: r.capturedAt,
+  createdAt: r.createdAt,
+});
+
+export async function listMyReports(userId, { page, limit }) {
+  const filter = { userId };
+  const [rows, total] = await Promise.all([
+    Report.find(filter)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('type status siteId blurredUrl note capturedAt createdAt')
+      .lean(),
+    Report.countDocuments(filter),
+  ]);
+  return { reports: rows.map(summarize), total };
+}
+
+// Sirf owner dekh sakta hai. Dusre ki report par bhi 404, taaki pata na chale ki wo exist karti hai
+export async function getMyReport(userId, id) {
+  const r = await Report.findOne({ _id: id, userId }).lean(); // originalKey select:false hai, bahar nahi jaati
+  if (!r) throw new AppError('Report nahi mili', 404, 'NOT_FOUND');
+
+  const steps = r.pipeline?.steps ?? {};
+  return {
+    ...summarize(r),
+    accuracyM: r.accuracyM ?? null,
+    location: { lat: r.location.coordinates[1], lng: r.location.coordinates[0] },
+    checks: PIPELINE_STEP_NAMES.map((name) => ({
+      name,
+      done: !!steps[name]?.done,
+      at: steps[name]?.at ?? null,
+    })),
+    facesBlurred: steps.blur?.result?.faces ?? null,
+    failed: r.status === 'needs_review',
+  };
 }

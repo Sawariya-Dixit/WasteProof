@@ -202,6 +202,36 @@ export const openapi = {
         },
       },
     },
+        '/reports/mine': {
+      get: {
+        tags: ['Reports'],
+        summary: 'Meri reports (nayi pehle)',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 20, maximum: 50 } },
+        ],
+        responses: {
+          200: { description: 'data.reports[] aur meta { page, limit, total }' },
+          401: errorResponse('Token missing ya invalid'),
+          422: errorResponse('VALIDATION_ERROR'),
+        },
+      },
+    },
+    '/reports/{id}': {
+      get: {
+        tags: ['Reports'],
+        summary: 'Meri ek report: status aur kaun se checks ho chuke (sirf owner)',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          200: { description: 'data.report: status, checks[], facesBlurred, location' },
+          401: errorResponse('Token missing ya invalid'),
+          404: errorResponse('NOT_FOUND (report nahi hai ya aapki nahi hai)'),
+          422: errorResponse('VALIDATION_ERROR (id galat)'),
+        },
+      },
+    },
     '/sites': {
       get: {
         tags: ['Sites'],

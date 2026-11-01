@@ -62,3 +62,24 @@ export async function uploadBlurred(buffer, reportId) {
       .end(buffer);
   });
 }
+// Worker ke liye: private original ko signed URL se download karo
+export async function downloadOriginal(publicId) {
+  const urls = [
+    cloudinary.url(publicId, { type: ORIGINAL_TYPE, resource_type: 'image', sign_url: true, secure: true }),
+    // Pehla na chale to API download link (frontend hamesha jpeg upload karta hai)
+    cloudinary.utils.private_download_url(publicId, 'jpg', { type: ORIGINAL_TYPE, resource_type: 'image' }),
+  ];
+  let lastStatus;
+  for (const url of urls) {
+    const res = await fetch(url);
+    if (res.ok) {
+      const buf = Buffer.from(await res.arrayBuffer());
+      if (buf.length > MAX_UPLOAD_BYTES) {
+        throw new AppError('Original bahut badi hai', 422, 'FILE_TOO_LARGE');
+      }
+      return buf;
+    }
+    lastStatus = res.status;
+  }
+  throw new Error(`Original download fail (HTTP ${lastStatus})`);
+}

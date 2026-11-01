@@ -26,3 +26,6 @@ export const REPORT_JOB_BACKOFF_MS = 5000; // retry se pehle 5s, 10s...
 export const WORKER_CONCURRENCY = 3; // ek saath kitne jobs
 export const REQUEUE_AFTER_MS = 10 * 60 * 1000;
 export const REQUEUE_EVERY_MS = 5 * 60 * 1000;
+export const PIPELINE_STEP_NAMES = ['moderate', 'blur', 'checks', 'verify', 'merge', 'locate'];
+export const MAX_IMAGE_DIM = 1600; // worker isi size par kaam karta hai
+export const FACE_BLUR = { minConfidence: 0.25, pad: 0.4, sigma: 30 }; // kam confidence = zyada blur

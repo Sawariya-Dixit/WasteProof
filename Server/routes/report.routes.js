@@ -2,17 +2,29 @@ import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { protect } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
-import { createReportSchema } from '../validators/report.validators.js';
-import { createReport } from '../controllers/reportController.js';
+import {
+  createReportSchema,
+  reportIdParamSchema,
+  myReportsQuerySchema,
+} from '../validators/report.validators.js';
+import { createReport, listMine, getOne } from '../controllers/reportController.js';
 
 const router = Router();
-const limiter = rateLimit({
+const writeLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   limit: 60,
   standardHeaders: true,
   legacyHeaders: false,
 });
+const readLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 120, // status polling ke liye
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-router.post('/', protect, limiter, validate(createReportSchema), createReport);
+router.post('/', protect, writeLimiter, validate(createReportSchema), createReport);
+router.get('/mine', protect, readLimiter, validate(myReportsQuerySchema, 'query'), listMine);
+router.get('/:id', protect, readLimiter, validate(reportIdParamSchema, 'params'), getOne);
 
 export default router;

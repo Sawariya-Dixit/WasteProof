@@ -28,3 +28,12 @@ export const createReportSchema = z
     path: ['lat'],
     message: 'Location India ke bahar hai',
   });
+
+  const objectId = z.string().regex(/^[a-fA-F0-9]{24}$/, 'Invalid id');
+
+export const reportIdParamSchema = z.object({ id: objectId });
+
+export const myReportsQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+});

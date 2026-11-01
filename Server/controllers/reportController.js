@@ -1,4 +1,8 @@
-import { createReport as create } from '../services/reportService.js';
+import {
+  createReport as create,
+  listMyReports,
+  getMyReport,
+} from '../services/reportService.js';
 
 export async function createReport(req, res) {
   const report = await create(req.user, req.body);
@@ -7,4 +11,15 @@ export async function createReport(req, res) {
     success: true,
     data: { report: { id: report._id, status: report.status } },
   });
+}
+
+export async function listMine(req, res) {
+  const { page, limit } = req.valid.query;
+  const { reports, total } = await listMyReports(req.user._id, { page, limit });
+  res.json({ success: true, data: { reports }, meta: { page, limit, total } });
+}
+
+export async function getOne(req, res) {
+  const report = await getMyReport(req.user._id, req.valid.params.id);
+  res.json({ success: true, data: { report } });
 }
