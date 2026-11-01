@@ -89,8 +89,7 @@
     "codeExpired": "That code has expired. Request a new one.",
     "tooMany": "Too many attempts. Please wait a while.",
     "weakPassword": "Password is too weak."
-  }
-  ,
+  },
   "map": {
     "loading": "Loading reports...",
     "zoomIn": "Zoom in to see reports",
@@ -98,11 +97,27 @@
     "count_other": "{{count}} reports here",
     "loadError": "Could not load reports.",
     "retry": "Retry",
+    "close": "Close",
+    "viewDetails": "View details",
+    "backers": "{{count}} of {{total}} people confirmed",
+    "reportsCount_one": "{{count}} report",
+    "reportsCount_other": "{{count}} reports",
     "legend": {
       "unverified": "Waiting for 10 people",
       "verified": "Verified by 10 people",
       "cleaned": "Cleaned"
+    },
+    "status": {
+      "unverified": "Waiting for 10 people",
+      "verified": "Verified",
+      "cleaned": "Cleaned"
+    },
+    "types": {
+      "waste_dump": "Waste dump",
+      "no_bin": "No bin or no pickup",
+      "overflowing_bin": "Overflowing or broken bin",
+      "contaminated_water": "Contaminated water",
+      "open_construction": "Open construction"
     }
+  }
 }
-}
-  

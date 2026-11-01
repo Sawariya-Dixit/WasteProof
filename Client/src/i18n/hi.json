@@ -97,11 +97,27 @@
     "count_other": "यहाँ {{count}} रिपोर्टें",
     "loadError": "रिपोर्टें लोड नहीं हो सकीं।",
     "retry": "दोबारा कोशिश",
+    "close": "बंद करें",
+    "viewDetails": "विवरण देखें",
+    "backers": "{{total}} में से {{count}} लोगों ने पुष्टि की",
+    "reportsCount_one": "{{count}} रिपोर्ट",
+    "reportsCount_other": "{{count}} रिपोर्टें",
     "legend": {
       "unverified": "10 लोगों का इंतज़ार",
       "verified": "10 लोगों ने पुष्टि की",
       "cleaned": "साफ हो गया"
+    },
+    "status": {
+      "unverified": "10 लोगों का इंतज़ार",
+      "verified": "पुष्ट",
+      "cleaned": "साफ हो गया"
+    },
+    "types": {
+      "waste_dump": "कचरे का ढेर",
+      "no_bin": "डस्टबिन नहीं है या कचरा नहीं उठता",
+      "overflowing_bin": "भरा या टूटा डस्टबिन",
+      "contaminated_water": "दूषित पानी",
+      "open_construction": "खुला निर्माण कार्य"
     }
-}
-  
   }
+}

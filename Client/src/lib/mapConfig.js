@@ -25,3 +25,7 @@ export const STATUS_COLORS = {
   verified: '#dc2626', // red: 10 logon ne confirm kiya
   cleaned: '#16a34a', // green: saaf ho gaya
 };
+export const VERIFY_THRESHOLD = 10; // server ke VERIFY_THRESHOLD se match
+
+// Pins paas-paas hon to cluster (gol number wala) ban jata hai
+export const CLUSTER = { maxZoom: 15, radius: 50 };

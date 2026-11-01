@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MapView from '@/components/map/MapView';
 import MapLegend from '@/components/map/MapLegend';
+import SitePinCard from '@/components/map/SitePinCard';
 import Spinner from '@/components/ui/Spinner';
 import { useBboxSites } from '@/hooks/useBboxSites';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
@@ -12,12 +13,19 @@ const chip =
 export default function MapPage() {
   const { t } = useTranslation();
   const [view, setView] = useState(null); // { bbox, zoom }
+  const [selected, setSelected] = useState(null); // pin jis par tap kiya
   const debouncedView = useDebouncedValue(view, 400); // 400 ms ruko, phir server se maango
   const { sites, tooBig, isFetching, isError, refetch } = useBboxSites(debouncedView?.bbox);
 
   return (
-    <div className="absolute inset-0" >
-      <MapView sites={sites} onViewChange={setView} />
+    <div className="absolute inset-0">
+      <MapView
+        sites={sites}
+        selectedId={selected?.id}
+        onViewChange={setView}
+        onSiteClick={setSelected}
+        onMapClick={() => setSelected(null)}
+      />
 
       {/* Upar-left: status */}
       <div className="pointer-events-none absolute top-3 left-3 z-10 flex flex-col gap-2">
@@ -40,10 +48,14 @@ export default function MapPage() {
         )}
       </div>
 
-      {/* Neeche-left: legend */}
-      <div className="pointer-events-none absolute bottom-6 left-3 z-10">
-        <MapLegend />
-      </div>
+      {/* Neeche: card khula ho to wo, warna legend */}
+      {selected ? (
+        <SitePinCard site={selected} onClose={() => setSelected(null)} />
+      ) : (
+        <div className="pointer-events-none absolute bottom-6 left-3 z-10">
+          <MapLegend />
+        </div>
+      )}
     </div>
   );
 }
