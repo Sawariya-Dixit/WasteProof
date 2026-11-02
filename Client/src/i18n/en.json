@@ -158,5 +158,36 @@
   "errDuplicate": "This photo was already reported.",
   "errRate": "Too many reports this hour. Please try again later.",
   "errUpload": "Photo upload failed. Check your internet and try again."
+},
+"activity": {
+  "empty": "You have not reported anything yet.",
+  "emptyCta": "Snap your first report",
+  "loadError": "Could not load your reports.",
+  "checking": "Checking... {{done}} of {{total}} steps done",
+  "allDone": "All checks finished",
+  "details": "What was checked",
+  "detailsError": "Could not load the details.",
+  "openPhoto": "Open the blurred photo",
+  "blurred": "Blurred in your photo: {{faces}} faces, {{plates}} number plates",
+  "failed": "Something went wrong while checking this report. Our team will review it.",
+  "status": {
+    "pending": "Checking",
+    "passed": "Passed",
+    "rejected": "Rejected",
+    "community_check": "Needs community check",
+    "needs_reporter_confirm": "Please confirm",
+    "needs_review": "Under review"
+  },
+  "steps": {
+    "moderate": "Safety and privacy scan",
+    "blur": "Faces and number plates blurred",
+    "checks": "Basic checks",
+    "verify": "Waste check",
+    "merge": "Matched with nearby reports",
+    "locate": "Ward and seat found"
+  },
+  "reject": {
+    "unsafe_image": "This photo was rejected because it looks unsafe. It has been deleted."
+  }
 }
 }

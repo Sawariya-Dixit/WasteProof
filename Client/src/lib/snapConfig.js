@@ -1,4 +1,5 @@
-export const MAX_GPS_ACCURACY_M = 50; // isse kharab accuracy par submit block
+// Laptop test ke liye Client/.env me VITE_MAX_GPS_ACCURACY_M=500 rakho. Default 50 (phone/production).
+export const MAX_GPS_ACCURACY_M = Number(import.meta.env.VITE_MAX_GPS_ACCURACY_M) || 50;
 export const MAX_IMAGE_DIM = 1600; // photo ki lambi side max 1600 px
 export const JPEG_QUALITY = 0.8;
 export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;

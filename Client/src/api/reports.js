@@ -37,3 +37,13 @@ export async function createReport(body) {
   const res = await api.post('/reports', body);
   return res.data.data.report;
 }
+
+export async function fetchMyReports({ page = 1, limit = 50 } = {}) {
+  const res = await api.get('/reports/mine', { params: { page, limit } });
+  return res.data.data.reports;
+}
+
+export async function fetchReport(id) {
+  const res = await api.get(`/reports/${id}`);
+  return res.data.data.report;
+}
