@@ -1,36 +1,69 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
 import { Report } from '../models/Report.js';
-import { env } from '../config/env.js';
-import { PIPELINE_STEP_NAMES } from '../config/defaults.js';
-import { downloadOriginal } from '../services/storageService.js';
-import { prepareImage, blurRegions } from '../services/blurService.js';
+import { PIPELINE_STEP_NAMES, PLATE_BLUR_PAD } from '../config/defaults.js';
+import { downloadOriginal, deleteOriginal, uploadBlurred } from '../services/storageService.js';
+import { prepareImage, blurRegions, toNormalized, toPixels } from '../services/blurService.js';
 import { detectFaces } from '../ai/faceDetector.js';
+import { scanImage } from '../ai/privacyScan.js';
 
-async function moderate(report, log) {
-  // Day 9: unsafe image check
-  log.info('step: moderate (stub)');
+// Koi step ise throw kare to pipeline wahin ruk jati hai aur report ka status badal jata hai.
+// Job fail nahi maana jata, isliye retry bhi nahi hota.
+export class PipelineStop extends Error {
+  constructor(status, reason) {
+    super(`${status}: ${reason}`);
+    this.status = status;
+    this.reason = reason;
+  }
 }
 
-async function blur(report, log) {
-  // originalKey select:false hai, isliye alag se maango
+// Step 1: safety + privacy scan. Result DB me rehta hai, isliye blur retry hone par Gemini dobara nahi bulata
+async function moderate(report, log) {
   const full = await Report.findById(report._id).select('+originalKey');
   const original = await downloadOriginal(full.originalKey);
-
   const raw = await prepareImage(original);
-  const faces = await detectFaces(raw);
-  // Day 9: yahan number plates ke boxes jodenge aur public copy upload hogi
-  const jpeg = await blurRegions(raw, faces);
 
-  // Abhi public upload nahi hai. Dev me blurred copy local folder me rakho taaki aap dekh sako
-  if (env.NODE_ENV === 'development') {
-    const dir = path.resolve('tmp/blurred');
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(path.join(dir, `${report._id}.jpg`), jpeg);
+  // Pehle local face blur, phir wahi copy Gemini ko. Poori unblurred photo third-party ko nahi jaati
+  const localFaces = await detectFaces(raw);
+  const preview = await blurRegions(raw, localFaces);
+  const scan = await scanImage(preview);
+
+  if (scan.unsafe) {
+    // Unsafe photo ko storage me rakhna theek nahi, original delete karo
+    await deleteOriginal(full.originalKey).catch((err) =>
+      log.error({ err }, 'unsafe original delete nahi ho paya'),
+    );
+    throw new PipelineStop('rejected', 'unsafe_image');
   }
 
-  log.info({ faces: faces.length, width: raw.info.width, height: raw.info.height }, 'step: blur done');
-  return { faces: faces.length };
+  log.info(
+    { localFaces: localFaces.length, llmFaces: scan.faces.length, plates: scan.plates.length },
+    'step: moderate done',
+  );
+  return {
+    localFaces: toNormalized(localFaces, raw.info),
+    llmFaces: scan.faces,
+    plates: scan.plates,
+  };
+}
+
+// Step 2: saare boxes blur karo, public copy upload karo. Shak ho to zyada blur (plates par bada pad)
+async function blur(report, log) {
+  const full = await Report.findById(report._id).select('+originalKey');
+  const scan = full.pipeline?.steps?.moderate?.result;
+  if (!scan) throw new Error('moderate ka result nahi mila, blur nahi kar sakte');
+
+  const original = await downloadOriginal(full.originalKey);
+  const raw = await prepareImage(original);
+
+  const faceBoxes = [...scan.localFaces, ...scan.llmFaces];
+  const plateBoxes = scan.plates.map((b) => ({ ...b, pad: PLATE_BLUR_PAD }));
+  const jpeg = await blurRegions(raw, toPixels([...faceBoxes, ...plateBoxes], raw.info));
+
+  // Public copy: sirf blurred, EXIF/GPS nahi. overwrite=true hai, retry me double upload nahi hota
+  const uploaded = await uploadBlurred(jpeg, report._id);
+  await Report.updateOne({ _id: report._id }, { $set: { blurredUrl: uploaded.secure_url } });
+
+  log.info({ faces: faceBoxes.length, plates: plateBoxes.length }, 'step: blur done');
+  return { faces: faceBoxes.length, plates: plateBoxes.length };
 }
 
 async function checks(report, log) {
@@ -76,7 +109,20 @@ export async function runPipeline(reportId, log) {
       continue;
     }
 
-    const result = await step.run(report, log);
+    let result;
+    try {
+      result = await step.run(report, log);
+    } catch (err) {
+      if (err instanceof PipelineStop) {
+        await Report.updateOne(
+          { _id: report._id, status: 'pending' },
+          { $set: { status: err.status, 'pipeline.rejectReason': err.reason } },
+        );
+        log.warn({ reason: err.reason }, `report -> ${err.status}`);
+        return;
+      }
+      throw err; // baaki errors par BullMQ retry karega
+    }
 
     await Report.updateOne(
       { _id: report._id },

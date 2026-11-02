@@ -83,3 +83,12 @@ export async function downloadOriginal(publicId) {
   }
   throw new Error(`Original download fail (HTTP ${lastStatus})`);
 }
+
+// Rejected (unsafe) photo ka original storage se hata do
+export async function deleteOriginal(publicId) {
+  await cloudinary.uploader.destroy(publicId, {
+    type: ORIGINAL_TYPE,
+    resource_type: 'image',
+    invalidate: true,
+  });
+}

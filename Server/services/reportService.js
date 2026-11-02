@@ -85,7 +85,16 @@ const summarize = (r) => ({
   note: r.note ?? null,
   capturedAt: r.capturedAt,
   createdAt: r.createdAt,
+  rejectReason: r.pipeline?.rejectReason ?? null,
 });
+//Kitne steps ho chuke (Activity page ka "x of 6")
+const progressOf = (r) => {
+  const steps = r.pipeline?.steps ?? {};
+  return {
+    done: PIPELINE_STEP_NAMES.filter((n) => steps[n]?.done).length,
+    total: PIPELINE_STEP_NAMES.length,
+  };
+};
 
 export async function listMyReports(userId, { page, limit }) {
   const filter = { userId };
@@ -94,11 +103,11 @@ export async function listMyReports(userId, { page, limit }) {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('type status siteId blurredUrl note capturedAt createdAt')
+      .select('type status siteId blurredUrl note capturedAt createdAt pipeline')
       .lean(),
     Report.countDocuments(filter),
   ]);
-  return { reports: rows.map(summarize), total };
+  return { reports: rows.map((r) => ({ ...summarize(r), progress: progressOf(r) })), total };
 }
 
 // Sirf owner dekh sakta hai. Dusre ki report par bhi 404, taaki pata na chale ki wo exist karti hai
@@ -109,6 +118,7 @@ export async function getMyReport(userId, id) {
   const steps = r.pipeline?.steps ?? {};
   return {
     ...summarize(r),
+    progress: progressOf(r),
     accuracyM: r.accuracyM ?? null,
     location: { lat: r.location.coordinates[1], lng: r.location.coordinates[0] },
     checks: PIPELINE_STEP_NAMES.map((name) => ({
@@ -117,6 +127,7 @@ export async function getMyReport(userId, id) {
       at: steps[name]?.at ?? null,
     })),
     facesBlurred: steps.blur?.result?.faces ?? null,
+    platesBlurred: steps.blur?.result?.plates ?? null,
     failed: r.status === 'needs_review',
   };
 }

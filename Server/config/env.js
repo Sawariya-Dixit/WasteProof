@@ -16,6 +16,8 @@ const schema = z.object({
   CLOUDINARY_API_KEY: z.string().min(1),
   CLOUDINARY_API_SECRET: z.string().min(1),
   REDIS_URL: z.string().min(1, 'REDIS_URL required'),
+    GEMINI_API_KEY: z.string().optional(),
+  GEMINI_MODEL: z.string().default('gemini-2.5-flash'),
 });
 
 const parsed = schema.safeParse(process.env);

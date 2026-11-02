@@ -29,3 +29,5 @@ export const REQUEUE_EVERY_MS = 5 * 60 * 1000;
 export const PIPELINE_STEP_NAMES = ['moderate', 'blur', 'checks', 'verify', 'merge', 'locate'];
 export const MAX_IMAGE_DIM = 1600; // worker isi size par kaam karta hai
 export const FACE_BLUR = { minConfidence: 0.25, pad: 0.4, sigma: 30 }; // kam confidence = zyada blur
+export const PLATE_BLUR_PAD = 0.5; // number plate ke aas-paas zyada blur (shak ho to zyada)
+export const MIN_BLUR_BOX_PX = 32; // bahut chhote (door ki) box ko itna bada kar do
