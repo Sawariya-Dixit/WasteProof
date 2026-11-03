@@ -244,5 +244,32 @@
       "mp": "MP",
       "collector": "Collector"
     }
+  },
+  "vote": {
+  "title": "Can you see this site?",
+  "hint": "You must be close to it. We ask for your location only when you tap a button.",
+  "yes": "Yes, it is here",
+  "meToo": "Me too",
+  "no": "Not here",
+  "locating": "Getting your location...",
+  "addPhoto": "Add a photo",
+  "addPhotoHint": "A new photo of the same problem within 20 m joins this site automatically.",
+  "loginToVote": "Log in to confirm this site",
+  "done": {
+    "yes": "You confirmed this site.",
+    "me_too": "You said you face this problem too.",
+    "no": "You said this problem is not here."
+  },
+  "err": {
+    "denied": "Location permission is off. Allow location for this site in your browser settings.",
+    "unavailable": "Could not find your location. Try outdoors.",
+    "timeout": "Getting your location took too long. Try again.",
+    "unsupported": "This device does not support location.",
+    "TOO_FAR": "You are {{d}} m away. You must be within {{m}} m of the site.",
+    "GPS_TOO_WEAK": "Your GPS is not accurate enough (needs {{m}} m or better). Try outdoors.",
+    "ALREADY_VOTED": "You have already voted on this site.",
+    "SITE_CLOSED": "This site has already been cleaned.",
+    "NETWORK_ERROR": "No internet. Please try again."
   }
+}
 }

@@ -11,3 +11,13 @@ export async function fetchSite(id) {
   const res = await api.get(`/sites/${id}`);
   return res.data.data.site;
 }
+// body = { lat, lng, accuracyM } (voter ki abhi ki location). Server doori check karta hai.
+export async function voteOnSite(id, { value, lat, lng, accuracyM }) {
+  const res = await api.post(`/sites/${id}/votes`, { value, lat, lng, accuracyM });
+  return res.data.data; // { vote: { value, distanceM }, site: { id, status, backerCount, noCount } }
+}
+
+export async function meTooSite(id, { lat, lng, accuracyM }) {
+  const res = await api.post(`/sites/${id}/me-too`, { lat, lng, accuracyM });
+  return res.data.data;
+}

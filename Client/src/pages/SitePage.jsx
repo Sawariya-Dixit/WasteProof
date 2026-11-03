@@ -9,6 +9,7 @@ import Spinner from '@/components/ui/Spinner';
 import Alert from '@/components/ui/Alert';
 import { useSite } from '@/hooks/useSite';
 import { VERIFY_THRESHOLD } from '@/lib/mapConfig';
+import VoteButtons from '@/components/site/VoteButtons';
 
 export default function SitePage() {
   const { id } = useParams();
@@ -86,7 +87,7 @@ export default function SitePage() {
           {site.status === 'cleaned' && t('site.cleanedText')}
         </p>
       </section>
-
+      <VoteButtons site={site} />
       <SeatsCard seats={site.seats} localBody={site.localBody} />
 
       <a

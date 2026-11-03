@@ -13,8 +13,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { queueAdd } from '@/lib/offlineQueue';
 import { refreshQueueCount } from '@/hooks/useOnlineQueue';
 import { sha256Hex } from '@/lib/hash';
-import { MAX_GPS_ACCURACY_M, MAX_UPLOAD_BYTES, inIndia } from '@/lib/snapConfig';
+import { MAX_GPS_ACCURACY_M, MAX_UPLOAD_BYTES, REPORT_TYPES, inIndia } from '@/lib/snapConfig';
 import { createReport, signUpload, uploadToCloudinary } from '@/api/reports';
+import { useSearchParams } from 'react-router';
 
 // Server ke error code se message. Jo yahan nahi hai, wo generic error dikhata hai
 const ERROR_KEY = {
@@ -32,6 +33,7 @@ export default function SnapPage() {
   const { t } = useTranslation();
   const { position, error } = useGeolocation();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams(); // <--- URL params read karne ke liye line
 
   const [shot, setShot] = useState(null); // { blob, url, capturedAt, gps, sha256 }
   const [type, setType] = useState('');
@@ -42,6 +44,14 @@ export default function SnapPage() {
   const [errorKey, setErrorKey] = useState(null);
   const [fatal, setFatal] = useState(false);
   const signRef = useRef(null); // upload ho chuka ho to dobara upload nahi karenge
+
+  // URL se initial 'type' value set karne ke liye logic
+  useEffect(() => {
+    const queryType = searchParams.get('type');
+    if (queryType && REPORT_TYPES.includes(queryType)) {
+      setType(queryType);
+    }
+  }, [searchParams]);
 
   // Shutter dabate waqt ka latest GPS chahiye (closure purana na ho)
   const posRef = useRef(position);
@@ -58,7 +68,11 @@ export default function SnapPage() {
 
   const reset = () => {
     setShot(null);
-    setType('');
+    
+    // Reset karte waqt check karenge agar URL me type hai to wahi rahega, warna khali hoga
+    const queryType = searchParams.get('type');
+    setType(queryType && REPORT_TYPES.includes(queryType) ? queryType : '');
+    
     setNote('');
     setPhase('review');
     setProgress(0);

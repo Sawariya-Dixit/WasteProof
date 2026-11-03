@@ -40,3 +40,22 @@ export function roundBbox([w, s, e, n]) {
 export function bboxTooLarge([w, s, e, n]) {
   return e - w > MAX_BBOX_SPAN_DEG || n - s > MAX_BBOX_SPAN_DEG;
 }
+// Ek baar ki GPS location (vote jaisi kriyaon ke liye). Permission isi call par poochhi jaati hai.
+// Reject message: 'unsupported' | 'denied' | 'unavailable' | 'timeout'
+export function getPositionOnce({ timeoutMs = 15000 } = {}) {
+  return new Promise((resolve, reject) => {
+    if (typeof navigator === 'undefined' || !('geolocation' in navigator)) {
+      return reject(new Error('unsupported'));
+    }
+    navigator.geolocation.getCurrentPosition(
+      (p) =>
+        resolve({
+          lat: p.coords.latitude,
+          lng: p.coords.longitude,
+          accuracyM: Math.round(p.coords.accuracy),
+        }),
+      (e) => reject(new Error(e.code === 1 ? 'denied' : e.code === 2 ? 'unavailable' : 'timeout')),
+      { enableHighAccuracy: true, maximumAge: 0, timeout: timeoutMs },
+    );
+  });
+}
