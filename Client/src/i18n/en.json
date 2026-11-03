@@ -198,11 +198,51 @@
       "unsafe_image": "This photo was rejected because it looks unsafe. It has been deleted.",
       "no_waste_detected": "We could not see waste in this photo. Please take a clearer photo of the site.",
       "duplicate_image": "This photo looks the same as one you already reported.",
-      "outside_india": "This location is outside India."
+      "outside_india": "This location is outside India.",
+      "stale_photo": "This photo was too old when it reached us. Please retake it.",
+      "reporter_declined": "You chose to discard this report."
+    },
+    "viewSite": "View this site",
+    "confirm": {
+      "question": "We could not clearly see \"{{type}}\" in your photo. Does the photo really show it?",
+      "note": "Other people still need to confirm the site before it is verified.",
+      "yes": "Yes, it does",
+      "no": "No, discard",
+      "already": "This report no longer needs your answer."
     }
   },
   "queue": {
     "waiting": "{{n}} waiting to send",
     "dropped": "{{n}} not sent (too old)"
+  },
+  "site": {
+    "backToMap": "Back to map",
+    "notFound": "This site does not exist or has been hidden.",
+    "loadError": "Could not load this site.",
+    "firstReported": "First reported {{date}}",
+    "photos": "Photos of this site",
+    "noPhotos": "No photos yet.",
+    "openPhoto": "Open photo {{n}} of {{total}}",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "verifyProgress": "Community verification in progress: {{count}} of {{total}} people have confirmed so far.",
+    "verifiedText": "{{total}} different people confirmed this site.",
+    "cleanedText": "This site has been cleaned.",
+    "seatsTitle": "Who is responsible here",
+    "seatsNone": "We could not find the ward or seat for this location yet.",
+    "localBody": "Local body",
+    "openInMaps": "Open location in OpenStreetMap",
+    "level": {
+      "ward": "Ward",
+      "assembly": "Assembly seat (MLA)",
+      "loksabha": "Lok Sabha seat (MP)",
+      "district": "District"
+    },
+    "office": {
+      "councillor": "Councillor",
+      "mla": "MLA",
+      "mp": "MP",
+      "collector": "Collector"
+    }
   }
 }

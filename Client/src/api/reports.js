@@ -47,3 +47,7 @@ export async function fetchReport(id) {
   const res = await api.get(`/reports/${id}`);
   return res.data.data.report;
 }
+export async function confirmReport(id, confirmed) {
+  const res = await api.post(`/reports/${id}/confirm`, { confirmed });
+  return res.data.data.report;
+}

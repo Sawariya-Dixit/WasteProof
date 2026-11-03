@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Check, Circle } from 'lucide-react';
 import ReportStatusChip from '@/components/report/ReportStatusChip';
+import ConfirmPrompt from '@/components/report/ConfirmPrompt';
 import Spinner from '@/components/ui/Spinner';
 import { isRunning, useReportDetail } from '@/hooks/useMyReports';
 import { thumbUrl } from '@/lib/image';
@@ -63,6 +65,15 @@ export default function ReportCard({ report }) {
             </p>
           )}
           {report.status === 'needs_review' && <p>{t('activity.failed')}</p>}
+          {report.status === 'needs_reporter_confirm' && <ConfirmPrompt report={report} />}
+          {report.siteId && (
+            <Link
+              to={`/site/${report.siteId}`}
+              className="inline-block font-medium text-green-700 underline dark:text-green-400"
+            >
+              {t('activity.viewSite')}
+            </Link>
+          )}
 
           {detail.isLoading && <Spinner className="h-4 w-4" />}
           {detail.isError && <p className="text-red-700 dark:text-red-300">{t('activity.detailsError')}</p>}

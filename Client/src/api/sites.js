@@ -7,3 +7,7 @@ export async function fetchSites({ bbox, type, status }) {
   });
   return res.data.data.sites;
 }
+export async function fetchSite(id) {
+  const res = await api.get(`/sites/${id}`);
+  return res.data.data.site;
+}
