@@ -1,7 +1,12 @@
 import { Report } from '../models/Report.js';
 import { AppError } from '../utils/AppError.js';
 import { isOwnKey, verifyUploadedOriginal } from './storageService.js';
-import { REPORT_MAX_AGE_MS, CLOCK_SKEW_MS, SNAPS_PER_HOUR } from '../config/defaults.js';
+import {
+  REPORT_MAX_AGE_MS,
+  CLOCK_SKEW_MS,
+  SNAPS_PER_HOUR,
+  PIPELINE_STEP_NAMES,
+} from '../config/defaults.js';
 import { enqueueReport } from '../queues/reportQueue.js';
 import { logger } from '../utils/logger.js';
 

@@ -16,8 +16,13 @@ const schema = z.object({
   CLOUDINARY_API_KEY: z.string().min(1),
   CLOUDINARY_API_SECRET: z.string().min(1),
   REDIS_URL: z.string().min(1, 'REDIS_URL required'),
-    GEMINI_API_KEY: z.string().optional(),
-  GEMINI_MODEL: z.string().default('gemini-2.5-flash'),
+  // 'rekognition' = asli scan (faces, plates, unsafe). 'local' = sirf dev, plates/safety check nahi
+  PRIVACY_SCAN: z.enum(['rekognition', 'local']).default('rekognition'),
+    AWS_REGION: z.string().default('ap-south-1'),
+  // Rekognition ke liye IAM user ki keys (Cognito wali nahi). Dono saath me dena, ya dono khaali
+  AWS_ACCESS_KEY_ID: z.string().optional(),
+  AWS_SECRET_ACCESS_KEY: z.string().optional(),
+  
 });
 
 const parsed = schema.safeParse(process.env);

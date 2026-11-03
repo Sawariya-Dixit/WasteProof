@@ -34,14 +34,21 @@ async function moderate(report, log) {
     throw new PipelineStop('rejected', 'unsafe_image');
   }
 
-  log.info(
-    { localFaces: localFaces.length, llmFaces: scan.faces.length, plates: scan.plates.length },
+    log.info(
+    {
+      localFaces: localFaces.length,
+      awsFaces: scan.faces.length,
+      plates: scan.plates.length,
+      mode: scan.skipped ? 'local_only' : 'rekognition',
+    },
     'step: moderate done',
   );
   return {
+    scanMode: scan.skipped ? 'local_only' : 'rekognition',
     localFaces: toNormalized(localFaces, raw.info),
-    llmFaces: scan.faces,
+    llmFaces: scan.faces, // naam purana hai, ab Rekognition ke faces hain (blur step isi naam se padhta hai)
     plates: scan.plates,
+    labels: scan.labels ?? [], // Day 11 verify step yahin se padhega
   };
 }
 

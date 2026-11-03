@@ -31,3 +31,20 @@ export const MAX_IMAGE_DIM = 1600; // worker isi size par kaam karta hai
 export const FACE_BLUR = { minConfidence: 0.25, pad: 0.4, sigma: 30 }; // kam confidence = zyada blur
 export const PLATE_BLUR_PAD = 0.5; // number plate ke aas-paas zyada blur (shak ho to zyada)
 export const MIN_BLUR_BOX_PX = 32; // bahut chhote (door ki) box ko itna bada kar do
+
+// Rekognition (ai/rekognitionScan.js)
+export const REKOGNITION = {
+  // Sirf ye top-level categories reject karti hain. Alcohol / Drugs & Tobacco par reject NAHI,
+  // warna kachre me padi bottle ya cigarette packet wali photo galat reject ho jayegi
+  blockedModeration: [
+    'Explicit',
+    'Explicit Nudity',
+    'Non-Explicit Nudity of Intimate parts and Kissing',
+    'Violence',
+    'Visually Disturbing',
+  ],
+  moderationMinConfidence: 70, // isse upar ho tabhi unsafe maano
+  moderationFetchConfidence: 50, // AWS se itna low confidence tak maango
+  labelsMinConfidence: 50,
+  maxLabels: 40,
+};
