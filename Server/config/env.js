@@ -18,11 +18,13 @@ const schema = z.object({
   REDIS_URL: z.string().min(1, 'REDIS_URL required'),
   // 'rekognition' = asli scan (faces, plates, unsafe). 'local' = sirf dev, plates/safety check nahi
   PRIVACY_SCAN: z.enum(['rekognition', 'local']).default('rekognition'),
-    AWS_REGION: z.string().default('ap-south-1'),
   // Rekognition ke liye IAM user ki keys (Cognito wali nahi). Dono saath me dena, ya dono khaali
   AWS_ACCESS_KEY_ID: z.string().optional(),
   AWS_SECRET_ACCESS_KEY: z.string().optional(),
-  
+  // Day 11: waste judge ka doosra raay (Groq vision). Key na ho ya VERIFY_LLM=off ho to sirf Rekognition labels chalte hain
+  GROQ_API_KEY: z.string().optional(),
+  GROQ_MODEL: z.string().default('meta-llama/llama-4-scout-17b-16e-instruct'),
+  VERIFY_LLM: z.enum(['on', 'off']).default('on'),
 });
 
 const parsed = schema.safeParse(process.env);

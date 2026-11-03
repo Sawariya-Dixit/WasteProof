@@ -7,7 +7,7 @@ import {
   SNAPS_PER_HOUR,
   PIPELINE_STEP_NAMES,
 } from '../config/defaults.js';
-import { enqueueReport } from '../queues/reportQueue.js';
+import { enqueueReport, requeueReport } from '../queues/reportQueue.js';
 import { logger } from '../utils/logger.js';
 
 export async function createReport(user, input) {
@@ -135,4 +135,47 @@ export async function getMyReport(userId, id) {
     platesBlurred: steps.blur?.result?.plates ?? null,
     failed: r.status === 'needs_review',
   };
+}
+
+// Day 11: judge uncertain tha (status = needs_reporter_confirm). Reporter bole "haan, ye wahi hai" to pipeline
+// wahin se aage chalti hai (verify step done maana jata hai); "nahi" bole to report reject.
+// Site phir bhi tabhi verified hogi jab 10 alag log confirm karein.
+export async function confirmMyReport(userId, id, confirmed) {
+  const report = await Report.findOne({ _id: id, userId }).select('status').lean();
+  if (!report) throw new AppError('Report nahi mili', 404, 'NOT_FOUND');
+  if (report.status !== 'needs_reporter_confirm') {
+    throw new AppError('Is report ko confirm karne ki zaroorat nahi', 409, 'NOT_WAITING_CONFIRM');
+  }
+
+  // Filter me status bhi hai: double tap ya do tab ho to sirf ek hi update lagta hai
+  const filter = { _id: id, userId, status: 'needs_reporter_confirm' };
+  const update = confirmed
+    ? {
+        $set: {
+          status: 'pending',
+          'pipeline.reporterConfirmed': true,
+          'pipeline.steps.verify': {
+            done: true,
+            at: new Date(),
+            result: { decision: 'confirmed_by_reporter' },
+          },
+        },
+        $unset: { 'pipeline.rejectReason': '' },
+      }
+    : { $set: { status: 'rejected', 'pipeline.rejectReason': 'reporter_declined' } };
+
+  const res = await Report.updateOne(filter, update);
+  if (res.modifiedCount === 0) {
+    throw new AppError('Is report ko confirm karne ki zaroorat nahi', 409, 'NOT_WAITING_CONFIRM');
+  }
+
+  if (confirmed) {
+    // Queue fail ho to bhi theek: requeuePending sweeper pending report ko dobara utha lega
+    try {
+      await requeueReport(id);
+    } catch (err) {
+      logger.error({ err, reportId: String(id) }, 'confirm ke baad requeue fail, sweeper uthayega');
+    }
+  }
+  return { id, status: confirmed ? 'pending' : 'rejected' };
 }

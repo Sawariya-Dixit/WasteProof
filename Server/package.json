@@ -11,7 +11,9 @@
     "seed:reps": "node scripts/seedRepresentatives.js",
     "seed:bodies": "node scripts/seedLocalBodies.js",
     "worker": "node --watch workers/reportWorker.js",
-    "start:worker": "node workers/reportWorker.js"
+    "start:worker": "node workers/reportWorker.js",
+     "test:decision": "node scripts/testDecision.js",
+    "eval:judge": "node scripts/evalJudge.js"
   },
   "main": "server.js",
   "dependencies": {

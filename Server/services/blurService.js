@@ -1,5 +1,6 @@
 import sharp from 'sharp';
 import { FACE_BLUR, MAX_IMAGE_DIM, MIN_BLUR_BOX_PX } from '../config/defaults.js';
+import { dHashFromGray } from '../utils/phash.js';
 
 // Photo ko seedha karo (EXIF rotation), max 1600 px par lao aur raw RGB banao
 export async function prepareImage(input) {
@@ -71,4 +72,14 @@ export async function blurRegions(
 
   const img = sharp(data, rawOpts);
   return (overlays.length ? img.composite(overlays) : img).jpeg({ quality: 85 }).toBuffer();
+}
+
+// Day 11: raw RGB se 64 bit perceptual hash (duplicate photo pakadne ke liye)
+export async function computePHash({ data, info }) {
+  const gray = await sharp(data, { raw: { width: info.width, height: info.height, channels: 3 } })
+    .resize(9, 8, { fit: 'fill' })
+    .greyscale()
+    .raw()
+    .toBuffer();
+  return dHashFromGray(gray);
 }

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Worker } from 'bullmq';
 import { connectDB } from '../config/db.js';
-import { createRedis } from '../config/redis.js';
+import { createRedis, closeRedis } from '../config/redis.js';
 import {
   REPORT_QUEUE,
   WORKER_CONCURRENCY,
@@ -70,6 +70,7 @@ async function start() {
     clearInterval(sweeper);
     await worker.close(); // chalte hue job ko khatam hone do
     await connection.quit();
+    await closeRedis(); // site-merge lock wala shared connection
     await mongoose.connection.close();
     process.exit(0);
   };

@@ -32,3 +32,7 @@ export const listSitesQuery = z.object({
   status: z.enum(PUBLIC_SITE_STATUSES).optional(),
   limit: z.coerce.number().int().min(1).max(MAX_SITES_PER_QUERY).default(MAX_SITES_PER_QUERY),
 });
+
+export const siteIdParamSchema = z.object({
+  id: z.string().regex(/^[a-fA-F0-9]{24}$/, 'Invalid id'),
+});

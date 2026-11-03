@@ -69,3 +69,15 @@ export const JUDGE = {
   water: ['Sewage', 'Puddle', 'Flood', 'Drain', 'Sewer', 'Water', 'Pond'],
   construction: ['Construction', 'Construction Site', 'Rubble', 'Scaffolding', 'Excavator', 'Bulldozer', 'Brick'],
 };
+
+// ---------- Day 11 ----------
+// Judge ke jawab (yes/no/uncertain) ko probability me badalna aur dono judges ko milana (ai/decision.js)
+export const VERIFY = {
+  weights: { labels: 0.4, llm: 0.6 }, // sirf jo judge available ho uske weights normalise hote hain
+  verdictProb: { yes: 0.9, uncertain: 0.5, no: 0.1 },
+  rejectBelow: 0.5, // probability isse kam aur kisi judge ne 'yes' nahi bola = reject
+  detectorMin: 0.5, // (Day 23 YOLO) detector pakka ho to reject ki jagah community_check
+};
+export const LLM_JUDGE_TIMEOUT_MS = 20_000;
+export const LLM_IMAGE_WIDTH = 1024; // Groq ko chhoti copy bhejo (tez + sasti)
+export const REPORTER_CONFIRM_REASON = 'uncertain'; // pipeline.rejectReason me jo likha jata hai

@@ -232,6 +232,36 @@ export const openapi = {
         },
       },
     },
+    '/reports/{id}/confirm': {
+      post: {
+        tags: ['Reports'],
+        summary: 'Judge uncertain tha: reporter bole ki photo me wahi problem hai ya nahi',
+        description:
+          'Sirf status = needs_reporter_confirm par. confirmed=true: pipeline aage chalti hai. confirmed=false: report rejected. Site tab bhi 10 logon se hi verify hoti hai.',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                additionalProperties: false,
+                required: ['confirmed'],
+                properties: { confirmed: { type: 'boolean' } },
+              },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'data.report: { id, status } (pending ya rejected)' },
+          401: errorResponse('Token missing ya invalid'),
+          404: errorResponse('NOT_FOUND'),
+          409: errorResponse('NOT_WAITING_CONFIRM'),
+          422: errorResponse('VALIDATION_ERROR'),
+        },
+      },
+    },
     '/sites': {
       get: {
         tags: ['Sites'],
@@ -255,6 +285,20 @@ export const openapi = {
         responses: {
           200: { description: '{ data: { sites: [...] }, meta: { count } }' },
           422: errorResponse('bbox galat ya bahut bada'),
+        },
+      },
+    },
+    '/sites/{id}': {
+      get: {
+        tags: ['Sites'],
+        summary: 'Ek site ki detail: photos, x of 10, ward / MLA / MP seats',
+        description:
+          'Public. Hidden site par 404. Seats worker ke locate step se aate hain; tab tak point-in-polygon se nikalte hain.',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          200: { description: 'data.site: status, backerCount, photoUrls[], seats{}, localBody' },
+          404: errorResponse('NOT_FOUND (site nahi hai ya hidden hai)'),
+          422: errorResponse('VALIDATION_ERROR (id galat)'),
         },
       },
     },

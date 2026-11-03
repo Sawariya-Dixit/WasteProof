@@ -2,6 +2,7 @@ import {
   createReport as create,
   listMyReports,
   getMyReport,
+  confirmMyReport,
 } from '../services/reportService.js';
 
 export async function createReport(req, res) {
@@ -21,5 +22,10 @@ export async function listMine(req, res) {
 
 export async function getOne(req, res) {
   const report = await getMyReport(req.user._id, req.valid.params.id);
+  res.json({ success: true, data: { report } });
+}
+
+export async function confirmReport(req, res) {
+  const report = await confirmMyReport(req.user._id, req.valid.params.id, req.body.confirmed);
   res.json({ success: true, data: { report } });
 }

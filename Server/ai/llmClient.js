@@ -1,55 +1,64 @@
 import { env } from '../config/env.js';
+import { LLM_JUDGE_TIMEOUT_MS } from '../config/defaults.js';
 
 export class LlmError extends Error {
-  constructor(message, { blocked = false } = {}) {
+  constructor(message, { status = null } = {}) {
     super(message);
     this.name = 'LlmError';
-    this.blocked = blocked; // true = provider ne khud photo block ki (safety)
+    this.status = status; // 429 = Groq rate limit
   }
 }
+
+// Groq OpenAI-compatible API hai. Vision model: meta-llama/llama-4-scout-17b-16e-instruct (GROQ_MODEL se badlo)
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 // ```json ... ``` me lipta jawab ho to fence hata do
 const stripFences = (s) => s.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
 
-// Ek photo + prompt bhejo, JSON jawab wapas lo
-export async function generateJson({ prompt, image, mimeType = 'image/jpeg', timeoutMs = 30000 }) {
-  if (!env.GEMINI_API_KEY) throw new LlmError('GEMINI_API_KEY .env me nahi hai');
+// Ek photo + prompt bhejo, JSON jawab wapas lo. Prompt me "JSON" shabd hona zaroori hai (Groq JSON mode).
+export async function generateJson({
+  prompt,
+  image,
+  mimeType = 'image/jpeg',
+  timeoutMs = LLM_JUDGE_TIMEOUT_MS,
+}) {
+  if (!env.GROQ_API_KEY) throw new LlmError('GROQ_API_KEY .env me nahi hai');
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(env.GEMINI_MODEL)}:generateContent`;
-  const res = await fetch(url, {
+  const res = await fetch(GROQ_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.GROQ_API_KEY}` },
     body: JSON.stringify({
-      contents: [
+      model: env.GROQ_MODEL,
+      temperature: 0,
+      max_completion_tokens: 300,
+      response_format: { type: 'json_object' },
+      messages: [
         {
           role: 'user',
-          parts: [
-            { text: prompt },
-            { inline_data: { mime_type: mimeType, data: image.toString('base64') } },
+          content: [
+            { type: 'text', text: prompt },
+            {
+              type: 'image_url',
+              image_url: { url: `data:${mimeType};base64,${image.toString('base64')}` },
+            },
           ],
         },
       ],
-      generationConfig: { temperature: 0, responseMimeType: 'application/json' },
     }),
     signal: AbortSignal.timeout(timeoutMs),
   });
 
   if (!res.ok) {
     const body = (await res.text().catch(() => '')).slice(0, 300);
-    throw new LlmError(`Gemini HTTP ${res.status}: ${body}`);
+    throw new LlmError(`Groq HTTP ${res.status}: ${body}`, { status: res.status });
   }
 
   const json = await res.json();
-  const blockReason = json?.promptFeedback?.blockReason;
-  if (blockReason) throw new LlmError(`Gemini ne photo block ki (${blockReason})`, { blocked: true });
-
-  const text = json?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim();
-  if (!text) {
-    throw new LlmError(`Gemini ka jawab khaali (${json?.candidates?.[0]?.finishReason ?? 'unknown'})`);
-  }
+  const text = json?.choices?.[0]?.message?.content?.trim();
+  if (!text) throw new LlmError(`Groq ka jawab khaali (${json?.choices?.[0]?.finish_reason ?? 'unknown'})`);
   try {
     return JSON.parse(stripFences(text));
   } catch {
-    throw new LlmError('Gemini ka jawab JSON nahi tha');
+    throw new LlmError('Groq ka jawab JSON nahi tha');
   }
 }

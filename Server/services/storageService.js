@@ -92,3 +92,16 @@ export async function deleteOriginal(publicId) {
     invalidate: true,
   });
 }
+
+// Day 11: public blurred copy ko LLM judge ke liye utaro (chhoti width, Cloudinary transform se).
+// Transform na chale to wahi URL seedha. Ye copy pehle se blurred hai, isliye third-party ko bhejna safe hai.
+export async function downloadBlurred(url, width = 1024) {
+  const small = url.includes('/image/upload/')
+    ? url.replace('/image/upload/', `/image/upload/w_${width},c_limit,q_auto:good,f_jpg/`)
+    : url;
+  for (const u of small === url ? [url] : [small, url]) {
+    const res = await fetch(u, { signal: AbortSignal.timeout(15000) });
+    if (res.ok) return Buffer.from(await res.arrayBuffer());
+  }
+  throw new Error('Blurred photo download nahi hui');
+}

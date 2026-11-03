@@ -25,6 +25,16 @@ export function enqueueReport(reportId) {
   return getReportQueue().add('process-report', { reportId: id }, { jobId: id });
 }
 
+// Day 11: reporter ne confirm kiya, ab report dobara chalani hai. Purana (completed) job Redis me
+// 1 ghanta pada rehta hai aur same jobId dobara add karne par chupchaap ignore ho jata hai, isliye pehle hatao.
+export async function requeueReport(reportId) {
+  const id = String(reportId);
+  const queue = getReportQueue();
+  const old = await queue.getJob(id);
+  if (old) await old.remove().catch(() => {});
+  return queue.add('process-report', { reportId: id }, { jobId: id });
+}
+
 export async function closeReportQueue() {
   if (queue) {
     await queue.close();

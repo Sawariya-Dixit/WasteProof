@@ -89,3 +89,15 @@ export async function scanWithRekognition(jpeg) {
   ]);
   return parseRekognition({ faces, moderation, labels, text });
 }
+
+// Day 11: sirf labels (waste judge ko test photos par tune karne ke liye). 4 ki jagah 1 AWS call.
+export async function fetchLabels(jpeg) {
+  const res = await client.send(
+    new DetectLabelsCommand({
+      Image: { Bytes: jpeg },
+      MaxLabels: REKOGNITION.maxLabels,
+      MinConfidence: REKOGNITION.labelsMinConfidence,
+    }),
+  );
+  return (res.Labels ?? []).map((l) => ({ name: l.Name, conf: Math.round(l.Confidence) }));
+}
