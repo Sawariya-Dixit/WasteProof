@@ -1,5 +1,8 @@
 {
-  "app": { "name": "JunkSnap", "tagline": "Snap the junk. Prove it. Get it cleared." },
+  "app": {
+    "name": "JunkSnap",
+    "tagline": "Snap the junk. Prove it. Get it cleared."
+  },
   "nav": {
     "map": "Map",
     "snap": "Snap",
@@ -46,7 +49,10 @@
     "passwordReset": "Password changed. Please log in.",
     "logout": "Log out"
   },
-  "account": { "title": "Your account", "role": "Role" },
+  "account": {
+    "title": "Your account",
+    "role": "Role"
+  },
   "pages": {
     "map": "Map of reports",
     "snap": "Snap a report",
@@ -120,74 +126,83 @@
       "open_construction": "Open construction"
     }
   },
- "snap": {
-  "shutter": "Take photo",
-  "retake": "Retake",
-  "submit": "Submit report",
-  "retry": "Try again",
-  "cameraStarting": "Starting camera...",
-  "cameraDenied": "Camera permission is blocked. Allow the camera in your browser settings and try again.",
-  "cameraNotFound": "No camera found on this device.",
-  "cameraBusy": "Another app is using the camera. Close it and try again.",
-  "cameraInsecure": "The camera needs a secure (HTTPS) connection.",
-  "cameraUnknown": "Could not start the camera.",
-  "gpsLocating": "Finding your location...",
-  "gpsGood": "GPS ±{{m}} m",
-  "gpsPoor": "Weak GPS ±{{m}} m",
-  "gpsDenied": "Location permission is blocked. Allow location and try again.",
-  "gpsUnavailable": "Location is not available right now.",
-  "gpsUnsupported": "This device does not support location.",
-  "gpsTimeout": "Could not get your location. Move to an open area.",
-  "problemNoGps": "No location yet. Wait for GPS and retake the photo.",
-  "problemPoorGps": "GPS is too weak (needs ±{{max}} m or better). Move to an open area, wait, and retake.",
-  "problemOutsideIndia": "Your location is outside India.",
-  "problemTooBig": "The photo is larger than 8 MB.",
-  "location": "Location",
-  "takenAt": "Taken at",
-  "type": "What are you reporting?",
-  "note": "Note (optional)",
-  "notePlaceholder": "Anything that helps, for example: near the school gate",
-  "uploading": "Uploading photo... {{pct}}%",
-  "saving": "Saving your report...",
-  "savedTitle": "Report received",
-  "savedText": "We are checking your photo. Faces and number plates are blurred before anything is shown on the map, and other people need to confirm the site before it is verified.",
-  "snapAnother": "Report another",
-  "viewReports": "My reports",
-  "backToMap": "Back to map",
-  "errStale": "This photo is more than 10 minutes old. Please retake it.",
-  "errDuplicate": "This photo was already reported.",
-  "errRate": "Too many reports this hour. Please try again later.",
-  "errUpload": "Photo upload failed. Check your internet and try again."
-},
-"activity": {
-  "empty": "You have not reported anything yet.",
-  "emptyCta": "Snap your first report",
-  "loadError": "Could not load your reports.",
-  "checking": "Checking... {{done}} of {{total}} steps done",
-  "allDone": "All checks finished",
-  "details": "What was checked",
-  "detailsError": "Could not load the details.",
-  "openPhoto": "Open the blurred photo",
-  "blurred": "Blurred in your photo: {{faces}} faces, {{plates}} number plates",
-  "failed": "Something went wrong while checking this report. Our team will review it.",
-  "status": {
-    "pending": "Checking",
-    "passed": "Passed",
-    "rejected": "Rejected",
-    "community_check": "Needs community check",
-    "needs_reporter_confirm": "Please confirm",
-    "needs_review": "Under review"
+  "snap": {
+    "shutter": "Take photo",
+    "retake": "Retake",
+    "submit": "Submit report",
+    "retry": "Try again",
+    "cameraStarting": "Starting camera...",
+    "cameraDenied": "Camera permission is blocked. Allow the camera in your browser settings and try again.",
+    "cameraNotFound": "No camera found on this device.",
+    "cameraBusy": "Another app is using the camera. Close it and try again.",
+    "cameraInsecure": "The camera needs a secure (HTTPS) connection.",
+    "cameraUnknown": "Could not start the camera.",
+    "gpsLocating": "Finding your location...",
+    "gpsGood": "GPS ±{{m}} m",
+    "gpsPoor": "Weak GPS ±{{m}} m",
+    "gpsDenied": "Location permission is blocked. Allow location and try again.",
+    "gpsUnavailable": "Location is not available right now.",
+    "gpsUnsupported": "This device does not support location.",
+    "gpsTimeout": "Could not get your location. Move to an open area.",
+    "problemNoGps": "No location yet. Wait for GPS and retake the photo.",
+    "problemPoorGps": "GPS is too weak (needs ±{{max}} m or better). Move to an open area, wait, and retake.",
+    "problemOutsideIndia": "Your location is outside India.",
+    "problemTooBig": "The photo is larger than 8 MB.",
+    "location": "Location",
+    "takenAt": "Taken at",
+    "type": "What are you reporting?",
+    "note": "Note (optional)",
+    "notePlaceholder": "Anything that helps, for example: near the school gate",
+    "uploading": "Uploading photo... {{pct}}%",
+    "saving": "Saving your report...",
+    "savedTitle": "Report received",
+    "savedText": "We are checking your photo. Faces and number plates are blurred before anything is shown on the map, and other people need to confirm the site before it is verified.",
+    "snapAnother": "Report another",
+    "viewReports": "My reports",
+    "backToMap": "Back to map",
+    "errStale": "This photo is more than 10 minutes old. Please retake it.",
+    "errDuplicate": "This photo was already reported.",
+    "errRate": "Too many reports this hour. Please try again later.",
+    "errUpload": "Photo upload failed. Check your internet and try again.",
+    "queuedTitle": "Saved on your phone",
+    "queuedText": "You are offline. We will send this report automatically when the internet is back. Photos older than 10 minutes cannot be sent, so please reconnect soon."
   },
-  "steps": {
-    "moderate": "Safety and privacy scan",
-    "blur": "Faces and number plates blurred",
-    "checks": "Basic checks",
-    "verify": "Waste check",
-    "merge": "Matched with nearby reports",
-    "locate": "Ward and seat found"
+  "activity": {
+    "empty": "You have not reported anything yet.",
+    "emptyCta": "Snap your first report",
+    "loadError": "Could not load your reports.",
+    "checking": "Checking... {{done}} of {{total}} steps done",
+    "allDone": "All checks finished",
+    "details": "What was checked",
+    "detailsError": "Could not load the details.",
+    "openPhoto": "Open the blurred photo",
+    "blurred": "Blurred in your photo: {{faces}} faces, {{plates}} number plates",
+    "failed": "Something went wrong while checking this report. Our team will review it.",
+    "status": {
+      "pending": "Checking",
+      "passed": "Passed",
+      "rejected": "Rejected",
+      "community_check": "Needs community check",
+      "needs_reporter_confirm": "Please confirm",
+      "needs_review": "Under review"
+    },
+    "steps": {
+      "moderate": "Safety and privacy scan",
+      "blur": "Faces and number plates blurred",
+      "checks": "Basic checks",
+      "verify": "Waste check",
+      "merge": "Matched with nearby reports",
+      "locate": "Ward and seat found"
+    },
+    "reject": {
+      "unsafe_image": "This photo was rejected because it looks unsafe. It has been deleted.",
+      "no_waste_detected": "We could not see waste in this photo. Please take a clearer photo of the site.",
+      "duplicate_image": "This photo looks the same as one you already reported.",
+      "outside_india": "This location is outside India."
+    }
   },
-  "reject": {
-    "unsafe_image": "This photo was rejected because it looks unsafe. It has been deleted."
+  "queue": {
+    "waiting": "{{n}} waiting to send",
+    "dropped": "{{n}} not sent (too old)"
   }
-}
 }

@@ -16,3 +16,5 @@ export const REPORT_TYPES = [
   'open_construction',
 ];
 export const NOTE_MAX_CHARS = 300;
+// Server 10 min se purani photo reject karta hai, queue me bhi 9 min ke baad bhejna band
+export const QUEUE_MAX_AGE_MS = 9 * 60 * 1000;

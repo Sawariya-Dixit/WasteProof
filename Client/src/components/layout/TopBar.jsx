@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { navItems } from './navItems';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitch from './LanguageSwitch';
+import QueueBadge from '@/components/report/QueueBadge';
 
 export default function TopBar() {
   const { t } = useTranslation();
@@ -46,6 +47,7 @@ export default function TopBar() {
             <ShieldCheck className="h-5 w-5" />
           </Link>
         )}
+         <QueueBadge />
         <LanguageSwitch />
         <ThemeToggle />
         {!isAuthed && (

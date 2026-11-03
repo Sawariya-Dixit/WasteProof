@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router';
 import TopBar from './TopBar';
 import BottomNav from './BottomNav';
+import { useOnlineQueue } from '@/hooks/useOnlineQueue';
 
-// Poori screen: upar bar, beech me page, neeche (mobile par) nav.
-// h-dvh = mobile browser ki address bar ke saath bhi sahi height.
 export default function AppShell() {
+  useOnlineQueue(); // offline me rakhi reports online aate hi bhejta hai
   return (
     <div className="flex h-dvh flex-col">
       <TopBar />
-<main className="relative min-h-0 flex-1 overflow-y-auto">
+      <main className="relative min-h-0 flex-1 overflow-y-auto">
         <Outlet />
       </main>
       <BottomNav />

@@ -9,6 +9,9 @@ import ReportSaved from '@/components/report/ReportSaved';
 import Button from '@/components/ui/Button';
 import Alert from '@/components/ui/Alert';
 import { useGeolocation } from '@/hooks/useGeolocation';
+import { useAuth } from '@/hooks/useAuth';
+import { queueAdd } from '@/lib/offlineQueue';
+import { refreshQueueCount } from '@/hooks/useOnlineQueue';
 import { sha256Hex } from '@/lib/hash';
 import { MAX_GPS_ACCURACY_M, MAX_UPLOAD_BYTES, inIndia } from '@/lib/snapConfig';
 import { createReport, signUpload, uploadToCloudinary } from '@/api/reports';
@@ -28,11 +31,12 @@ const FATAL = ['STALE_PHOTO', 'BAD_TIME', 'DUPLICATE_IMAGE', 'FORBIDDEN_KEY'];
 export default function SnapPage() {
   const { t } = useTranslation();
   const { position, error } = useGeolocation();
+  const { user } = useAuth();
 
   const [shot, setShot] = useState(null); // { blob, url, capturedAt, gps, sha256 }
   const [type, setType] = useState('');
   const [note, setNote] = useState('');
-  const [phase, setPhase] = useState('review'); // review | working | saved
+  const [phase, setPhase] = useState('review'); // review | working | saved | queued
   const [stage, setStage] = useState('upload'); // upload | save
   const [progress, setProgress] = useState(0);
   const [errorKey, setErrorKey] = useState(null);
@@ -63,6 +67,28 @@ export default function SnapPage() {
     signRef.current = null;
   };
 
+  // Internet nahi hai: photo phone me rakho, online aate hi apne aap jayegi
+  const saveForLater = async () => {
+    try {
+      await queueAdd({
+        owner: user?.id ?? user?._id ?? null,
+        blob: shot.blob,
+        sha256: shot.sha256,
+        gps: { lat: shot.gps.lat, lng: shot.gps.lng, accuracyM: shot.gps.accuracyM },
+        capturedAt: shot.capturedAt.getTime(),
+        type,
+        note: note.trim(),
+        key: signRef.current?.public_id ?? null, // upload ho chuka ho to dobara nahi
+        tries: 0,
+      });
+      await refreshQueueCount();
+      setPhase('queued');
+    } catch {
+      setErrorKey('errors.network');
+      setPhase('review');
+    }
+  };
+
   const handleCapture = ({ blob, capturedAt }) => {
     setShot({
       blob,
@@ -81,6 +107,7 @@ export default function SnapPage() {
     setPhase('working');
     setErrorKey(null);
     setFatal(false);
+    if (!navigator.onLine) return saveForLater();
     try {
       if (!signRef.current) {
         setStage('upload');
@@ -102,6 +129,7 @@ export default function SnapPage() {
       });
       setPhase('saved');
     } catch (err) {
+      if (err.code === 'NETWORK_ERROR' || !navigator.onLine) return saveForLater();
       setErrorKey(ERROR_KEY[err.code] ?? 'errors.generic');
       setFatal(FATAL.includes(err.code));
       setPhase('review');
@@ -120,10 +148,10 @@ export default function SnapPage() {
   }
 
   // ---------- Saved screen ----------
-  if (phase === 'saved') {
+  if (phase === 'saved' || phase === 'queued') {
     return (
       <div className="absolute inset-0 overflow-y-auto">
-        <ReportSaved onAnother={reset} />
+        <ReportSaved onAnother={reset} queued={phase === 'queued'} />
       </div>
     );
   }
