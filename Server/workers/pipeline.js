@@ -31,7 +31,7 @@ import { judgeWithGroq } from '../ai/groqJudge.js';
 import { decide } from '../ai/decision.js';
 import { inIndia } from '../utils/geo.js';
 import { hammingHex } from '../utils/phash.js';
-
+import { locateSite } from '../services/locateService.js';
 // Koi step ise throw kare to pipeline wahin ruk jati hai aur report ka status badal jata hai.
 // Job fail nahi maana jata, isliye retry bhi nahi hota.
 export class PipelineStop extends Error {
@@ -206,11 +206,14 @@ async function merge(report, log) {
   return { siteId: String(r.siteId), joined: r.joined, distanceM: r.distanceM };
 }
 
+// Step 6 (Day 12): site ke ward / MLA seat / MP seat / district, local body aur paas ki jagah
 async function locate(report, log) {
-  // Day 12: assembly / Lok Sabha / nearby places
-  log.info('step: locate (stub)');
+  const full = await Report.findById(report._id).select('siteId');
+  if (!full?.siteId) throw new Error('Report par siteId nahi hai (merge step pehle chalna chahiye)');
+  const r = await locateSite(full.siteId, log);
+  log.info(r, 'step: locate done');
+  return r;
 }
-
 const IMPL = { moderate, blur, checks, verify, merge, locate };
 
 // Order ek hi jagah (config/defaults.js) se aata hai, API ke "checks" list se match rehta hai

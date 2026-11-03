@@ -1,5 +1,6 @@
 import { Site } from '../models/Site.js';
 import { Area } from '../models/Area.js';
+import { Vote } from '../models/Vote.js';
 import { Representative } from '../models/Representative.js';
 import { LocalBody } from '../models/LocalBody.js';
 import { AppError } from '../utils/AppError.js';
@@ -77,15 +78,16 @@ async function buildSeats(site) {
 }
 
 // GET /sites/:id (public). Hidden site 404 hai. backers (user ids) aur embedding bahar nahi jaate.
-export async function getSiteDetail(id) {
+export async function getSiteDetail(id , userId = null) {
   const site = await Site.findOne({ _id: id, status: { $in: PUBLIC_SITE_STATUSES } }).lean();
   if (!site) throw new AppError('Site nahi mili', 404, 'NOT_FOUND');
 
-  const [seats, localBody] = await Promise.all([
+  const [seats, localBody, myVote] = await Promise.all([
     buildSeats(site),
     site.localBodyId
       ? LocalBody.findById(site.localBodyId).select('name type headTitle').lean()
       : null,
+    userId ? Vote.findOne({ siteId: id, userId }).select('value').lean() : null,
   ]);
 
   return {
@@ -104,5 +106,7 @@ export async function getSiteDetail(id) {
       ? { id: localBody._id, name: localBody.name, type: localBody.type, headTitle: localBody.headTitle }
       : null,
     nearby: site.nearby ?? null,
+        myVote: myVote?.value ?? null, // 'yes' | 'no' | 'me_too' | null
+        
   };
 }

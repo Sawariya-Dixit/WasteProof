@@ -44,6 +44,13 @@ export async function protect(req, res, next) {
   next();
 }
 
+// Public route jo login hone par thoda zyada dikhata hai (jaise site par 'maine kya vote diya').
+// Token na ho to guest, token galat ho to protect wala 401.
+export async function optionalProtect(req, res, next) {
+  if (!req.headers.authorization) return next();
+  return protect(req, res, next);
+}
+
 export const requireRole =
   (...roles) =>
   (req, res, next) => {

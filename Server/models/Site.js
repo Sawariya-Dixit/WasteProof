@@ -31,10 +31,12 @@ const siteSchema = new mongoose.Schema(
     },
     cleanedAt: Date,
     isTest: { type: Boolean, default: false }, // seed/test data ki pehchaan
+    locatedAt: Date, // FIXED: Moved inside the schema fields object
   },
   { timestamps: true },
 );
 
+// Indexes
 siteSchema.index({ location: '2dsphere' });
 siteSchema.index({ status: 1, type: 1 });
 siteSchema.index({ 'areaIds.ward': 1 });

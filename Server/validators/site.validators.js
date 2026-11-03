@@ -4,7 +4,9 @@ import {
   PUBLIC_SITE_STATUSES,
   MAX_SITES_PER_QUERY,
   MAX_BBOX_SPAN_DEG,
+  MAX_ACCURACY_M,
 } from '../config/defaults.js';
+import { inIndia } from '../utils/geo.js';
 
 const bbox = z
   .string()
@@ -36,3 +38,20 @@ export const listSitesQuery = z.object({
 export const siteIdParamSchema = z.object({
   id: z.string().regex(/^[a-fA-F0-9]{24}$/, 'Invalid id'),
 });
+// Vote / me-too: voter ki abhi ki location (server doori khud nikaalta hai)
+const voterGeo = {
+  lat: z.number().min(-90).max(90),
+  lng: z.number().min(-180).max(180),
+  accuracyM: z.number().min(0).max(MAX_ACCURACY_M),
+};
+const inIndiaRule = [(d) => inIndia(d.lat, d.lng), { path: ['lat'], message: 'Location India ke bahar hai' }];
+
+export const voteSchema = z
+  .object({ value: z.enum(['yes', 'no']), ...voterGeo })
+  .strict()
+  .refine(...inIndiaRule);
+
+export const meTooSchema = z
+  .object({ ...voterGeo })
+  .strict()
+  .refine(...inIndiaRule);

@@ -81,3 +81,12 @@ export const VERIFY = {
 export const LLM_JUDGE_TIMEOUT_MS = 20_000;
 export const LLM_IMAGE_WIDTH = 1024; // Groq ko chhoti copy bhejo (tez + sasti)
 export const REPORTER_CONFIRM_REASON = 'uncertain'; // pipeline.rejectReason me jo likha jata hai
+
+
+// ---------- Day 12 ----------
+export const HIDE_NO_MARGIN = 3; // 'no' votes backers se itne ya zyada ho jayein to site hidden
+export const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
+export const OVERPASS_RADIUS_M = 300;
+export const OVERPASS_MAX_PER_KIND = 5;
+export const OVERPASS_TIMEOUT_MS = 25_000;
+export const NEARBY_CACHE_TTL_DAYS = 30;

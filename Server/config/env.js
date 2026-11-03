@@ -25,6 +25,8 @@ const schema = z.object({
   GROQ_API_KEY: z.string().optional(),
   GROQ_MODEL: z.string().default('meta-llama/llama-4-scout-17b-16e-instruct'),
   VERIFY_LLM: z.enum(['on', 'off']).default('on'),
+    VOTE_MAX_DISTANCE_M: z.coerce.number().default(300),
+  VOTE_MAX_ACCURACY_M: z.coerce.number().default(100),
 });
 
 const parsed = schema.safeParse(process.env);
