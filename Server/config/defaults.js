@@ -48,3 +48,24 @@ export const REKOGNITION = {
   labelsMinConfidence: 50,
   maxLabels: 40,
 };
+
+// ---------- Day 10 ----------
+export const SITE_MERGE_RADIUS_M = 20; // 20 m ke andar same type = usi site me
+export const SITE_LOCK_CELL_DEG = 0.001; // lock grid, lagbhag 110 m
+export const SITE_LOCK_TTL_MS = 10_000;
+export const SITE_LOCK_RETRIES = 20;
+export const SITE_LOCK_RETRY_MS = 250;
+export const PHASH_MAX_DISTANCE = 5; // 64 bit me se itne bit tak alag ho to bhi duplicate
+export const PHASH_LOOKBACK_DAYS = 30;
+export const PHASH_MAX_COMPARE = 1000;
+// Waste judge (Rekognition labels). Label names AWS ke hain, apni photos dekh ke badal sakte ho
+export const JUDGE = {
+  strongConf: 70,
+  weakConf: 60,
+  minConf: 50,
+  garbage: ['Garbage', 'Trash', 'Litter', 'Rubbish', 'Junk', 'Waste', 'Dump', 'Landfill', 'Pollution'],
+  garbageWeak: ['Plastic Bag', 'Plastic', 'Bottle', 'Cardboard', 'Debris', 'Paper', 'Bag', 'Tire'],
+  bin: ['Trash Can', 'Bin', 'Dumpster', 'Tin'],
+  water: ['Sewage', 'Puddle', 'Flood', 'Drain', 'Sewer', 'Water', 'Pond'],
+  construction: ['Construction', 'Construction Site', 'Rubble', 'Scaffolding', 'Excavator', 'Bulldozer', 'Brick'],
+};
