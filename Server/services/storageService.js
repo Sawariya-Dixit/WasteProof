@@ -52,11 +52,11 @@ export async function verifyUploadedOriginal(publicId) {
 }
 
 // Worker (Day 9) blurred copy yahan daalega: ye public hai, original nahi
-export async function uploadBlurred(buffer, reportId) {
+export async function uploadBlurred(buffer, reportId, folder = 'blurred') {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload_stream(
-        { public_id: `blurred/${reportId}`, type: 'upload', overwrite: true },
+        { public_id: `${folder}/${reportId}`, type: 'upload', overwrite: true },
         (err, result) => (err ? reject(err) : resolve(result)),
       )
       .end(buffer);

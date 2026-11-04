@@ -1,6 +1,7 @@
 import { findInBbox, getSiteDetail } from '../services/siteService.js';
 import { castVote } from '../services/voteService.js';
-
+import { claimCleanup } from '../services/cleanupService.js';
+import { flagPhoto } from '../services/photoFlagService.js';
 export async function listSites(req, res) {
   const sites = await findInBbox(req.valid.query);
   res.json({ success: true, data: { sites }, meta: { count: sites.length } });
@@ -18,5 +19,14 @@ export async function postVote(req, res) {
 
 export async function postMeToo(req, res) {
   const data = await castVote(req.user, req.valid.params.id, { ...req.body, value: 'me_too' });
+  res.status(201).json({ success: true, data });
+}
+export async function postCleanup(req, res) {
+  const data = await claimCleanup(req.user, req.valid.params.id, req.body);
+  res.status(201).json({ success: true, data });
+}
+
+export async function postReportPhoto(req, res) {
+  const data = await flagPhoto(req.user, req.valid.params.id, req.body);
   res.status(201).json({ success: true, data });
 }

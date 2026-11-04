@@ -90,3 +90,11 @@ export const OVERPASS_RADIUS_M = 300;
 export const OVERPASS_MAX_PER_KIND = 5;
 export const OVERPASS_TIMEOUT_MS = 25_000;
 export const NEARBY_CACHE_TTL_DAYS = 30;
+
+
+// ---------- Day 13 ----------
+export const SITE_MERGE_BAND_M = 40; // 20-40 m ki site tabhi jo photo bhi milti-julti ho
+export const SITE_BAND_PHASH_MAX = 14; // is band me pHash distance isse zyada ho to nayi site
+export const PHOTO_FLAG_HIDE_AT = 3; // itne alag log flag karein to photo site se hat jati hai
+export const PHOTO_FLAG_REASONS = ['face_visible', 'plate_visible', 'not_waste', 'inappropriate', 'other'];
+export const PRIVACY_FLAG_REASONS = ['face_visible', 'plate_visible']; // privacy leak: 1 flag par hi hatao

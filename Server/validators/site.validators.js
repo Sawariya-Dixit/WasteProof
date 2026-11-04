@@ -5,6 +5,7 @@ import {
   MAX_SITES_PER_QUERY,
   MAX_BBOX_SPAN_DEG,
   MAX_ACCURACY_M,
+  PHOTO_FLAG_REASONS,
 } from '../config/defaults.js';
 import { inIndia } from '../utils/geo.js';
 
@@ -53,5 +54,15 @@ export const voteSchema = z
 
 export const meTooSchema = z
   .object({ ...voterGeo })
+  .strict()
+  .refine(...inIndiaRule);
+
+  export const reportPhotoSchema = z
+  .object({ photoUrl: z.string().url().max(500), reason: z.enum(PHOTO_FLAG_REASONS) })
+  .strict();
+
+// After-photo ki Cloudinary key (POST /uploads/sign se) + abhi ki location
+export const cleanupSchema = z
+  .object({ key: z.string().min(1).max(200), ...voterGeo })
   .strict()
   .refine(...inIndiaRule);
