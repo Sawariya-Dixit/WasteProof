@@ -1,15 +1,11 @@
 import { Router } from 'express';
-import rateLimit from 'express-rate-limit';
 import { protect } from '../middleware/auth.js';
+import { userLimiter } from '../middleware/limiters.js';
 import { signUpload } from '../controllers/uploadController.js';
 
 const router = Router();
-const limiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  limit: 40,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// Report photo aur cleanup after-photo dono yahin se sign hoti hain
+const limiter = userLimiter({ limit: 40 });
 
 router.post('/sign', protect, limiter, signUpload);
 export default router;

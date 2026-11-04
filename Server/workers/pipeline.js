@@ -238,7 +238,12 @@ export async function runPipeline(reportId, log) {
     }
 
     let result;
+    const t0 = Date.now();
     try {
+      // Sirf dev me retry test ke liye: FAIL_STEP=merge ke saath worker chalao
+      if (env.NODE_ENV !== 'production' && process.env.FAIL_STEP === step.name) {
+        throw new Error(`test: ${step.name} jaan-boojh ke fail kiya (FAIL_STEP)`);
+      }
       result = await step.run(report, log);
     } catch (err) {
       if (err instanceof PipelineStop) {
@@ -252,17 +257,29 @@ export async function runPipeline(reportId, log) {
       throw err; // baaki errors par BullMQ retry karega
     }
 
+    const ms = Date.now() - t0;
+    log.info({ step: step.name, ms }, 'step time');
     await Report.updateOne(
       { _id: report._id },
       {
         $set: {
-          [`pipeline.steps.${step.name}`]: { done: true, at: new Date(), result: result ?? null },
+          [`pipeline.steps.${step.name}`]: {
+            done: true,
+            at: new Date(),
+            ms,
+            result: result ?? null,
+          },
         },
       },
     );
   }
 
   // Saare steps ho gaye: ab report 'passed' hai (site ban chuki hai ya jud chuki hai)
-  await Report.updateOne({ _id: report._id, status: 'pending' }, { $set: { status: 'passed' } });
-  log.info('report -> passed');
+  // totalMs = snap se passed tak (queue ka wait milake). Target: 30 s se kam
+  const totalMs = Date.now() - report.createdAt.getTime();
+  await Report.updateOne(
+    { _id: report._id, status: 'pending' },
+    { $set: { status: 'passed', 'pipeline.totalMs': totalMs } },
+  );
+  log.info({ totalMs }, 'report -> passed');
 }

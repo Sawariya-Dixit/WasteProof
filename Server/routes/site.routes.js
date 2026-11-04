@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import rateLimit from 'express-rate-limit';
+import { userLimiter } from '../middleware/limiters.js';
 import { protect, optionalProtect } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
 import {
@@ -20,12 +20,7 @@ import {
 } from '../controllers/siteController.js';
 
 const router = Router();
-const voteLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  limit: 60,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+const voteLimiter = userLimiter(); // vote / me-too / flag / cleanup, har user ki apni limit
 
 router.get('/', validate(listSitesQuery, 'query'), listSites);
 router.get('/:id', optionalProtect, validate(siteIdParamSchema, 'params'), getSite);

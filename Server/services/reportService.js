@@ -9,7 +9,7 @@ import {
 } from '../config/defaults.js';
 import { enqueueReport, requeueReport } from '../queues/reportQueue.js';
 import { logger } from '../utils/logger.js';
-
+import { env } from '../config/env.js';
 export async function createReport(user, input) {
   const { key, sha256, lat, lng, accuracyM, capturedAt, type, note } = input;
 
@@ -33,7 +33,7 @@ export async function createReport(user, input) {
     userId: user._id,
     createdAt: { $gte: new Date(now - 60 * 60 * 1000) },
   });
-  if (recent >= SNAPS_PER_HOUR) {
+  if (recent >= env.SNAPS_PER_HOUR) {
     throw new AppError(
       'Ghante me bahut reports ho gayi, thodi der baad try karo',
       429,

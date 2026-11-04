@@ -27,6 +27,11 @@ const schema = z.object({
   VERIFY_LLM: z.enum(['on', 'off']).default('on'),
     VOTE_MAX_DISTANCE_M: z.coerce.number().default(300),
   VOTE_MAX_ACCURACY_M: z.coerce.number().default(100),
+    // Day 14: field-test ke liye limits .env se badlo (production me default hi rakho)
+  SNAPS_PER_HOUR: z.coerce.number().default(20), // ek user ki reports per ghanta
+  WRITE_LIMIT_PER_HOUR: z.coerce.number().default(60), // ek user ke vote / flag / confirm per ghanta
+  API_RATE_LIMIT: z.coerce.number().default(300), // ek IP ki saari /api calls per 15 min
+  
 });
 
 const parsed = schema.safeParse(process.env);

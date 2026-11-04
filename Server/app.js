@@ -31,7 +31,12 @@ app.use(express.json({ limit: '1mb' }));
 app.use(sanitize); // body se $ aur . wali keys hatao
 app.use(
   '/api',
-  rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: true, legacyHeaders: false }),
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: env.API_RATE_LIMIT,
+    standardHeaders: true,
+    legacyHeaders: false,
+  }),
 );
 
 app.get('/healthz', (req, res) => res.json({ ok: true, db: mongoose.connection.readyState === 1 }));

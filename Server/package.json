@@ -13,7 +13,10 @@
     "worker": "node --watch workers/reportWorker.js",
     "start:worker": "node workers/reportWorker.js",
      "test:decision": "node scripts/testDecision.js",
-    "eval:judge": "node scripts/evalJudge.js"
+    "eval:judge": "node scripts/evalJudge.js",
+        "debug:report": "node scripts/debugReport.js",
+    "stats:pipeline": "node scripts/pipelineStats.js",
+    "stats:queue": "node scripts/queueStats.js"
   },
   "main": "server.js",
   "dependencies": {
