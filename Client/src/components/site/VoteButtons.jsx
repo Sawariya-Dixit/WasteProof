@@ -62,6 +62,15 @@ export default function VoteButtons({ site }) {
     </div>
   );
 
+  const cleanedLink = (
+    <Link
+      to={`/site/${site.id}/cleaned`}
+      className="inline-block min-h-11 py-2 text-sm font-medium text-green-700 underline dark:text-green-400"
+    >
+      {t('vote.markCleaned')}
+    </Link>
+  );
+
   // Cleaned site par vote band (cleanup claim Day 13)
   if (site.status === 'cleaned') return null;
 
@@ -117,6 +126,7 @@ export default function VoteButtons({ site }) {
         </>
       )}
       {addPhoto}
+      {cleanedLink}
     </section>
   );
 }

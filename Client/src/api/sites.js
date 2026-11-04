@@ -21,3 +21,15 @@ export async function meTooSite(id, { lat, lng, accuracyM }) {
   const res = await api.post(`/sites/${id}/me-too`, { lat, lng, accuracyM });
   return res.data.data;
 }
+
+// reason: face_visible | plate_visible | not_waste | inappropriate | other
+export async function reportPhoto(id, { photoUrl, reason }) {
+  const res = await api.post(`/sites/${id}/report-photo`, { photoUrl, reason });
+  return res.data.data; // { flagged, removed }
+}
+
+// key = signUpload() wali after-photo ki public_id. Server photo blur karke judge chalata hai.
+export async function claimCleanup(id, { key, lat, lng, accuracyM }) {
+  const res = await api.post(`/sites/${id}/cleanups`, { key, lat, lng, accuracyM });
+  return res.data.data; // { cleanup: { id, status }, site: { id, status } }
+}

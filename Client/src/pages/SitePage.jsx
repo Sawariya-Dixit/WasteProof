@@ -10,7 +10,7 @@ import Alert from '@/components/ui/Alert';
 import { useSite } from '@/hooks/useSite';
 import { VERIFY_THRESHOLD } from '@/lib/mapConfig';
 import VoteButtons from '@/components/site/VoteButtons';
-
+import ShareButton from '@/components/site/ShareButton';
 export default function SitePage() {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
@@ -73,7 +73,7 @@ export default function SitePage() {
         </div>
       </header>
 
-      <PhotoStrip photos={site.photoUrls} />
+      <PhotoStrip photos={site.photoUrls} siteId={site.id} />
 
       <section className="space-y-2 rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
         <BackersMeter count={site.backerCount} />
@@ -90,15 +90,18 @@ export default function SitePage() {
       <VoteButtons site={site} />
       <SeatsCard seats={site.seats} localBody={site.localBody} />
 
-      <a
-        href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}`}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex min-h-11 items-center gap-1.5 text-sm text-green-700 underline dark:text-green-400"
-      >
-        <ExternalLink className="h-4 w-4" />
-        {t('site.openInMaps')}
-      </a>
+            <div className="flex flex-wrap gap-x-6">
+        <ShareButton title={typeLabel} text={t('site.shareText')} />
+        <a
+          href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}`}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex min-h-11 items-center gap-1.5 text-sm text-green-700 underline dark:text-green-400"
+        >
+          <ExternalLink className="h-4 w-4" />
+          {t('site.openInMaps')}
+        </a>
+      </div>
     </div>
   );
 }

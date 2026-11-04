@@ -243,7 +243,24 @@
       "mla": "MLA",
       "mp": "MP",
       "collector": "Collector"
-    }
+    },
+    "share": "Share",
+"shareCopied": "Link copied",
+"shareText": "Waste site reported on JunkSnap",
+"reportPhoto": {
+  "button": "Report this photo",
+  "title": "What is wrong with this photo?",
+  "cancel": "Cancel",
+  "reasons": {
+    "face_visible": "A face is visible",
+    "plate_visible": "A number plate is visible",
+    "not_waste": "It does not show waste",
+    "inappropriate": "Inappropriate",
+    "other": "Something else"
+  },
+  "done": "Thanks, we got your report.",
+  "already": "You already reported this photo."
+}
   },
   "vote": {
   "title": "Can you see this site?",
@@ -255,6 +272,7 @@
   "addPhoto": "Add a photo",
   "addPhotoHint": "A new photo of the same problem within 20 m joins this site automatically.",
   "loginToVote": "Log in to confirm this site",
+  "markCleaned": "This site is cleaned up",
   "done": {
     "yes": "You confirmed this site.",
     "me_too": "You said you face this problem too.",
@@ -270,6 +288,20 @@
     "ALREADY_VOTED": "You have already voted on this site.",
     "SITE_CLOSED": "This site has already been cleaned.",
     "NETWORK_ERROR": "No internet. Please try again."
+  }
+},
+"cleanup": {
+  "hint": "Stand at the site and take a photo of the cleaned spot",
+  "review": "The photo is checked and blurred on our server. Your location is sent with it.",
+  "retake": "Retake",
+  "submit": "Send",
+  "viewSite": "View site",
+  "siteClosed": "This site is not open for a cleanup claim.",
+  "errUnsafe": "This photo is not allowed.",
+  "result": {
+    "accepted": { "title": "Site marked as cleaned", "text": "Thank you! The photo shows the spot is clear." },
+    "rejected": { "title": "Still looks dirty", "text": "The photo still seems to show the problem. Retake it from the same spot if it is clean." },
+    "claimed": { "title": "Sent for review", "text": "We could not decide automatically. An admin will check your photo." }
   }
 }
 }
