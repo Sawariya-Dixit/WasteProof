@@ -30,6 +30,10 @@ export async function reportPhoto(id, { photoUrl, reason }) {
 
 // key = signUpload() wali after-photo ki public_id. Server photo blur karke judge chalata hai.
 export async function claimCleanup(id, { key, lat, lng, accuracyM }) {
-  const res = await api.post(`/sites/${id}/cleanups`, { key, lat, lng, accuracyM });
+  const res = await api.post(
+    `/sites/${id}/cleanups`,
+    { key, lat, lng, accuracyM },
+    { timeout: 60000 }, // server photo blur + scan karta hai, 20 s kam pad sakta hai
+  );
   return res.data.data; // { cleanup: { id, status }, site: { id, status } }
 }
