@@ -5,13 +5,16 @@ import { connectDB } from './config/db.js';
 import { logger } from './utils/logger.js';
 import { closeReportQueue } from './queues/reportQueue.js';
 import { closeRedis } from './config/redis.js';
+import { startScoresCron } from './jobs/scoresCron.js';
 
 async function start() {
   await connectDB();
   const server = app.listen(env.PORT, () => logger.info(`API running on port ${env.PORT}`));
+  const cronJob = env.SCORES_CRON === 'on' ? startScoresCron() : null;
 
   const shutdown = (signal) => {
     logger.info(`${signal} received, shutting down`);
+    cronJob?.stop();
     server.close(async () => {
       await closeReportQueue();
       await closeRedis();

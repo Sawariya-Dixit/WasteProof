@@ -9,6 +9,7 @@ const photoFlagSchema = new mongoose.Schema(
     userId: { type: ObjectId, ref: 'User', required: true },
     photoUrl: { type: String, required: true },
     reason: { type: String, required: true },
+        status: { type: String, enum: ['open', 'dismissed', 'upheld'], default: 'open' },
   },
   { timestamps: true },
 );

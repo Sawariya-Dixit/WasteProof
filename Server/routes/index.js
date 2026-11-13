@@ -8,6 +8,7 @@ import uploadRoutes from './upload.routes.js';
 import reportRoutes from './report.routes.js';
 
 import geoRoutes from './geo.routes.js';
+import areaRoutes from './area.routes.js'; // imports ke saath
 
 const router = Router();
 
@@ -24,4 +25,6 @@ router.use('/sites', siteRoutes);
 router.use('/geo', geoRoutes);
 router.use('/uploads', uploadRoutes);
 router.use('/reports', reportRoutes);
+router.use('/areas', areaRoutes); // router.use('/reports', ...) ke neeche
+
 export default router;

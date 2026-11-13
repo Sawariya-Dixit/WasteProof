@@ -12,11 +12,13 @@
     "seed:bodies": "node scripts/seedLocalBodies.js",
     "worker": "node --watch workers/reportWorker.js",
     "start:worker": "node workers/reportWorker.js",
-     "test:decision": "node scripts/testDecision.js",
+    "test:decision": "node scripts/testDecision.js",
     "eval:judge": "node scripts/evalJudge.js",
-        "debug:report": "node scripts/debugReport.js",
+    "debug:report": "node scripts/debugReport.js",
     "stats:pipeline": "node scripts/pipelineStats.js",
-    "stats:queue": "node scripts/queueStats.js"
+    "stats:queue": "node scripts/queueStats.js",
+    "scores": "node scripts/runScores.js",
+"seed:test": "node scripts/seedTestData.js"
   },
   "main": "server.js",
   "dependencies": {
@@ -36,6 +38,7 @@
     "helmet": "^8.3.0",
     "ioredis": "^6.0.0",
     "mongoose": "^9.11.3",
+    "node-cron": "^4.6.0",
     "pino": "^10.4.0",
     "pino-http": "^11.0.0",
     "sharp": "^0.35.5",

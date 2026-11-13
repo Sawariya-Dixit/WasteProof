@@ -98,3 +98,24 @@ export const SITE_BAND_PHASH_MAX = 14; // is band me pHash distance isse zyada h
 export const PHOTO_FLAG_HIDE_AT = 3; // itne alag log flag karein to photo site se hat jati hai
 export const PHOTO_FLAG_REASONS = ['face_visible', 'plate_visible', 'not_waste', 'inappropriate', 'other'];
 export const PRIVACY_FLAG_REASONS = ['face_visible', 'plate_visible']; // privacy leak: 1 flag par hi hatao
+// ---------- Day 13 (cleanup claim + photo flag) ----------
+export const CLEANUP_MAX_DISTANCE_M = 100; // after-photo site ke itne paas se li ho
+export const CLEANUP_MAX_ACCURACY_M = 50; // GPS accuracy isse kharab ho to claim nahi
+export const CLEANUP_ACCEPT_AT = 2; // itne ALAG users ki accepted claims = site 'cleaned'
+export const CLEANUP_WINDOW_DAYS = 14; // in claims ko ginne ki window
+export const PHOTO_FLAG_MAX_PER_DAY = 10; // ek user din me itne flag kar sakta hai
+// ---------- Day 15 ----------
+export const SCORE_LEVELS = ['assembly', 'loksabha', 'district']; // ward baad me, jab reviewed map ho
+export const BEHAVIOUR_TYPES = ['waste_dump', 'contaminated_water', 'open_construction'];
+export const SCORES = {
+  cronExpr: '*/15 * * * *', // har 15 min
+  includeTest: true, // Day 26 deploy se pehle false kar dena (test sites score me na jayein)
+  cityCleanupDays: 7, // overflowing bin itne din me saaf hua to "on time"
+  cityMinEligible: 3, // city score ke liye kam se kam itni bins chahiye
+  citizenBadDensity: 0.01, // verified sites per km2, jahan citizen score 0 ho jata hai
+  binBadDensity: 0.005, // verified no-bin sites per km2, jahan bin score 0 ho jata hai
+  repeatReports: 5, // itni reports wali site = repeat spot
+  repeatShare: 0.3, // verified sites me se itne hisse repeat spots hon to diagnosis repeat_spot
+  lowScore: 50, // isse kam = problem
+  mapMaxPoints: 300, // map ke liye polygon itne points tak simplify
+};

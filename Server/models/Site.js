@@ -14,6 +14,9 @@ const siteSchema = new mongoose.Schema(
     noCount: { type: Number, default: 0 },
     reportCount: { type: Number, default: 0 },
     photoUrls: [String],
+        quarantinedPhotos: [
+      { _id: false, url: String, reason: String, at: Date }, // flag ki wajah se public se hati photos
+    ],
     firstReportId: { type: ObjectId, ref: 'Report' },
     embedding: { type: [Number], select: false },
     areaIds: {
