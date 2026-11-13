@@ -303,5 +303,32 @@
     "rejected": { "title": "Still looks dirty", "text": "The photo still seems to show the problem. Retake it from the same spot if it is clean." },
     "claimed": { "title": "Sent for review", "text": "We could not decide automatically. An admin will check your photo." }
   }
+},
+"areas": {
+  "title": "Which areas need attention",
+  "intro": "Worst-scoring areas come first. A score shows only after 10 verified sites.",
+  "level": { "assembly": "Assembly", "loksabha": "Lok Sabha", "district": "District" },
+  "legend": {
+    "good": "Good (70+)",
+    "mid": "Fair (40-69)",
+    "bad": "Poor (below 40)",
+    "none": "Score withheld"
+  },
+  "withheld": "Score withheld until 10 verified sites",
+  "overall": "Overall score",
+  "verifiedOf": "{{count}} of {{total}} verified sites",
+  "sitesTotal_one": "{{count}} site in total",
+  "sitesTotal_other": "{{count}} sites in total",
+  "viewArea": "View area",
+  "empty": "No area has any reports yet.",
+  "mapError": "Could not load the area map.",
+  "rankingError": "Could not load the ranking.",
+  "diagnosis": {
+    "infrastructure_gap": "Infrastructure gap (too few bins)",
+    "city_response": "Slow city response",
+    "behaviour": "Citizen behaviour",
+    "repeat_spot": "Repeat spots",
+    "balanced": "Balanced"
+  }
 }
 }
