@@ -9,3 +9,8 @@ export async function fetchAreasMap({ level }) {
   const res = await api.get('/areas/map', { params: { level } });
   return res.data.data.geojson;
 }
+
+export async function fetchAreaDetail(id) {
+  const res = await api.get(`/areas/${id}`);
+  return res.data.data; // { area, score, topSites, representatives }
+}

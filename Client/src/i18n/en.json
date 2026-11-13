@@ -329,6 +329,30 @@
     "behaviour": "Citizen behaviour",
     "repeat_spot": "Repeat spots",
     "balanced": "Balanced"
-  }
+  },
+  "back": "All areas",
+"notFound": "This area does not exist.",
+"areaError": "Could not load this area.",
+"pilot": "Pilot area",
+"verifiedLabel": "Verified sites",
+"totalLabel": "All sites",
+"needMore": "{{count}} more verified sites needed before a score is shown.",
+"scoreNoData": "Not enough data yet",
+"cityScore": "City response",
+"cityHint": "How fast overflowing bins get cleaned",
+"citizenScore": "Citizen behaviour",
+"citizenHint": "Fewer dump sites per km² is better",
+"binScore": "Bin access",
+"binHint": "Fewer areas without any bin is better",
+"insightsTitle": "What the data shows",
+"insight": {
+  "verified_sites": "{{verified}} verified sites out of {{total}} reported",
+  "cleanup_rate": "{{onTime}} of {{eligible}} overflowing bins were cleaned within {{days}} days",
+  "no_bin_sites": "{{count}} verified sites where people have no bin nearby",
+  "repeat_spots": "{{count}} repeat spots reported again and again"
+},
+"topSites": "Sites with the most support",
+"noSites": "No sites in this area yet.",
+"repsTitle": "Representatives"
 }
 }
