@@ -9,7 +9,7 @@ import {
 } from '../config/defaults.js';
 import { inIndia } from '../utils/geo.js';
 
-const bbox = z
+ export const bbox = z
   .string()
   .transform((s) => s.split(',').map((p) => (p.trim() === '' ? NaN : Number(p))))
   .pipe(z.array(z.number()).length(4, 'bbox = minLng,minLat,maxLng,maxLat'))

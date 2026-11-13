@@ -118,4 +118,8 @@ export const SCORES = {
   repeatShare: 0.3, // verified sites me se itne hisse repeat spots hon to diagnosis repeat_spot
   lowScore: 50, // isse kam = problem
   mapMaxPoints: 300, // map ke liye polygon itne points tak simplify
+    topSites: 5, // area page par itni top sites
+
 };
+
+  

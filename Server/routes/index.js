@@ -9,7 +9,7 @@ import reportRoutes from './report.routes.js';
 
 import geoRoutes from './geo.routes.js';
 import areaRoutes from './area.routes.js'; // imports ke saath
-
+import placeRoutes from './place.routes.js';
 const router = Router();
 
 router.get('/health', (req, res) => {
@@ -26,5 +26,5 @@ router.use('/geo', geoRoutes);
 router.use('/uploads', uploadRoutes);
 router.use('/reports', reportRoutes);
 router.use('/areas', areaRoutes); // router.use('/reports', ...) ke neeche
-
+router.use('/places', placeRoutes);
 export default router;
