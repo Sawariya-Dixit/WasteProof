@@ -12,7 +12,7 @@ export default function TopBar() {
   const { isAuthed, isAdmin } = useAuth();
 
   return (
-    <header className="flex items-center gap-2 border-b border-slate-200 bg-white px-3 pt-[env(safe-area-inset-top)] dark:border-slate-800 dark:bg-slate-950">
+    <header className="flex items-center gap-2 border-b border-slate-200 bg-white px-3 pt-[env(safe-area-inset-top)] dark:border-slate-800 dark:bg-slate-950 print:hidden">
       <Link to="/" className="flex h-14 items-center text-lg font-bold text-green-600">
         {t('app.name')}
       </Link>

@@ -13,3 +13,17 @@
     @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
   }
 }
+/* Print: sirf letter chhapta hai (TopBar / BottomNav / buttons print:hidden hain) */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm;
+  }
+  html,
+  body,
+  #root {
+    height: auto !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+}

@@ -354,5 +354,51 @@
 "topSites": "Sites with the most support",
 "noSites": "No sites in this area yet.",
 "repsTitle": "Representatives"
+},
+"letter": {
+  "title": "Draft letter",
+  "draftNote": "This is a draft. JunkSnap does not send it anywhere. Add your name and contact details, then print it and file it yourself. It is not legal advice.",
+  "langLabel": "Letter language",
+  "templateNote": "This letter uses our standard template.",
+  "copy": "Copy text",
+  "copied": "Copied",
+  "notFound": "This letter does not exist.",
+  "loadError": "Could not load this letter.",
+  "evidenceTitle": "Evidence in this letter",
+  "ev": {
+    "reports": "Reports from residents",
+    "backers": "People who confirmed",
+    "backersOf": "{{count}} of {{total}}",
+    "verified": "Community-verified sites",
+    "total": "Sites reported",
+    "first": "First reported",
+    "latest": "Latest report",
+    "location": "Location",
+    "photos": "Blurred photos (faces and number plates hidden)",
+    "photoAlt": "Evidence photo {{n}}"
+  },
+  "panel": {
+    "title": "Write to the authorities",
+    "hintSite": "We draft a letter to the right office with the evidence for this site. You print it and file it yourself.",
+    "hintArea": "Needs at least {{total}} community-verified sites of the issue you pick. We draft the letter, you print and file it yourself.",
+    "issue": "Issue",
+    "button": "Draft letter",
+    "working": "Writing your letter...",
+    "login": "Log in to draft a letter"
+  },
+  "err": {
+    "NOT_ENOUGH_EVIDENCE": "Only {{have}} verified sites of this issue so far. {{need}} more are needed before a letter for the whole area can be drafted.",
+    "SITE_CLEANED": "This site has already been cleaned, so there is nothing to write about.",
+    "NOT_FOUND": "We could not find this site or area.",
+    "NETWORK_ERROR": "Network problem. Check your internet and try again.",
+    "HTTP_429": "You have drafted many letters in a short time. Please try again in a while."
+  },
+  "actions": "Letter actions",
+"print": "Print",
+"downloadPdf": "Download PDF",
+"share": "Share",
+"shareCopied": "Sharing is not available here, so the text was copied.",
+"pdfError": "The PDF could not be prepared. You can still print the letter.",
+"printHint": "In the print window you can also choose Save as PDF."
 }
 }

@@ -7,7 +7,7 @@ export default function BottomNav() {
   const { t } = useTranslation();
   return (
     <nav
-      className="border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden dark:border-slate-800 dark:bg-slate-950"
+      className="border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden dark:border-slate-800 dark:bg-slate-950 print:hidden"
       aria-label="Main"
     >
       <ul className="flex">

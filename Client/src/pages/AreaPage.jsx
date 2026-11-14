@@ -7,7 +7,7 @@ import Spinner from '@/components/ui/Spinner';
 import Alert from '@/components/ui/Alert';
 import { useAreaDetail } from '@/hooks/useAreas';
 import { scoreColor } from '@/lib/areaGeo';
-
+import DraftLetterPanel from '@/components/letter/DraftLetterPanel';
 const THRESHOLD = 10; // server ke VERIFY_THRESHOLD jaisa
 
 export default function AreaPage() {
@@ -127,6 +127,8 @@ export default function AreaPage() {
           </div>
         </section>
       )}
+
+            <DraftLetterPanel scope={area.level} areaId={area.id} hidden={!score.scoreVisible} />
 
       <section>
         <h2 className="text-base font-semibold">{t('areas.topSites')}</h2>
