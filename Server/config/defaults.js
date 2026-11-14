@@ -141,3 +141,20 @@ export const NOBIN = {
   lockCellDeg: 0.005, // race se bachne ke liye Redis lock grid (~550 m)
   binCacheDays: 30,
 };
+
+// ---------- Day 20 (notes + AI summary) ----------
+export const NOTE_QUEUE = 'note-summary';
+export const NOTES = {
+  minChars: 3,
+  maxChars: 500,
+  perHour: 10, // ek user ghante me itne notes (sab sites mila ke)
+  perUserPerSite: 3, // ek user ek site par itne notes
+  minForSummary: 3, // itne visible notes ke baad hi AI summary
+  maxForSummary: 30, // LLM ko sabse naye itne notes
+  summaryDelayMs: 30_000, // naya note aane ke baad itni der ruko (kai notes ek saath summarise)
+  summaryChars: 600, // summary ka max size (har bhasha me)
+  maxFlagShare: 0.5, // LLM ek baar me isse zyada notes flag kare to flags ignore (prompt-injection se bachav)
+  defaultLimit: 20,
+  maxLimit: 100,
+  concurrency: 1,
+};

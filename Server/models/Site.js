@@ -33,6 +33,13 @@ const siteSchema = new mongoose.Schema(
       drains: [String],
     },
     cleanedAt: Date,
+        noteSummary: {
+      en: String,
+      hi: String,
+      noteCount: Number, // summary me kitne notes the
+      generatedAt: Date,
+      llmModel: String,
+    },
     isTest: { type: Boolean, default: false }, // seed/test data ki pehchaan
     locatedAt: Date, // FIXED: Moved inside the schema fields object
   },

@@ -10,6 +10,8 @@ import {
   reportPhotoSchema,
   cleanupSchema,
 } from '../validators/site.validators.js';
+import { createNoteSchema, notesQuery, noteParams } from '../validators/note.validators.js';
+import { NOTES } from '../config/defaults.js';
 import {
   listSites,
   getSite,
@@ -18,9 +20,11 @@ import {
   postCleanup,
   postReportPhoto,
 } from '../controllers/siteController.js';
+import { getNotes, postNote, removeNote } from '../controllers/noteController.js';
 
 const router = Router();
 const voteLimiter = userLimiter(); // vote / me-too / flag / cleanup, har user ki apni limit
+const noteLimiter = userLimiter({ limit: NOTES.perHour }); // notes ke liye alag, kam limit
 
 router.get('/', validate(listSitesQuery, 'query'), listSites);
 router.get('/:id', optionalProtect, validate(siteIdParamSchema, 'params'), getSite);
@@ -56,5 +60,23 @@ router.post(
   validate(cleanupSchema),
   postCleanup,
 );
+
+// Day 20: notes
+router.get(
+  '/:id/notes',
+  optionalProtect,
+  validate(siteIdParamSchema, 'params'),
+  validate(notesQuery, 'query'),
+  getNotes,
+);
+router.post(
+  '/:id/notes',
+  protect,
+  noteLimiter,
+  validate(siteIdParamSchema, 'params'),
+  validate(createNoteSchema),
+  postNote,
+);
+router.delete('/:id/notes/:noteId', protect, validate(noteParams, 'params'), removeNote);
 
 export default router;
