@@ -62,3 +62,42 @@ export async function generateJson({
     throw new LlmError('Groq ka jawab JSON nahi tha');
   }
 }
+// Day 17: sirf text (letters ke liye). JSON jawab wapas.
+export async function generateTextJson({
+  system,
+  prompt,
+  maxTokens = 900, // Hindi me zyada tokens lagte hain
+  timeoutMs = LLM_JUDGE_TIMEOUT_MS,
+}) {
+  if (!env.GROQ_API_KEY) throw new LlmError('GROQ_API_KEY .env me nahi hai');
+
+  const res = await fetch(GROQ_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.GROQ_API_KEY}` },
+    body: JSON.stringify({
+      model: env.GROQ_MODEL,
+      temperature: 0.2,
+      max_completion_tokens: maxTokens,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: prompt },
+      ],
+    }),
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+
+  if (!res.ok) {
+    const body = (await res.text().catch(() => '')).slice(0, 300);
+    throw new LlmError(`Groq HTTP ${res.status}: ${body}`, { status: res.status });
+  }
+
+  const json = await res.json();
+  const text = json?.choices?.[0]?.message?.content?.trim();
+  if (!text) throw new LlmError(`Groq ka jawab khaali (${json?.choices?.[0]?.finish_reason ?? 'unknown'})`);
+  try {
+    return JSON.parse(stripFences(text));
+  } catch {
+    throw new LlmError('Groq ka jawab JSON nahi tha');
+  }
+}

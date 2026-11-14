@@ -121,5 +121,9 @@ export const SCORES = {
     topSites: 5, // area page par itni top sites
 
 };
-
+// ---------- Day 17 (letters) ----------
+export const LETTER_SCOPES = ['site', 'ward', 'assembly', 'loksabha', 'district'];
+export const LETTER_LANGS = ['en', 'hi'];
+export const LETTER_DEDUPE_MINUTES = 10; // same letter itne min me dobara maango to wahi milega (LLM cost / spam)
+export const LETTER_PARA_MAX_CHARS = 900; // LLM ka ek paragraph isse bada ho to template
   

@@ -18,7 +18,8 @@
     "stats:pipeline": "node scripts/pipelineStats.js",
     "stats:queue": "node scripts/queueStats.js",
     "scores": "node scripts/runScores.js",
-"seed:test": "node scripts/seedTestData.js"
+    "seed:test": "node scripts/seedTestData.js",
+    "fonts": "node scripts/downloadFonts.js"
   },
   "main": "server.js",
   "dependencies": {
@@ -39,6 +40,7 @@
     "ioredis": "^6.0.0",
     "mongoose": "^9.11.3",
     "node-cron": "^4.6.0",
+    "pdfkit": "^0.20.2",
     "pino": "^10.4.0",
     "pino-http": "^11.0.0",
     "sharp": "^0.35.5",
