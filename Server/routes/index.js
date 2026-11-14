@@ -12,7 +12,7 @@ import areaRoutes from './area.routes.js'; // imports ke saath
 import placeRoutes from './place.routes.js';
 import letterRoutes from './letter.routes.js';
 import { getRules } from '../controllers/letterController.js';
-
+import nobinRoutes from './nobin.routes.js';
 const router = Router();
 
 router.get('/health', (req, res) => {
@@ -32,4 +32,5 @@ router.use('/areas', areaRoutes); // router.use('/reports', ...) ke neeche
 router.use('/places', placeRoutes);
 router.use('/letters', letterRoutes);
 router.get('/rules', getRules);
+router.use('/nobin-zones', nobinRoutes);
 export default router;

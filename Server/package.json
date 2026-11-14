@@ -19,7 +19,9 @@
     "stats:queue": "node scripts/queueStats.js",
     "scores": "node scripts/runScores.js",
     "seed:test": "node scripts/seedTestData.js",
-    "fonts": "node scripts/downloadFonts.js"
+    "fonts": "node scripts/downloadFonts.js",
+    "seed:nobin": "node scripts/seedNobinZones.js",
+"test:bin": "node scripts/testBinParse.js"
   },
   "main": "server.js",
   "dependencies": {
