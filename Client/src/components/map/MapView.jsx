@@ -9,11 +9,14 @@ import {
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { CLUSTER, KHATEGAON, OSM_STYLE, STATUS_COLORS } from '@/lib/mapConfig';
 import { sitesToGeoJSON } from '@/lib/geo';
+import { NOBIN_COLORS } from '@/lib/nobinConfig';
+import { EMPTY_ZONES, zonesToGeoJSON } from '@/lib/nobinGeo';
 
 // Worker file public/ me hai (npm run dev/build se pehle apne aap copy hoti hai)
 setWorkerUrl(`${import.meta.env.BASE_URL}maplibre-gl-worker.mjs`);
 
 const SOURCE = 'sites';
+const ZONE_SOURCE = 'nobin'; // Day 19: no-bin zones ke circle
 
 // Cluster ke upar number. Inline style: maplibre ki CSS Tailwind classes ko override kar deti hai.
 function makeClusterLabel(text) {
@@ -27,24 +30,37 @@ function makeClusterLabel(text) {
 
 // Props:
 //   sites        server se aayi sites (stable array)
+//   zones        server se aayi no-bin zones (stable array)
 //   selectedId   jis pin ka card khula hai (highlight ke liye)
 //   onViewChange ({ bbox:[w,s,e,n], zoom }) map ruke tab
 //   onSiteClick  (site) pin par click
+//   onZoneClick  (zoneProperties) no-bin circle par click
 //   onMapClick   () khali jagah par click (card band karne ke liye)
-export default function MapView({ sites, selectedId, onViewChange, onSiteClick, onMapClick }) {
+export default function MapView({
+  sites,
+  zones = EMPTY_ZONES,
+  selectedId,
+  onViewChange,
+  onSiteClick,
+  onZoneClick,
+  onMapClick,
+}) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const readyRef = useRef(false);
 
   // Latest values refs me rakho, taaki map ek hi baar bane aur purane closure na atkein
   const sitesRef = useRef(sites);
+  const zonesRef = useRef(zones);
   const selectedRef = useRef(selectedId);
   const onViewRef = useRef(onViewChange);
   const onClickRef = useRef(onSiteClick);
   const onMapClickRef = useRef(onMapClick);
+  const onZoneRef = useRef(onZoneClick);
   useEffect(() => {
     onViewRef.current = onViewChange;
     onClickRef.current = onSiteClick;
+    onZoneRef.current = onZoneClick;
     onMapClickRef.current = onMapClick;
   });
 
@@ -104,6 +120,40 @@ export default function MapView({ sites, selectedId, onViewChange, onSiteClick, 
     };
 
     map.on('load', () => {
+      // No-bin zones sabse neeche (pins inke upar dikhein), isliye pehle add hote hain
+      map.addSource(ZONE_SOURCE, { type: 'geojson', data: zonesToGeoJSON(zonesRef.current) });
+      map.addLayer({
+        id: 'nobin-fill',
+        type: 'fill',
+        source: ZONE_SOURCE,
+        paint: {
+          'fill-color': [
+            'match',
+            ['get', 'status'],
+            'verified',
+            NOBIN_COLORS.verified,
+            NOBIN_COLORS.unverified,
+          ],
+          'fill-opacity': ['match', ['get', 'status'], 'verified', 0.22, 0.14],
+        },
+      });
+      map.addLayer({
+        id: 'nobin-line',
+        type: 'line',
+        source: ZONE_SOURCE,
+        paint: {
+          'line-color': [
+            'match',
+            ['get', 'status'],
+            'verified',
+            NOBIN_COLORS.verified,
+            NOBIN_COLORS.unverified,
+          ],
+          'line-width': 2,
+          'line-dasharray': [2, 2],
+        },
+      });
+
       map.addSource(SOURCE, {
         type: 'geojson',
         data: sitesToGeoJSON(sitesRef.current),
@@ -180,10 +230,13 @@ export default function MapView({ sites, selectedId, onViewChange, onSiteClick, 
         if (f) onClickRef.current?.({ ...f.properties, coordinates: f.geometry.coordinates });
       });
 
-      // Khali jagah par click: card band
+      // Click: pehle pin / cluster (unke apne handler), phir no-bin circle, warna khali jagah (card band)
       map.on('click', (e) => {
         const hit = map.queryRenderedFeatures(e.point, { layers: ['clusters', 'sites-circles'] });
-        if (!hit.length) onMapClickRef.current?.();
+        if (hit.length) return;
+        const zone = map.queryRenderedFeatures(e.point, { layers: ['nobin-fill'] });
+        if (zone.length) onZoneRef.current?.(zone[0].properties);
+        else onMapClickRef.current?.();
       });
 
       for (const layer of ['clusters', 'sites-circles']) {
@@ -219,6 +272,14 @@ export default function MapView({ sites, selectedId, onViewChange, onSiteClick, 
       mapRef.current?.getSource(SOURCE)?.setData(sitesToGeoJSON(sites));
     }
   }, [sites]);
+
+  // 2b) No-bin zones badlein to circles update karo
+  useEffect(() => {
+    zonesRef.current = zones;
+    if (readyRef.current) {
+      mapRef.current?.getSource(ZONE_SOURCE)?.setData(zonesToGeoJSON(zones));
+    }
+  }, [zones]);
 
   // 3) Chuna hua pin badle to ring update karo
   useEffect(() => {

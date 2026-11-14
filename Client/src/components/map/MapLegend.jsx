@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { STATUS_COLORS } from '@/lib/mapConfig';
+import { NOBIN_COLORS } from '@/lib/nobinConfig';
 
 export default function MapLegend() {
   const { t } = useTranslation();
@@ -12,6 +13,16 @@ export default function MapLegend() {
             style={{ backgroundColor: color }}
           />
           {t(`map.legend.${status}`)}
+        </li>
+      ))}
+      {/* Day 19: no-bin zones (dashed circle) */}
+      {Object.entries(NOBIN_COLORS).map(([status, color]) => (
+        <li key={`nobin-${status}`} className="flex items-center gap-2 py-0.5">
+          <span
+            className="h-3 w-3 rounded-full border-2 border-dashed"
+            style={{ borderColor: color, backgroundColor: `${color}33` }}
+          />
+          {t(`nobin.legend.${status}`)}
         </li>
       ))}
     </ul>

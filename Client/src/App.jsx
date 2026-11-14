@@ -19,6 +19,8 @@ import RegisterPage from '@/pages/auth/RegisterPage';
 import VerifyPage from '@/pages/auth/VerifyPage';
 import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import CleanupPage from '@/pages/CleanupPage';
+import NobinPage from '@/pages/NobinPage';
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -34,8 +36,9 @@ export function AppRoutes() {
         {/* Login zaroori */}
         <Route element={<ProtectedRoute />}>
           <Route path="snap" element={<SnapPage />} />
-                    <Route path="site/:id/cleaned" element={<CleanupPage />} />
+          <Route path="site/:id/cleaned" element={<CleanupPage />} />
           <Route path="letter/:id" element={<LetterPage />} />
+          <Route path="nobin" element={<NobinPage />} />
           <Route path="activity" element={<ActivityPage />} />
           <Route path="account" element={<AccountPage />} />
         </Route>

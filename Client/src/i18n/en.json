@@ -400,5 +400,50 @@
 "shareCopied": "Sharing is not available here, so the text was copied.",
 "pdfError": "The PDF could not be prepared. You can still print the letter.",
 "printHint": "In the print window you can also choose Save as PDF."
+},
+"nobin": {
+  "title": "No dustbin near me",
+  "intro": "Stand where you are. If there is no dustbin within {{km}} km of you, report it. Reports within 500 m of each other form one community zone, and {{total}} people make it verified.",
+  "mapButton": "No dustbin near you?",
+  "confirm": "I am standing here, and there is no dustbin within about {{km}} km of me.",
+  "submit": "Report no dustbin",
+  "privacy": "We save only an approximate point (about 100 m) for the zone, never your exact location or your name.",
+  "problemPoorGps": "GPS is too weak (needs ±{{max}} m or better). Move to an open area and wait.",
+  "newTitle": "Zone started",
+  "newText": "{{count}} of {{total}} people have said they have no dustbin here. Ask neighbours who also have no dustbin nearby to report from where they are.",
+  "joinedTitle": "You joined a zone",
+  "joinedText": "{{count}} of {{total}} people near you have now said there is no dustbin nearby.",
+  "verifiedText": "{{total}} people have now confirmed this zone. Thank you!",
+  "seeOnMap": "See it on the map",
+  "cardTitle": "No dustbin within 1 km",
+  "status": {
+    "unverified": "Waiting for {{total}} people",
+    "verified": "Verified by {{total}} people"
+  },
+  "peopleSay": "{{count}} of {{total}} people say they have no dustbin nearby",
+  "alsoNoBin": "I also have no dustbin nearby",
+  "approxNote": "The circle is approximate (its centre is rounded to about 100 m).",
+  "legend": {
+    "unverified": "No-bin zone (waiting)",
+    "verified": "No-bin zone (verified)"
+  },
+  "bin": {
+    "checking": "Checking OpenStreetMap for the nearest mapped dustbin...",
+    "found": "Nearest mapped dustbin on OpenStreetMap ({{kind}}): {{m}} m away.",
+    "foundNamed": "Nearest mapped dustbin on OpenStreetMap: {{name}} ({{kind}}), {{m}} m away.",
+    "none": "No dustbin is mapped on OpenStreetMap within 1 km of this zone.",
+    "osmNote": "OpenStreetMap can be incomplete, so this is only a hint. It does not decide verification.",
+    "kind": {
+      "waste_basket": "waste basket",
+      "waste_disposal": "waste bin",
+      "recycling": "recycling point"
+    }
+  },
+  "err": {
+    "GPS_TOO_WEAK": "Your GPS is not accurate enough (needs ±{{m}} m or better). Move to an open area and try again.",
+    "ALREADY_REPORTED": "You have already reported near this spot.",
+    "NETWORK_ERROR": "No internet. Please try again.",
+    "HTTP_429": "You have reached today's limit for no-dustbin reports. Please try again tomorrow."
+  }
 }
 }
