@@ -445,5 +445,28 @@
     "NETWORK_ERROR": "No internet. Please try again.",
     "HTTP_429": "You have reached today's limit for no-dustbin reports. Please try again tomorrow."
   }
+},
+"notes": {
+  "title": "Notes from residents",
+  "empty": "No notes yet. Add one if you know something that helps, for example when the waste started piling up.",
+  "aiLabel": "AI summary of {{count}} notes",
+  "aiDisclaimer": "Written by AI from the notes below. It can contain mistakes and is not verified.",
+  "formLabel": "Add a note",
+  "placeholder": "For example: waste has been here since Diwali, trucks come only on Mondays",
+  "add": "Add note",
+  "added": "Note added. The AI summary updates in about a minute.",
+  "privacy": "Notes are anonymous. Do not write phone numbers, emails, links, names or vehicle numbers.",
+  "delete": "Delete",
+  "confirmDelete": "Delete this note?",
+  "flagged": "Hidden from others by our automatic check",
+  "showMore": "Show more ({{shown}} of {{total}})",
+  "loadError": "Could not load notes.",
+  "login": "Log in to add a note",
+  "err": {
+    "PII_DETECTED": "Your note seems to have personal details (phone number, email, link, handle or vehicle number). Please remove them.",
+    "NOTE_LIMIT": "You have already added the maximum number of notes on this site.",
+    "HTTP_429": "You have added many notes in a short time. Please try again later.",
+    "NETWORK_ERROR": "No internet. Please try again."
+  }
 }
 }

@@ -12,6 +12,7 @@ import { VERIFY_THRESHOLD } from '@/lib/mapConfig';
 import VoteButtons from '@/components/site/VoteButtons';
 import ShareButton from '@/components/site/ShareButton';
 import DraftLetterPanel from '@/components/letter/DraftLetterPanel';
+import SiteNotes from '@/components/site/SiteNotes';
 export default function SitePage() {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
@@ -91,7 +92,7 @@ export default function SitePage() {
       <VoteButtons site={site} />
       <SeatsCard seats={site.seats} localBody={site.localBody} />
             <DraftLetterPanel scope="site" siteId={site.id} hidden={site.status === 'cleaned'} />
-            
+      <SiteNotes siteId={site.id} />
 
             <div className="flex flex-wrap gap-x-6">
         <ShareButton title={typeLabel} text={t('site.shareText')} />
