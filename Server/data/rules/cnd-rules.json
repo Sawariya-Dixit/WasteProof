@@ -1,0 +1,15 @@
+{
+  "name": "Environment (Construction and Demolition) Waste Management Rules",
+  "source": "https://egazette.gov.in/WriteReadData/2025/262313.pdf (G.S.R. 219(E), 2 April 2025)",
+  "version": "2025",
+  "clauses": [
+    {
+      "id": "9(1)(d)",
+      "text": "take steps to prevent air pollution, littering of waste and avoid public nuisance during collection, segregation, storage of waste"
+    },
+    {
+      "id": "17(1)",
+      "text": "The local authority shall establish collection points in its jurisdiction for collection of waste from source to processing facility or intermediate waste storage facility."
+    }
+  ]
+}

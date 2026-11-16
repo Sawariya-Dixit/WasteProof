@@ -1,0 +1,11 @@
+{
+  "name": "Water (Prevention and Control of Pollution) Act",
+  "source": "https://cpcb.gov.in/upload/home/water-pollution/WaterAct-1974.pdf (Act 6 of 1974)",
+  "version": "1974",
+  "clauses": [
+    {
+      "id": "24(1)(a)",
+      "text": "no person shall knowingly cause or permit any poisonous, noxious or polluting matter determined in accordance with such standards as may be laid down by the State Board to enter (whether directly or indirectly) into any stream or well or sewer or on land"
+    }
+  ]
+}

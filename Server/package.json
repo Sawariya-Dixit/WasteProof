@@ -15,13 +15,15 @@
     "test:decision": "node scripts/testDecision.js",
     "eval:judge": "node scripts/evalJudge.js",
     "debug:report": "node scripts/debugReport.js",
-    "stats:pipeline": "node scripts/pipelineStats.js",
     "stats:queue": "node scripts/queueStats.js",
     "scores": "node scripts/runScores.js",
     "seed:test": "node scripts/seedTestData.js",
     "fonts": "node scripts/downloadFonts.js",
     "seed:nobin": "node scripts/seedNobinZones.js",
-"test:bin": "node scripts/testBinParse.js"
+"test:bin": "node scripts/testBinParse.js",
+"worker:notes": "node --watch workers/noteWorker.js",
+"start:worker:notes": "node workers/noteWorker.js",
+"build:rules": "node scripts/buildRules.js"
   },
   "main": "server.js",
   "dependencies": {
