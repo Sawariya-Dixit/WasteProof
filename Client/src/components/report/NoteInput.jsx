@@ -15,7 +15,7 @@ export default function NoteInput({ value, onChange, disabled }) {
         placeholder={t('snap.notePlaceholder')}
         className="w-full rounded-lg border border-slate-300 bg-transparent p-2.5 dark:border-slate-700"
       />
-      <span className="mt-1 block text-right text-xs text-slate-500">
+      <span className="mt-1 block text-right text-xs text-slate-500 dark:text-slate-400">
         {value.length}/{NOTE_MAX_CHARS}
       </span>
     </label>

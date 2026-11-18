@@ -11,7 +11,7 @@ import { CLUSTER, KHATEGAON, OSM_STYLE, STATUS_COLORS } from '@/lib/mapConfig';
 import { sitesToGeoJSON } from '@/lib/geo';
 import { NOBIN_COLORS } from '@/lib/nobinConfig';
 import { EMPTY_ZONES, zonesToGeoJSON } from '@/lib/nobinGeo';
-
+import { useMapTheme } from '@/lib/mapTheme';
 // Worker file public/ me hai (npm run dev/build se pehle apne aap copy hoti hai)
 setWorkerUrl(`${import.meta.env.BASE_URL}maplibre-gl-worker.mjs`);
 
@@ -291,6 +291,7 @@ export default function MapView({
 
   // Bahar wala div position deta hai. Andar wale par maplibre apni class lagata hai (position:relative),
   // isliye size inline style se, Tailwind class se nahi.
+  useMapTheme(mapRef);
   return (
     <div className="absolute inset-0">
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />

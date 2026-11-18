@@ -18,7 +18,7 @@ export default function TopBar() {
       </Link>
 
       {/* Desktop nav */}
-      <nav className="ml-4 hidden gap-1 md:flex" aria-label="Main">
+      <nav className="ml-4 hidden gap-1 md:flex" aria-label={t('a11y.mainNav')}>
         {navItems.map(({ to, labelKey, end }) => (
           <NavLink
             key={to}

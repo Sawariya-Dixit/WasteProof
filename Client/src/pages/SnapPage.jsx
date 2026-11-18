@@ -195,7 +195,7 @@ export default function SnapPage() {
 
         <dl className="divide-y divide-slate-200 rounded-lg border border-slate-200 px-3 dark:divide-slate-800 dark:border-slate-800">
           <div className={row}>
-            <dt className="text-slate-500">{t('snap.location')}</dt>
+            <dt className="text-slate-500 k:text-slate-400 ">{t('snap.location')}</dt>
             <dd>
               {shot.gps
                 ? `${shot.gps.lat.toFixed(5)}, ${shot.gps.lng.toFixed(5)} (±${shot.gps.accuracyM} m)`

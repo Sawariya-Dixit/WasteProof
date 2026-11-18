@@ -468,5 +468,71 @@
     "HTTP_429": "You have added many notes in a short time. Please try again later.",
     "NETWORK_ERROR": "No internet. Please try again."
   }
+},
+"a11y": { "loading": "Loading", "mainNav": "Main navigation" },
+"errors": {
+  "codes": {
+    "UNAUTHORIZED": "Please log in again.",
+    "TOKEN_EXPIRED": "Your session expired. Please log in again.",
+    "INVALID_TOKEN": "Please log in again.",
+    "FORBIDDEN": "You do not have permission to do this.",
+    "NOT_FOUND": "Not found.",
+    "VALIDATION_ERROR": "Some details are not valid. Please check and try again.",
+    "RATE_LIMIT": "Too many requests. Please wait a while.",
+    "HTTP_429": "Too many requests. Please wait a while.",
+    "NETWORK_ERROR": "Network problem. Check your internet and try again.",
+    "NOT_IN_QUEUE": "This report was already decided (maybe by another admin). Refresh the list.",
+    "RETRY_NOT_ALLOWED": "Retry works only for reports that failed in the pipeline.",
+    "REP_EXISTS": "This office already has a representative in this area. Delete it first to replace.",
+    "OFFICE_LEVEL_MISMATCH": "This office does not match the area level.",
+    "AREA_NOT_FOUND": "Area not found.",
+    "PAYLOAD_TOO_LARGE": "File is too large.",
+    "HTTP_413": "File is too large."
+  }
+},
+"account": { "adminPanel": "Admin panel" },
+"admin": {
+  "tabs": { "review": "Review queue", "queue": "Queue", "reps": "Representatives", "areas": "Import areas" },
+  "prev": "Previous", "next": "Next", "page": "Page {{page}} of {{pages}}",
+  "checkOnly": "Check only", "import": "Import",
+  "review": {
+    "filter": "Show", "all": "All", "total_one": "{{count}} report", "total_other": "{{count}} reports",
+    "empty": "Nothing to review right now.", "noPhoto": "No photo yet", "reasonCode": "Reason code",
+    "failedStep": "Stopped at", "attempts": "Attempts", "aiProbability": "AI probability", "aiNote": "AI note",
+    "lastError": "Last error", "when": "Reported", "openMap": "Open location in map", "reason": "Reason",
+    "reasonPlaceholder": "Why? (at least 3 characters)",
+    "approveHint": "Approve means you replace the AI judge for this photo. The site still needs 10 different people to be verified.",
+    "approve": "Approve", "reject": "Reject", "retry": "Retry pipeline"
+  },
+  "queue": {
+    "jobs": "Pipeline jobs", "reports": "Reports by status", "failedJobs": "Failed jobs",
+    "noFailed": "No failed jobs.", "refresh": "Refresh", "waiting": "Waiting", "active": "Active",
+    "delayed": "Delayed", "completed": "Completed", "failed": "Failed"
+  },
+  "reps": {
+    "add": "Add representative", "office": "Office", "searchArea": "Search area by name",
+    "area": "Area (★ = pilot)", "name": "Name", "note": "Contact note (optional)",
+    "noParty": "Party is never stored. Only the name and the office.", "save": "Save", "saved": "Saved.",
+    "list": "Representatives", "empty": "No representatives yet.", "delete": "Delete", "confirmDelete": "Delete {{name}}?",
+    "offices": { "mla": "MLA", "mp": "MP", "collector": "District Collector", "councillor": "Councillor", "commissioner": "Commissioner" },
+    "csvTitle": "Import from CSV",
+    "csvHelp": "Columns: office, areaLevel, areaName, name, contactNote. Rows with an empty name are skipped. Use Check only first.",
+    "dryResult": "Check: {{saved}} of {{rows}} rows are OK (nothing saved).",
+    "result": "Saved {{saved}} of {{rows}} rows.", "line": "Line {{line}}"
+  },
+  "areas": {
+    "help": "Upload a GeoJSON file with area boundaries (DataMeet format). Importing again updates the same areas, it never creates duplicates. Run Check only first.",
+    "level": "Level", "file": "GeoJSON file", "pilot": "Pilot point (lat,lng), optional",
+    "pickFile": "Pick a file first.", "tooBig": "File is larger than {{mb}} MB. Upload one state at a time.",
+    "badJson": "This file is not valid JSON.", "dryDone": "Check finished (nothing saved).", "importDone": "Import finished.",
+    "summary": "{{total}} features, {{valid}} valid, {{invalid}} invalid.",
+    "saved": "Saved {{saved}}, failed {{failed}}, pilot marked {{pilot}}.",
+    "dupes": "{{n}} features share a code, the last one wins."
+  }
+},
+"network": {
+  "offline": "You are offline. New reports are saved on your phone and sent when the internet is back.",
+  "slow": "Slow network. Photos may take longer to upload.",
+  "dismiss": "Dismiss"
 }
 }

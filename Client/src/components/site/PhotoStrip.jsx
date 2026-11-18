@@ -171,7 +171,7 @@ export default function PhotoStrip({ photos = [], siteId }) {
                     {t(`site.reportPhoto.reasons.${r}`)}
                   </button>
                 ))}
-                <button onClick={() => setMenu(false)} className="min-h-11 w-full text-slate-500">
+                <button onClick={() => setMenu(false)} className="min-h-11 w-full text-slate-500 dark:text-slate-400">
                   {t('site.reportPhoto.cancel')}
                 </button>
               </div>

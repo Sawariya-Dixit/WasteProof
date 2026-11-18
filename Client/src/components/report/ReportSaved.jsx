@@ -29,7 +29,7 @@ export default function ReportSaved({ onAnother, queued = false }) {
         >
           {t('snap.viewReports')}
         </Link>
-        <Link to="/" className="py-2 text-sm text-slate-500 underline">
+        <Link to="/" className="py-2 text-sm text-slate-500 underline dark:text-slate-400">
           {t('snap.backToMap')}
         </Link>
       </div>

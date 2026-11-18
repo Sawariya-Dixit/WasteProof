@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getIdToken } from '@/auth/cognito';
-
+import { getDeviceId } from '@/lib/deviceId';
 // Backend ka error format: { success:false, error:{ code, message, details } }
 export class ApiError extends Error {
   constructor(message, code, status, details) {
@@ -24,6 +24,7 @@ export const api = axios.create({
 
 // Har request par Cognito ID token lagao (Amplify expire hone par khud refresh karta hai)
 api.interceptors.request.use(async (config) => {
+    config.headers['X-Device-Id'] = getDeviceId(); // server phone-wise limit lagata hai
   const token = await getIdToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;

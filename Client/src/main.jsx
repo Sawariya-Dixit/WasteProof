@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
+import { registerSW } from './pwa/register';
 import './styles/index.css';
 import i18n from './i18n';
 import './auth/cognito'; // Amplify yahin configure hota hai
@@ -31,7 +31,7 @@ setUnauthorizedHandler(() => useAuthStore.getState().logout());
 
 // App start: session check
 useAuthStore.getState().init();
-
+registerSW();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>

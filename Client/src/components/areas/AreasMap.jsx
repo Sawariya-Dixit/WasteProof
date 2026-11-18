@@ -3,7 +3,7 @@ import { Map as MapLibreMap, Marker, NavigationControl, setWorkerUrl } from 'map
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { KHATEGAON, OSM_STYLE } from '@/lib/mapConfig';
 import { EMPTY_FC, SCORE_COLORS, geojsonBounds, scoreColor } from '@/lib/areaGeo';
-
+import { useMapTheme } from '@/lib/mapTheme';
 setWorkerUrl(`${import.meta.env.BASE_URL}maplibre-gl-worker.mjs`);
 
 const SRC = 'areas';
@@ -151,6 +151,7 @@ export default function AreasMap({ geojson = EMPTY_FC, selectedId, onSelect }) {
   }, [selectedId]);
 
   // Size inline style se (Tailwind class se nahi), warna maplibre ki CSS height 0 kar deti hai
+  useMapTheme(mapRef);
   return (
     <div className="absolute inset-0">
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />

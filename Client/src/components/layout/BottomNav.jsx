@@ -8,7 +8,7 @@ export default function BottomNav() {
   return (
     <nav
       className="border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden dark:border-slate-800 dark:bg-slate-950 print:hidden"
-      aria-label="Main"
+      aria-label={t('a11y.mainNav')}
     >
       <ul className="flex">
         {navItems.map(({ to, labelKey, icon: Icon, end }) => (
