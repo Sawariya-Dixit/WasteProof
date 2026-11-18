@@ -50,8 +50,7 @@
     "logout": "Log out"
   },
   "account": {
-    "title": "Your account",
-    "role": "Role"
+    "adminPanel": "Admin panel"
   },
   "pages": {
     "map": "Map of reports",
@@ -87,14 +86,24 @@
     "code": "Enter the 6-digit code"
   },
   "errors": {
-    "generic": "Something went wrong. Please try again.",
-    "network": "Network problem. Check your internet and try again.",
-    "emailExists": "An account with this email already exists.",
-    "wrongCredentials": "Wrong email or password.",
-    "wrongCode": "That code is wrong.",
-    "codeExpired": "That code has expired. Request a new one.",
-    "tooMany": "Too many attempts. Please wait a while.",
-    "weakPassword": "Password is too weak."
+    "codes": {
+      "UNAUTHORIZED": "Please log in again.",
+      "TOKEN_EXPIRED": "Your session expired. Please log in again.",
+      "INVALID_TOKEN": "Please log in again.",
+      "FORBIDDEN": "You do not have permission to do this.",
+      "NOT_FOUND": "Not found.",
+      "VALIDATION_ERROR": "Some details are not valid. Please check and try again.",
+      "RATE_LIMIT": "Too many requests. Please wait a while.",
+      "HTTP_429": "Too many requests. Please wait a while.",
+      "NETWORK_ERROR": "Network problem. Check your internet and try again.",
+      "NOT_IN_QUEUE": "This report was already decided (maybe by another admin). Refresh the list.",
+      "RETRY_NOT_ALLOWED": "Retry works only for reports that failed in the pipeline.",
+      "REP_EXISTS": "This office already has a representative in this area. Delete it first to replace.",
+      "OFFICE_LEVEL_MISMATCH": "This office does not match the area level.",
+      "AREA_NOT_FOUND": "Area not found.",
+      "PAYLOAD_TOO_LARGE": "File is too large.",
+      "HTTP_413": "File is too large."
+    }
   },
   "map": {
     "loading": "Loading reports...",
@@ -124,7 +133,19 @@
       "overflowing_bin": "Overflowing or broken bin",
       "contaminated_water": "Contaminated water",
       "open_construction": "Open construction"
-    }
+    },
+    "listView": "List",
+    "mapView": "Map",
+    "places": "Places",
+    "placesTitle": "Where reports are",
+    "placesEmpty": "No reports in this part of the map yet.",
+    "placeCounts": "{{total}} reports · {{verified}} verified",
+    "addReport": "Add report",
+    "listEmpty": "No reports here. Zoom out, change the filters, or add one.",
+    "filterType": "Report type",
+    "filterStatus": "Status",
+    "allTypes": "All types",
+    "allStatuses": "All statuses"
   },
   "snap": {
     "shutter": "Take photo",
@@ -245,294 +266,339 @@
       "collector": "Collector"
     },
     "share": "Share",
-"shareCopied": "Link copied",
-"shareText": "Waste site reported on JunkSnap",
-"reportPhoto": {
-  "button": "Report this photo",
-  "title": "What is wrong with this photo?",
-  "cancel": "Cancel",
-  "reasons": {
-    "face_visible": "A face is visible",
-    "plate_visible": "A number plate is visible",
-    "not_waste": "It does not show waste",
-    "inappropriate": "Inappropriate",
-    "other": "Something else"
-  },
-  "done": "Thanks, we got your report.",
-  "already": "You already reported this photo."
-}
-  },
-  "vote": {
-  "title": "Can you see this site?",
-  "hint": "You must be close to it. We ask for your location only when you tap a button.",
-  "yes": "Yes, it is here",
-  "meToo": "Me too",
-  "no": "Not here",
-  "locating": "Getting your location...",
-  "addPhoto": "Add a photo",
-  "addPhotoHint": "A new photo of the same problem within 20 m joins this site automatically.",
-  "loginToVote": "Log in to confirm this site",
-  "markCleaned": "This site is cleaned up",
-  "done": {
-    "yes": "You confirmed this site.",
-    "me_too": "You said you face this problem too.",
-    "no": "You said this problem is not here."
-  },
-  "err": {
-    "denied": "Location permission is off. Allow location for this site in your browser settings.",
-    "unavailable": "Could not find your location. Try outdoors.",
-    "timeout": "Getting your location took too long. Try again.",
-    "unsupported": "This device does not support location.",
-    "TOO_FAR": "You are {{d}} m away. You must be within {{m}} m of the site.",
-    "GPS_TOO_WEAK": "Your GPS is not accurate enough (needs {{m}} m or better). Try outdoors.",
-    "ALREADY_VOTED": "You have already voted on this site.",
-    "SITE_CLOSED": "This site has already been cleaned.",
-    "NETWORK_ERROR": "No internet. Please try again."
-  }
-},
-"cleanup": {
-  "hint": "Stand at the site and take a photo of the cleaned spot",
-  "review": "The photo is checked and blurred on our server. Your location is sent with it.",
-  "retake": "Retake",
-  "submit": "Send",
-  "viewSite": "View site",
-  "siteClosed": "This site is not open for a cleanup claim.",
-  "errUnsafe": "This photo is not allowed.",
-  "result": {
-    "accepted": { "title": "Site marked as cleaned", "text": "Thank you! The photo shows the spot is clear." },
-    "rejected": { "title": "Still looks dirty", "text": "The photo still seems to show the problem. Retake it from the same spot if it is clean." },
-    "claimed": { "title": "Sent for review", "text": "We could not decide automatically. An admin will check your photo." }
-  }
-},
-"areas": {
-  "title": "Which areas need attention",
-  "intro": "Worst-scoring areas come first. A score shows only after 10 verified sites.",
-  "level": { "assembly": "Assembly", "loksabha": "Lok Sabha", "district": "District" },
-  "legend": {
-    "good": "Good (70+)",
-    "mid": "Fair (40-69)",
-    "bad": "Poor (below 40)",
-    "none": "Score withheld"
-  },
-  "withheld": "Score withheld until 10 verified sites",
-  "overall": "Overall score",
-  "verifiedOf": "{{count}} of {{total}} verified sites",
-  "sitesTotal_one": "{{count}} site in total",
-  "sitesTotal_other": "{{count}} sites in total",
-  "viewArea": "View area",
-  "empty": "No area has any reports yet.",
-  "mapError": "Could not load the area map.",
-  "rankingError": "Could not load the ranking.",
-  "diagnosis": {
-    "infrastructure_gap": "Infrastructure gap (too few bins)",
-    "city_response": "Slow city response",
-    "behaviour": "Citizen behaviour",
-    "repeat_spot": "Repeat spots",
-    "balanced": "Balanced"
-  },
-  "back": "All areas",
-"notFound": "This area does not exist.",
-"areaError": "Could not load this area.",
-"pilot": "Pilot area",
-"verifiedLabel": "Verified sites",
-"totalLabel": "All sites",
-"needMore": "{{count}} more verified sites needed before a score is shown.",
-"scoreNoData": "Not enough data yet",
-"cityScore": "City response",
-"cityHint": "How fast overflowing bins get cleaned",
-"citizenScore": "Citizen behaviour",
-"citizenHint": "Fewer dump sites per km² is better",
-"binScore": "Bin access",
-"binHint": "Fewer areas without any bin is better",
-"insightsTitle": "What the data shows",
-"insight": {
-  "verified_sites": "{{verified}} verified sites out of {{total}} reported",
-  "cleanup_rate": "{{onTime}} of {{eligible}} overflowing bins were cleaned within {{days}} days",
-  "no_bin_sites": "{{count}} verified sites where people have no bin nearby",
-  "repeat_spots": "{{count}} repeat spots reported again and again"
-},
-"topSites": "Sites with the most support",
-"noSites": "No sites in this area yet.",
-"repsTitle": "Representatives"
-},
-"letter": {
-  "title": "Draft letter",
-  "draftNote": "This is a draft. JunkSnap does not send it anywhere. Add your name and contact details, then print it and file it yourself. It is not legal advice.",
-  "langLabel": "Letter language",
-  "templateNote": "This letter uses our standard template.",
-  "copy": "Copy text",
-  "copied": "Copied",
-  "notFound": "This letter does not exist.",
-  "loadError": "Could not load this letter.",
-  "evidenceTitle": "Evidence in this letter",
-  "ev": {
-    "reports": "Reports from residents",
-    "backers": "People who confirmed",
-    "backersOf": "{{count}} of {{total}}",
-    "verified": "Community-verified sites",
-    "total": "Sites reported",
-    "first": "First reported",
-    "latest": "Latest report",
-    "location": "Location",
-    "photos": "Blurred photos (faces and number plates hidden)",
-    "photoAlt": "Evidence photo {{n}}"
-  },
-  "panel": {
-    "title": "Write to the authorities",
-    "hintSite": "We draft a letter to the right office with the evidence for this site. You print it and file it yourself.",
-    "hintArea": "Needs at least {{total}} community-verified sites of the issue you pick. We draft the letter, you print and file it yourself.",
-    "issue": "Issue",
-    "button": "Draft letter",
-    "working": "Writing your letter...",
-    "login": "Log in to draft a letter"
-  },
-  "err": {
-    "NOT_ENOUGH_EVIDENCE": "Only {{have}} verified sites of this issue so far. {{need}} more are needed before a letter for the whole area can be drafted.",
-    "SITE_CLEANED": "This site has already been cleaned, so there is nothing to write about.",
-    "NOT_FOUND": "We could not find this site or area.",
-    "NETWORK_ERROR": "Network problem. Check your internet and try again.",
-    "HTTP_429": "You have drafted many letters in a short time. Please try again in a while."
-  },
-  "actions": "Letter actions",
-"print": "Print",
-"downloadPdf": "Download PDF",
-"share": "Share",
-"shareCopied": "Sharing is not available here, so the text was copied.",
-"pdfError": "The PDF could not be prepared. You can still print the letter.",
-"printHint": "In the print window you can also choose Save as PDF."
-},
-"nobin": {
-  "title": "No dustbin near me",
-  "intro": "Stand where you are. If there is no dustbin within {{km}} km of you, report it. Reports within 500 m of each other form one community zone, and {{total}} people make it verified.",
-  "mapButton": "No dustbin near you?",
-  "confirm": "I am standing here, and there is no dustbin within about {{km}} km of me.",
-  "submit": "Report no dustbin",
-  "privacy": "We save only an approximate point (about 100 m) for the zone, never your exact location or your name.",
-  "problemPoorGps": "GPS is too weak (needs ±{{max}} m or better). Move to an open area and wait.",
-  "newTitle": "Zone started",
-  "newText": "{{count}} of {{total}} people have said they have no dustbin here. Ask neighbours who also have no dustbin nearby to report from where they are.",
-  "joinedTitle": "You joined a zone",
-  "joinedText": "{{count}} of {{total}} people near you have now said there is no dustbin nearby.",
-  "verifiedText": "{{total}} people have now confirmed this zone. Thank you!",
-  "seeOnMap": "See it on the map",
-  "cardTitle": "No dustbin within 1 km",
-  "status": {
-    "unverified": "Waiting for {{total}} people",
-    "verified": "Verified by {{total}} people"
-  },
-  "peopleSay": "{{count}} of {{total}} people say they have no dustbin nearby",
-  "alsoNoBin": "I also have no dustbin nearby",
-  "approxNote": "The circle is approximate (its centre is rounded to about 100 m).",
-  "legend": {
-    "unverified": "No-bin zone (waiting)",
-    "verified": "No-bin zone (verified)"
-  },
-  "bin": {
-    "checking": "Checking OpenStreetMap for the nearest mapped dustbin...",
-    "found": "Nearest mapped dustbin on OpenStreetMap ({{kind}}): {{m}} m away.",
-    "foundNamed": "Nearest mapped dustbin on OpenStreetMap: {{name}} ({{kind}}), {{m}} m away.",
-    "none": "No dustbin is mapped on OpenStreetMap within 1 km of this zone.",
-    "osmNote": "OpenStreetMap can be incomplete, so this is only a hint. It does not decide verification.",
-    "kind": {
-      "waste_basket": "waste basket",
-      "waste_disposal": "waste bin",
-      "recycling": "recycling point"
+    "shareCopied": "Link copied",
+    "shareText": "Waste site reported on JunkSnap",
+    "reportPhoto": {
+      "button": "Report this photo",
+      "title": "What is wrong with this photo?",
+      "cancel": "Cancel",
+      "reasons": {
+        "face_visible": "A face is visible",
+        "plate_visible": "A number plate is visible",
+        "not_waste": "It does not show waste",
+        "inappropriate": "Inappropriate",
+        "other": "Something else"
+      },
+      "done": "Thanks, we got your report.",
+      "already": "You already reported this photo."
     }
   },
-  "err": {
-    "GPS_TOO_WEAK": "Your GPS is not accurate enough (needs ±{{m}} m or better). Move to an open area and try again.",
-    "ALREADY_REPORTED": "You have already reported near this spot.",
-    "NETWORK_ERROR": "No internet. Please try again.",
-    "HTTP_429": "You have reached today's limit for no-dustbin reports. Please try again tomorrow."
-  }
-},
-"notes": {
-  "title": "Notes from residents",
-  "empty": "No notes yet. Add one if you know something that helps, for example when the waste started piling up.",
-  "aiLabel": "AI summary of {{count}} notes",
-  "aiDisclaimer": "Written by AI from the notes below. It can contain mistakes and is not verified.",
-  "formLabel": "Add a note",
-  "placeholder": "For example: waste has been here since Diwali, trucks come only on Mondays",
-  "add": "Add note",
-  "added": "Note added. The AI summary updates in about a minute.",
-  "privacy": "Notes are anonymous. Do not write phone numbers, emails, links, names or vehicle numbers.",
-  "delete": "Delete",
-  "confirmDelete": "Delete this note?",
-  "flagged": "Hidden from others by our automatic check",
-  "showMore": "Show more ({{shown}} of {{total}})",
-  "loadError": "Could not load notes.",
-  "login": "Log in to add a note",
-  "err": {
-    "PII_DETECTED": "Your note seems to have personal details (phone number, email, link, handle or vehicle number). Please remove them.",
-    "NOTE_LIMIT": "You have already added the maximum number of notes on this site.",
-    "HTTP_429": "You have added many notes in a short time. Please try again later.",
-    "NETWORK_ERROR": "No internet. Please try again."
-  }
-},
-"a11y": { "loading": "Loading", "mainNav": "Main navigation" },
-"errors": {
-  "codes": {
-    "UNAUTHORIZED": "Please log in again.",
-    "TOKEN_EXPIRED": "Your session expired. Please log in again.",
-    "INVALID_TOKEN": "Please log in again.",
-    "FORBIDDEN": "You do not have permission to do this.",
-    "NOT_FOUND": "Not found.",
-    "VALIDATION_ERROR": "Some details are not valid. Please check and try again.",
-    "RATE_LIMIT": "Too many requests. Please wait a while.",
-    "HTTP_429": "Too many requests. Please wait a while.",
-    "NETWORK_ERROR": "Network problem. Check your internet and try again.",
-    "NOT_IN_QUEUE": "This report was already decided (maybe by another admin). Refresh the list.",
-    "RETRY_NOT_ALLOWED": "Retry works only for reports that failed in the pipeline.",
-    "REP_EXISTS": "This office already has a representative in this area. Delete it first to replace.",
-    "OFFICE_LEVEL_MISMATCH": "This office does not match the area level.",
-    "AREA_NOT_FOUND": "Area not found.",
-    "PAYLOAD_TOO_LARGE": "File is too large.",
-    "HTTP_413": "File is too large."
-  }
-},
-"account": { "adminPanel": "Admin panel" },
-"admin": {
-  "tabs": { "review": "Review queue", "queue": "Queue", "reps": "Representatives", "areas": "Import areas" },
-  "prev": "Previous", "next": "Next", "page": "Page {{page}} of {{pages}}",
-  "checkOnly": "Check only", "import": "Import",
-  "review": {
-    "filter": "Show", "all": "All", "total_one": "{{count}} report", "total_other": "{{count}} reports",
-    "empty": "Nothing to review right now.", "noPhoto": "No photo yet", "reasonCode": "Reason code",
-    "failedStep": "Stopped at", "attempts": "Attempts", "aiProbability": "AI probability", "aiNote": "AI note",
-    "lastError": "Last error", "when": "Reported", "openMap": "Open location in map", "reason": "Reason",
-    "reasonPlaceholder": "Why? (at least 3 characters)",
-    "approveHint": "Approve means you replace the AI judge for this photo. The site still needs 10 different people to be verified.",
-    "approve": "Approve", "reject": "Reject", "retry": "Retry pipeline"
+  "vote": {
+    "title": "Can you see this site?",
+    "hint": "You must be close to it. We ask for your location only when you tap a button.",
+    "yes": "Yes, it is here",
+    "meToo": "Me too",
+    "no": "Not here",
+    "locating": "Getting your location...",
+    "addPhoto": "Add a photo",
+    "addPhotoHint": "A new photo of the same problem within 20 m joins this site automatically.",
+    "loginToVote": "Log in to confirm this site",
+    "markCleaned": "This site is cleaned up",
+    "done": {
+      "yes": "You confirmed this site.",
+      "me_too": "You said you face this problem too.",
+      "no": "You said this problem is not here."
+    },
+    "err": {
+      "denied": "Location permission is off. Allow location for this site in your browser settings.",
+      "unavailable": "Could not find your location. Try outdoors.",
+      "timeout": "Getting your location took too long. Try again.",
+      "unsupported": "This device does not support location.",
+      "TOO_FAR": "You are {{d}} m away. You must be within {{m}} m of the site.",
+      "GPS_TOO_WEAK": "Your GPS is not accurate enough (needs {{m}} m or better). Try outdoors.",
+      "ALREADY_VOTED": "You have already voted on this site.",
+      "SITE_CLOSED": "This site has already been cleaned.",
+      "NETWORK_ERROR": "No internet. Please try again."
+    }
   },
-  "queue": {
-    "jobs": "Pipeline jobs", "reports": "Reports by status", "failedJobs": "Failed jobs",
-    "noFailed": "No failed jobs.", "refresh": "Refresh", "waiting": "Waiting", "active": "Active",
-    "delayed": "Delayed", "completed": "Completed", "failed": "Failed"
-  },
-  "reps": {
-    "add": "Add representative", "office": "Office", "searchArea": "Search area by name",
-    "area": "Area (★ = pilot)", "name": "Name", "note": "Contact note (optional)",
-    "noParty": "Party is never stored. Only the name and the office.", "save": "Save", "saved": "Saved.",
-    "list": "Representatives", "empty": "No representatives yet.", "delete": "Delete", "confirmDelete": "Delete {{name}}?",
-    "offices": { "mla": "MLA", "mp": "MP", "collector": "District Collector", "councillor": "Councillor", "commissioner": "Commissioner" },
-    "csvTitle": "Import from CSV",
-    "csvHelp": "Columns: office, areaLevel, areaName, name, contactNote. Rows with an empty name are skipped. Use Check only first.",
-    "dryResult": "Check: {{saved}} of {{rows}} rows are OK (nothing saved).",
-    "result": "Saved {{saved}} of {{rows}} rows.", "line": "Line {{line}}"
+  "cleanup": {
+    "hint": "Stand at the site and take a photo of the cleaned spot",
+    "review": "The photo is checked and blurred on our server. Your location is sent with it.",
+    "retake": "Retake",
+    "submit": "Send",
+    "viewSite": "View site",
+    "siteClosed": "This site is not open for a cleanup claim.",
+    "errUnsafe": "This photo is not allowed.",
+    "result": {
+      "accepted": {
+        "title": "Site marked as cleaned",
+        "text": "Thank you! The photo shows the spot is clear."
+      },
+      "rejected": {
+        "title": "Still looks dirty",
+        "text": "The photo still seems to show the problem. Retake it from the same spot if it is clean."
+      },
+      "claimed": {
+        "title": "Sent for review",
+        "text": "We could not decide automatically. An admin will check your photo."
+      }
+    }
   },
   "areas": {
-    "help": "Upload a GeoJSON file with area boundaries (DataMeet format). Importing again updates the same areas, it never creates duplicates. Run Check only first.",
-    "level": "Level", "file": "GeoJSON file", "pilot": "Pilot point (lat,lng), optional",
-    "pickFile": "Pick a file first.", "tooBig": "File is larger than {{mb}} MB. Upload one state at a time.",
-    "badJson": "This file is not valid JSON.", "dryDone": "Check finished (nothing saved).", "importDone": "Import finished.",
-    "summary": "{{total}} features, {{valid}} valid, {{invalid}} invalid.",
-    "saved": "Saved {{saved}}, failed {{failed}}, pilot marked {{pilot}}.",
-    "dupes": "{{n}} features share a code, the last one wins."
+    "title": "Which areas need attention",
+    "intro": "Worst-scoring areas come first. A score shows only after 10 verified sites.",
+    "level": {
+      "assembly": "Assembly",
+      "loksabha": "Lok Sabha",
+      "district": "District"
+    },
+    "legend": {
+      "good": "Good (70+)",
+      "mid": "Fair (40-69)",
+      "bad": "Poor (below 40)",
+      "none": "Score withheld"
+    },
+    "withheld": "Score withheld until 10 verified sites",
+    "overall": "Overall score",
+    "verifiedOf": "{{count}} of {{total}} verified sites",
+    "sitesTotal_one": "{{count}} site in total",
+    "sitesTotal_other": "{{count}} sites in total",
+    "viewArea": "View area",
+    "empty": "No area has any reports yet.",
+    "mapError": "Could not load the area map.",
+    "rankingError": "Could not load the ranking.",
+    "diagnosis": {
+      "infrastructure_gap": "Infrastructure gap (too few bins)",
+      "city_response": "Slow city response",
+      "behaviour": "Citizen behaviour",
+      "repeat_spot": "Repeat spots",
+      "balanced": "Balanced"
+    },
+    "back": "All areas",
+    "notFound": "This area does not exist.",
+    "areaError": "Could not load this area.",
+    "pilot": "Pilot area",
+    "verifiedLabel": "Verified sites",
+    "totalLabel": "All sites",
+    "needMore": "{{count}} more verified sites needed before a score is shown.",
+    "scoreNoData": "Not enough data yet",
+    "cityScore": "City response",
+    "cityHint": "How fast overflowing bins get cleaned",
+    "citizenScore": "Citizen behaviour",
+    "citizenHint": "Fewer dump sites per km² is better",
+    "binScore": "Bin access",
+    "binHint": "Fewer areas without any bin is better",
+    "insightsTitle": "What the data shows",
+    "insight": {
+      "verified_sites": "{{verified}} verified sites out of {{total}} reported",
+      "cleanup_rate": "{{onTime}} of {{eligible}} overflowing bins were cleaned within {{days}} days",
+      "no_bin_sites": "{{count}} verified sites where people have no bin nearby",
+      "repeat_spots": "{{count}} repeat spots reported again and again"
+    },
+    "topSites": "Sites with the most support",
+    "noSites": "No sites in this area yet.",
+    "repsTitle": "Representatives"
+  },
+  "letter": {
+    "title": "Draft letter",
+    "draftNote": "This is a draft. JunkSnap does not send it anywhere. Add your name and contact details, then print it and file it yourself. It is not legal advice.",
+    "langLabel": "Letter language",
+    "templateNote": "This letter uses our standard template.",
+    "copy": "Copy text",
+    "copied": "Copied",
+    "notFound": "This letter does not exist.",
+    "loadError": "Could not load this letter.",
+    "evidenceTitle": "Evidence in this letter",
+    "ev": {
+      "reports": "Reports from residents",
+      "backers": "People who confirmed",
+      "backersOf": "{{count}} of {{total}}",
+      "verified": "Community-verified sites",
+      "total": "Sites reported",
+      "first": "First reported",
+      "latest": "Latest report",
+      "location": "Location",
+      "photos": "Blurred photos (faces and number plates hidden)",
+      "photoAlt": "Evidence photo {{n}}"
+    },
+    "panel": {
+      "title": "Write to the authorities",
+      "hintSite": "We draft a letter to the right office with the evidence for this site. You print it and file it yourself.",
+      "hintArea": "Needs at least {{total}} community-verified sites of the issue you pick. We draft the letter, you print and file it yourself.",
+      "issue": "Issue",
+      "button": "Draft letter",
+      "working": "Writing your letter...",
+      "login": "Log in to draft a letter"
+    },
+    "err": {
+      "NOT_ENOUGH_EVIDENCE": "Only {{have}} verified sites of this issue so far. {{need}} more are needed before a letter for the whole area can be drafted.",
+      "SITE_CLEANED": "This site has already been cleaned, so there is nothing to write about.",
+      "NOT_FOUND": "We could not find this site or area.",
+      "NETWORK_ERROR": "Network problem. Check your internet and try again.",
+      "HTTP_429": "You have drafted many letters in a short time. Please try again in a while."
+    },
+    "actions": "Letter actions",
+    "print": "Print",
+    "downloadPdf": "Download PDF",
+    "share": "Share",
+    "shareCopied": "Sharing is not available here, so the text was copied.",
+    "pdfError": "The PDF could not be prepared. You can still print the letter.",
+    "printHint": "In the print window you can also choose Save as PDF."
+  },
+  "nobin": {
+    "title": "No dustbin near me",
+    "intro": "Stand where you are. If there is no dustbin within {{km}} km of you, report it. Reports within 500 m of each other form one community zone, and {{total}} people make it verified.",
+    "mapButton": "No dustbin near you?",
+    "confirm": "I am standing here, and there is no dustbin within about {{km}} km of me.",
+    "submit": "Report no dustbin",
+    "privacy": "We save only an approximate point (about 100 m) for the zone, never your exact location or your name.",
+    "problemPoorGps": "GPS is too weak (needs ±{{max}} m or better). Move to an open area and wait.",
+    "newTitle": "Zone started",
+    "newText": "{{count}} of {{total}} people have said they have no dustbin here. Ask neighbours who also have no dustbin nearby to report from where they are.",
+    "joinedTitle": "You joined a zone",
+    "joinedText": "{{count}} of {{total}} people near you have now said there is no dustbin nearby.",
+    "verifiedText": "{{total}} people have now confirmed this zone. Thank you!",
+    "seeOnMap": "See it on the map",
+    "cardTitle": "No dustbin within 1 km",
+    "status": {
+      "unverified": "Waiting for {{total}} people",
+      "verified": "Verified by {{total}} people"
+    },
+    "peopleSay": "{{count}} of {{total}} people say they have no dustbin nearby",
+    "alsoNoBin": "I also have no dustbin nearby",
+    "approxNote": "The circle is approximate (its centre is rounded to about 100 m).",
+    "legend": {
+      "unverified": "No-bin zone (waiting)",
+      "verified": "No-bin zone (verified)"
+    },
+    "bin": {
+      "checking": "Checking OpenStreetMap for the nearest mapped dustbin...",
+      "found": "Nearest mapped dustbin on OpenStreetMap ({{kind}}): {{m}} m away.",
+      "foundNamed": "Nearest mapped dustbin on OpenStreetMap: {{name}} ({{kind}}), {{m}} m away.",
+      "none": "No dustbin is mapped on OpenStreetMap within 1 km of this zone.",
+      "osmNote": "OpenStreetMap can be incomplete, so this is only a hint. It does not decide verification.",
+      "kind": {
+        "waste_basket": "waste basket",
+        "waste_disposal": "waste bin",
+        "recycling": "recycling point"
+      }
+    },
+    "err": {
+      "GPS_TOO_WEAK": "Your GPS is not accurate enough (needs ±{{m}} m or better). Move to an open area and try again.",
+      "ALREADY_REPORTED": "You have already reported near this spot.",
+      "NETWORK_ERROR": "No internet. Please try again.",
+      "HTTP_429": "You have reached today's limit for no-dustbin reports. Please try again tomorrow."
+    }
+  },
+  "notes": {
+    "title": "Notes from residents",
+    "empty": "No notes yet. Add one if you know something that helps, for example when the waste started piling up.",
+    "aiLabel": "AI summary of {{count}} notes",
+    "aiDisclaimer": "Written by AI from the notes below. It can contain mistakes and is not verified.",
+    "formLabel": "Add a note",
+    "placeholder": "For example: waste has been here since Diwali, trucks come only on Mondays",
+    "add": "Add note",
+    "added": "Note added. The AI summary updates in about a minute.",
+    "privacy": "Notes are anonymous. Do not write phone numbers, emails, links, names or vehicle numbers.",
+    "delete": "Delete",
+    "confirmDelete": "Delete this note?",
+    "flagged": "Hidden from others by our automatic check",
+    "showMore": "Show more ({{shown}} of {{total}})",
+    "loadError": "Could not load notes.",
+    "login": "Log in to add a note",
+    "err": {
+      "PII_DETECTED": "Your note seems to have personal details (phone number, email, link, handle or vehicle number). Please remove them.",
+      "NOTE_LIMIT": "You have already added the maximum number of notes on this site.",
+      "HTTP_429": "You have added many notes in a short time. Please try again later.",
+      "NETWORK_ERROR": "No internet. Please try again."
+    }
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "loading": "Loading",
+    "mainNav": "Main navigation"
+  },
+  "admin": {
+    "tabs": {
+      "review": "Review queue",
+      "queue": "Queue",
+      "reps": "Representatives",
+      "areas": "Import areas"
+    },
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page {{page}} of {{pages}}",
+    "checkOnly": "Check only",
+    "import": "Import",
+    "review": {
+      "filter": "Show",
+      "all": "All",
+      "total_one": "{{count}} report",
+      "total_other": "{{count}} reports",
+      "empty": "Nothing to review right now.",
+      "noPhoto": "No photo yet",
+      "reasonCode": "Reason code",
+      "failedStep": "Stopped at",
+      "attempts": "Attempts",
+      "aiProbability": "AI probability",
+      "aiNote": "AI note",
+      "lastError": "Last error",
+      "when": "Reported",
+      "openMap": "Open location in map",
+      "reason": "Reason",
+      "reasonPlaceholder": "Why? (at least 3 characters)",
+      "approveHint": "Approve means you replace the AI judge for this photo. The site still needs 10 different people to be verified.",
+      "approve": "Approve",
+      "reject": "Reject",
+      "retry": "Retry pipeline"
+    },
+    "queue": {
+      "jobs": "Pipeline jobs",
+      "reports": "Reports by status",
+      "failedJobs": "Failed jobs",
+      "noFailed": "No failed jobs.",
+      "refresh": "Refresh",
+      "waiting": "Waiting",
+      "active": "Active",
+      "delayed": "Delayed",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "reps": {
+      "add": "Add representative",
+      "office": "Office",
+      "searchArea": "Search area by name",
+      "area": "Area (★ = pilot)",
+      "name": "Name",
+      "note": "Contact note (optional)",
+      "noParty": "Party is never stored. Only the name and the office.",
+      "save": "Save",
+      "saved": "Saved.",
+      "list": "Representatives",
+      "empty": "No representatives yet.",
+      "delete": "Delete",
+      "confirmDelete": "Delete {{name}}?",
+      "offices": {
+        "mla": "MLA",
+        "mp": "MP",
+        "collector": "District Collector",
+        "councillor": "Councillor",
+        "commissioner": "Commissioner"
+      },
+      "csvTitle": "Import from CSV",
+      "csvHelp": "Columns: office, areaLevel, areaName, name, contactNote. Rows with an empty name are skipped. Use Check only first.",
+      "dryResult": "Check: {{saved}} of {{rows}} rows are OK (nothing saved).",
+      "result": "Saved {{saved}} of {{rows}} rows.",
+      "line": "Line {{line}}"
+    },
+    "areas": {
+      "help": "Upload a GeoJSON file with area boundaries (DataMeet format). Importing again updates the same areas, it never creates duplicates. Run Check only first.",
+      "level": "Level",
+      "file": "GeoJSON file",
+      "pilot": "Pilot point (lat,lng), optional",
+      "pickFile": "Pick a file first.",
+      "tooBig": "File is larger than {{mb}} MB. Upload one state at a time.",
+      "badJson": "This file is not valid JSON.",
+      "dryDone": "Check finished (nothing saved).",
+      "importDone": "Import finished.",
+      "summary": "{{total}} features, {{valid}} valid, {{invalid}} invalid.",
+      "saved": "Saved {{saved}}, failed {{failed}}, pilot marked {{pilot}}.",
+      "dupes": "{{n}} features share a code, the last one wins."
+    }
+  },
+  "network": {
+    "offline": "You are offline. New reports are saved on your phone and sent when the internet is back.",
+    "slow": "Slow network. Photos may take longer to upload.",
+    "dismiss": "Dismiss"
   }
-},
-"network": {
-  "offline": "You are offline. New reports are saved on your phone and sent when the internet is back.",
-  "slow": "Slow network. Photos may take longer to upload.",
-  "dismiss": "Dismiss"
-}
 }

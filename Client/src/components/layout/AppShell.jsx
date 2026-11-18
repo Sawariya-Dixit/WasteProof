@@ -16,7 +16,7 @@ export default function AppShell() {
           <SkipLink />
       <TopBar />
       <NetworkBanner />
-      <main className="relative min-h-0 flex-1 overflow-y-auto print:overflow-visible">
+      <main id="main" tabIndex={-1} className="relative min-h-0 flex-1 overflow-y-auto outline-none print:overflow-visible">
         <Outlet />
       </main>
       <BottomNav />

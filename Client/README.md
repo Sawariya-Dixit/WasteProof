@@ -1,60 +1,83 @@
-# JunkSnap Client (React + Vite)
+# JunkSnap
 
-## Chalane ka tareeka
-
-```bash
-cd Client
-npm install
-cp .env.example .env      # phir values bharo (kabhi commit mat karna)
-npm run dev               # http://localhost:5173
-```
-
-Server alag terminal me chalna chahiye (`cd Server && npm run dev`), aur Server ke `.env` me
-`CLIENT_URL=http://localhost:5173` hona chahiye (CORS).
-
-## .env (naam hi, values nahi)
-
-VITE_API_URL, VITE_COGNITO_USER_POOL_ID, VITE_COGNITO_CLIENT_ID
-
-## Cognito me ye settings zaroori hain
-
-- App client **bina client secret** ka ho (public client, browser me secret nahi chhup sakta).
-- App client me **ALLOW_USER_SRP_AUTH** (aur ALLOW_REFRESH_TOKEN_AUTH) enabled ho.
-- Sign-in option = **Email**; email verification ka code Cognito bheje.
-- Password policy: 8+ chars, capital, small, number, special (src/auth/schemas.js me wahi rules hain).
-- User pool aur client wahi ho jo Server ke .env me hai (COGNITO_USER_POOL_ID / COGNITO_CLIENT_ID).
-
-## Stack
-
-React 19, Vite, React Router, Tailwind CSS v4, aws-amplify (Cognito), axios, TanStack Query,
-Zustand, react-i18next (en/hi), react-hook-form + Zod, lucide-react, maplibre-gl (Day 4 se).
+Snap the junk. Prove it. Get it cleared.
+Civic waste reporting platform (MERN): photo + GPS, privacy blur, AI check, 10-person verification,
+area scores aur cited letter draft. Pilot: Khategaon, Dewas (Madhya Pradesh).
 
 ## Folder structure
 
 ```
-src/
-  api/         axios client (ID token interceptor, error format), users.js
-  auth/        cognito.js (Amplify), schemas.js (Zod), ProtectedRoute.jsx
-  components/  layout/ (AppShell, TopBar, BottomNav, ThemeToggle, LanguageSwitch), ui/
-  hooks/       useAuth
-  i18n/        index.js, en.json, hi.json
-  pages/       MapPage, SnapPage, ... auth/ (login, register, verify, forgot)
-  pwa/         (Day 24: manifest + service worker)
-  store/       authStore, uiStore (theme + language, localStorage me)
-  styles/      index.css (Tailwind)
+JunkSnap/
+  Client/   React + Vite PWA (Map, Snap, Site, Areas, Letter, Activity, Admin)
+  Server/   Node + Express API, BullMQ workers, Mongo models, scripts, tests
 ```
 
-## Routes
+## Zaroori accounts
 
-| Route | Access | Status |
-|---|---|---|
-| / (map), /site/:id, /areas, /area/:id, /about | public | placeholder (about ready) |
-| /snap, /letter/:id, /activity, /account | login zaroori | placeholder (account ready) |
-| /admin/* | sirf admin | placeholder |
-| /login, /register, /verify, /forgot-password | sirf guest | ready |
+MongoDB Atlas, AWS Cognito (User Pool + App Client), Cloudinary, Redis (Upstash/Redis Cloud),
+AWS Rekognition (IAM user), Groq API key.
 
-## Naye page ka tareeka
+## Chalane ka tareeka (local)
 
-1. src/pages/ me page banao.
-2. src/App.jsx me Route add karo (public / ProtectedRoute / admin ke andar).
-3. Text hamesha t('...') se, en.json aur hi.json dono me key daalo.
+```bash
+# 1) API
+cd Server
+npm install
+cp .env.example .env        # values bharo, .env kabhi commit mat karo
+npm run dev                 # http://localhost:5000  (Swagger: /docs, health: /healthz)
+
+# 2) Worker (alag terminal, report pipeline ke liye zaroori)
+cd Server
+npm run worker
+npm run worker:notes        # notes ka AI summary (optional)
+
+# 3) Client
+cd Client
+npm install
+cp .env.example .env
+npm run dev                 # http://localhost:5173
+```
+
+## Pehli baar data seed
+
+```bash
+cd Server
+node scripts/importGeoJSON.js data/mp_ac.geojson   --level=assembly --pilot-point=22.5933,76.9132
+node scripts/importGeoJSON.js data/mp_pc.geojson   --level=loksabha  --pilot-point=22.5933,76.9132
+node scripts/importGeoJSON.js data/mp_dist.geojson --level=district  --pilot-point=22.5933,76.9132
+npm run seed:rules
+npm run seed:bodies
+npm run seed:reps           # pehle data/representatives.csv me FILL_ME ki jagah asli naam bharo
+```
+
+## Useful commands (Server)
+
+| Command | Kaam |
+| --- | --- |
+| `npm test` | unit tests (dummy env, internet/DB nahi chahiye) |
+| `npm run lint` / `npm run format` | ESLint / Prettier |
+| `npm run scores` | area scores ek baar chalao |
+| `npm run stats:queue` | BullMQ counts aur failed jobs |
+| `npm run make:admin` | kisi user ko admin banao |
+| `npm run audit:data` | seats, reps, local bodies ka data check |
+| `npm run check:all` | integration check |
+
+## Environment variables (sirf naam, Server/.env.example dekho)
+
+`NODE_ENV, PORT, MONGO_URI, CLIENT_URL, AWS_REGION, COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID,
+NOMINATIM_URL, NOMINATIM_USER_AGENT, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET,
+REDIS_URL, PRIVACY_SCAN, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, GROQ_API_KEY, GROQ_MODEL, VERIFY_LLM,
+SNAPS_PER_HOUR, WRITE_LIMIT_PER_HOUR, API_RATE_LIMIT, SCORES_CRON, LETTER_LLM, LETTERS_PER_HOUR,
+BULL_BOARD_USER, BULL_BOARD_PASS, DEVICE_SNAPS_PER_HOUR, DEVICE_SALT`
+
+Client: `VITE_API_URL, VITE_COGNITO_USER_POOL_ID, VITE_COGNITO_CLIENT_ID`
+
+## Deploy
+
+Client: Vercel. API + worker: do alag Docker/Node services (Render/Railway), ek hi repo.
+Production me `NODE_ENV=production` rakho, `config/prodGuard.js` unsafe settings par start rok deta hai.
+
+## Licence note
+
+Idea hackathon winner "JunkSnap" (Girish-Garg/JunkSnap, AGPL-3.0) se inspired hai.
+Unki source files copy nahi ki gayi hain.
