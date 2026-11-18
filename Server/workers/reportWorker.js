@@ -12,7 +12,8 @@ import { Report } from '../models/Report.js';
 import { logger } from '../utils/logger.js';
 import { runPipeline } from './pipeline.js';
 import { requeuePending } from '../jobs/requeuePending.js';
-
+import { assertProductionSafe } from '../config/prodGuard.js';
+assertProductionSafe()
 async function start() {
   await connectDB();
   const connection = createRedis('redis(worker)');

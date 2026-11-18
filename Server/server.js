@@ -6,7 +6,8 @@ import { logger } from './utils/logger.js';
 import { closeReportQueue } from './queues/reportQueue.js';
 import { closeRedis } from './config/redis.js';
 import { startScoresCron } from './jobs/scoresCron.js';
-
+import { assertProductionSafe } from './config/prodGuard.js';
+assertProductionSafe();
 async function start() {
   await connectDB();
   const server = app.listen(env.PORT, () => logger.info(`API running on port ${env.PORT}`));

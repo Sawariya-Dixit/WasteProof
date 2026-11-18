@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node --watch server.js",
     "start": "node server.js",
+    "make:admin": "node scripts/makeAdmin.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "seed:rules": "node scripts/seedRules.js",
@@ -20,14 +21,20 @@
     "seed:test": "node scripts/seedTestData.js",
     "fonts": "node scripts/downloadFonts.js",
     "seed:nobin": "node scripts/seedNobinZones.js",
-"test:bin": "node scripts/testBinParse.js",
-"worker:notes": "node --watch workers/noteWorker.js",
-"start:worker:notes": "node workers/noteWorker.js",
-"build:rules": "node scripts/buildRules.js"
+    "test:bin": "node scripts/testBinParse.js",
+    "worker:notes": "node --watch workers/noteWorker.js",
+    "start:worker:notes": "node workers/noteWorker.js",
+    "build:rules": "node scripts/buildRules.js",
+    "test:prompt": "node scripts/testPrompt.js",
+    "audit:data": "node scripts/auditData.js",
+"make:icons": "node scripts/makeIcons.js",
+    "check:all": "node scripts/integrationCheck.js"
   },
   "main": "server.js",
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.1161.0",
+    "@bull-board/api": "^9.13.2",
+    "@bull-board/express": "^9.13.2",
     "@tensorflow/tfjs-backend-wasm": "^4.22.0",
     "@tensorflow/tfjs-converter": "^4.22.0",
     "@tensorflow/tfjs-core": "^4.22.0",

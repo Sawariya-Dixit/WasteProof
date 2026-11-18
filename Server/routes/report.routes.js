@@ -9,12 +9,12 @@ import {
   confirmReportSchema,
 } from '../validators/report.validators.js';
 import { createReport, listMine, getOne, confirmReport } from '../controllers/reportController.js';
-
+import { deviceGuard } from '../middleware/device.js';
 const router = Router();
 const writeLimiter = userLimiter();
 const readLimiter = userLimiter({ windowMs: 60 * 1000, limit: 120 }); // status polling ke liye
 
-router.post('/', protect, writeLimiter, validate(createReportSchema), createReport);
+router.post('/', protect, deviceGuard, writeLimiter, validate(createReportSchema), createReport);
 router.get('/mine', protect, readLimiter, validate(myReportsQuerySchema, 'query'), listMine);
 router.get('/:id', protect, readLimiter, validate(reportIdParamSchema, 'params'), getOne);
 router.post(

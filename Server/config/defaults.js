@@ -158,3 +158,26 @@ export const NOTES = {
   maxLimit: 100,
   concurrency: 1,
 };
+
+// ---------- Day 22 (admin) ----------
+export const ADMIN = {
+  reviewStatuses: ['needs_review', 'community_check'], // admin queue me kaunse status aate hain
+  defaultLimit: 20,
+  maxLimit: 50,
+  failedJobsShown: 20,
+  reasonMin: 3,
+  reasonMax: 300,
+  importMaxFeatures: 2000,
+  importBodyLimit: '25mb', // sirf /admin/areas/import par (baaki API par 1mb)
+  repsImportMaxChars: 200_000,
+  writeLimitPerHour: 200,
+};
+export const REP_OFFICES = ['councillor', 'mla', 'mp', 'commissioner', 'collector'];
+export const REP_LEVELS = {
+  mla: ['assembly'],
+  mp: ['loksabha'],
+  collector: ['district'],
+  councillor: ['ward'],
+  commissioner: ['ward', 'assembly'],
+};
+export const AREA_IMPORT_LEVELS = ['assembly', 'loksabha', 'district'];

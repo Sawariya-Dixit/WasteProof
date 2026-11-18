@@ -35,6 +35,12 @@ const schema = z.object({
       // Day 17: letters
   LETTER_LLM: z.enum(['on', 'off']).default('on'), // off = hamesha template (LLM cost nahi)
   LETTERS_PER_HOUR: z.coerce.number().default(10), // ek user ke letters per ghanta
+    // Day 23: queue dashboard (dono set ho tabhi /ops/queues chalu)
+  BULL_BOARD_USER: z.string().optional(),
+  BULL_BOARD_PASS: z.string().optional(),
+  // Day 24: device limit. DEVICE_SALT production me apna random secret rakho
+  DEVICE_SNAPS_PER_HOUR: z.coerce.number().default(30),
+  DEVICE_SALT: z.string().default('junksnap-dev'),
   
 });
 
