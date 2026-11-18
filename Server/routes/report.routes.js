@@ -9,7 +9,7 @@ import {
   confirmReportSchema,
 } from '../validators/report.validators.js';
 import { createReport, listMine, getOne, confirmReport } from '../controllers/reportController.js';
-import { deviceGuard } from '../middleware/device.js';
+import { deviceGuard } from '../middleware/Device.js';
 const router = Router();
 const writeLimiter = userLimiter();
 const readLimiter = userLimiter({ windowMs: 60 * 1000, limit: 120 }); // status polling ke liye

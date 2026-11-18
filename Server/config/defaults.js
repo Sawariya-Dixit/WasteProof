@@ -131,8 +131,8 @@ export const LETTER_PARA_MAX_CHARS = 900; // LLM ka ek paragraph isse bada ho to
 export const NOBIN = {
   radiusM: 1000, // zone ka circle: "mere 1 km me dustbin nahi hai"
   joinM: 500, // itne ke andar ki nayi report usi zone me judti hai
-  verifyAt: 10, // 10 alag log = verified (VERIFY_THRESHOLD jaisa)
-  maxAccuracyM: 100, // reporter ka GPS isse achha ho
+  verifyAt: 1, // 1 alag log = verified (VERIFY_THRESHOLD jaisa)
+  maxAccuracyM: 500, // reporter ka GPS isse achha ho
   roundDecimals: 3, // zone ka centre 3 decimal (~110 m) round: reporter ka asli point public nahi
   binSearchM: 1000, // OSM me itni doori tak mapped bin dhundho
   perDay: 5, // ek user din me itni no-bin reports (field test me badha sakte ho)
