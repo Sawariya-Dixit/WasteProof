@@ -28,7 +28,8 @@
     "test:prompt": "node scripts/testPrompt.js",
     "audit:data": "node scripts/auditData.js",
 "make:icons": "node scripts/makeIcons.js",
-    "check:all": "node scripts/integrationCheck.js"
+    "check:all": "node scripts/integrationCheck.js",
+    "test": "node --test"
   },
   "main": "server.js",
   "dependencies": {
