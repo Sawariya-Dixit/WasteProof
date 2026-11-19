@@ -9,6 +9,7 @@ import { logger } from '../utils/logger.js';
 import { env } from '../config/env.js';
 import {
   VERIFY_THRESHOLD,
+  AREA_MIN_VERIFIED,
   PUBLIC_SITE_STATUSES,
   LETTER_DEDUPE_MINUTES,
   SCORES,
@@ -223,13 +224,13 @@ async function loadAreaContext({ areaId, scope, issueType }) {
     Site.find(verifiedFilter).sort({ backerCount: -1 }).limit(3).select('photoUrls').lean(),
   ]);
 
-  // Area letter ke liye us issue ki kam se kam 10 verified sites chahiye
-  if (verified < VERIFY_THRESHOLD) {
+  // Area letter ke liye us issue ki kam se kam AREA_MIN_VERIFIED verified sites chahiye
+  if (verified < AREA_MIN_VERIFIED) {
     throw new AppError(
-      'Is issue ki kam se kam 10 verified sites chahiye',
+      `Is issue ki kam se kam ${AREA_MIN_VERIFIED} verified sites chahiye`,
       422,
       'NOT_ENOUGH_EVIDENCE',
-      { verified, needed: VERIFY_THRESHOLD - verified },
+      { verified, needed: AREA_MIN_VERIFIED - verified },
     );
   }
 
@@ -244,7 +245,7 @@ async function loadAreaContext({ areaId, scope, issueType }) {
   };
   return {
     issueType,
-    siteVerified: true, // 10+ verified sites hain
+    siteVerified: true, // AREA_MIN_VERIFIED+ verified sites hain
     facts,
     evidence: {
       counts: { verified, total },
@@ -257,7 +258,7 @@ async function loadAreaContext({ areaId, scope, issueType }) {
 
 // LLM ke text me sirf wahi numbers allowed jo facts / jagah ke naam / clause ids me hain
 function allowedNumbersFor(facts, clauses) {
-  const allowed = new Set([VERIFY_THRESHOLD]);
+  const allowed = new Set([VERIFY_THRESHOLD, AREA_MIN_VERIFIED]);
   for (const v of [facts.reports, facts.backers, facts.verifiedSites, facts.totalSites]) {
     if (Number.isFinite(v)) allowed.add(v);
   }

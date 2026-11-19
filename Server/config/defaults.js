@@ -1,3 +1,10 @@
+// Thresholds .env se aate hain (ek hi jagah). Client inhe GET /api/v1/config se padhta hai.
+import 'dotenv/config';
+const positiveInt = (name, fallback) => {
+  const n = Number.parseInt(process.env[name] ?? '', 10);
+  return Number.isInteger(n) && n > 0 ? n : fallback;
+};
+
 export const REPORT_TYPES = [
   'waste_dump',
   'no_bin',
@@ -9,7 +16,10 @@ export const REPORT_TYPES = [
 export const SITE_STATUSES = ['unverified', 'verified', 'cleaned', 'hidden'];
 export const PUBLIC_SITE_STATUSES = ['unverified', 'verified', 'cleaned']; // hidden public ko nahi dikhta
 
-export const VERIFY_THRESHOLD = 10; // 10 distinct backers = verified
+// Site (aur no-bin zone) itne ALAG logon ke backing par 'verified'. .env: VERIFY_THRESHOLD=5
+export const VERIFY_THRESHOLD = positiveInt('VERIFY_THRESHOLD', 5);
+// Area score dikhane aur area letter ke liye itni verified sites chahiye. .env: AREA_MIN_VERIFIED=10
+export const AREA_MIN_VERIFIED = positiveInt('AREA_MIN_VERIFIED', 10);
 export const MAX_SITES_PER_QUERY = 500;
 export const MAX_BBOX_SPAN_DEG = 5; // bahut bada map box reject
 export const INDIA_BOUNDS = { minLat: 6.0, maxLat: 37.6, minLng: 68.0, maxLng: 97.5 };
@@ -131,7 +141,7 @@ export const LETTER_PARA_MAX_CHARS = 900; // LLM ka ek paragraph isse bada ho to
 export const NOBIN = {
   radiusM: 1000, // zone ka circle: "mere 1 km me dustbin nahi hai"
   joinM: 500, // itne ke andar ki nayi report usi zone me judti hai
-  verifyAt: 1, // 1 alag log = verified (VERIFY_THRESHOLD jaisa)
+  verifyAt: VERIFY_THRESHOLD, // itne alag log = zone verified (PDF: site jaisa hi)
   maxAccuracyM: 500, // reporter ka GPS isse achha ho
   roundDecimals: 3, // zone ka centre 3 decimal (~110 m) round: reporter ka asli point public nahi
   binSearchM: 1000, // OSM me itni doori tak mapped bin dhundho

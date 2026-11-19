@@ -13,9 +13,11 @@ import { logger } from '../utils/logger.js';
 import { runPipeline } from './pipeline.js';
 import { requeuePending } from '../jobs/requeuePending.js';
 import { assertProductionSafe } from '../config/prodGuard.js';
-assertProductionSafe()
-async function start() {
-  await connectDB();
+import { isMain } from '../utils/isMain.js';
+
+// Worker shuru karo. DB pehle se connected hona chahiye.
+// Do tarike: (1) server.js ke andar (EMBEDDED_WORKERS=on), (2) alag process: npm run worker
+export async function startReportWorker() {
   const connection = createRedis('redis(worker)');
 
   const worker = new Worker(
@@ -66,11 +68,24 @@ async function start() {
   const sweeper = setInterval(sweep, REQUEUE_EVERY_MS);
   logger.info(`Worker ready, queue=${REPORT_QUEUE}, concurrency=${WORKER_CONCURRENCY}`);
 
+  return {
+    async close() {
+      clearInterval(sweeper);
+      await worker.close(); // chalte hue job ko khatam hone do
+      await connection.quit();
+    },
+  };
+}
+
+// ---- Alag process: npm run worker ----
+async function standalone() {
+  assertProductionSafe();
+  await connectDB();
+  const w = await startReportWorker();
+
   const shutdown = async (signal) => {
     logger.info(`${signal} received, worker band ho raha hai`);
-    clearInterval(sweeper);
-    await worker.close(); // chalte hue job ko khatam hone do
-    await connection.quit();
+    await w.close();
     await closeRedis(); // site-merge lock wala shared connection
     await mongoose.connection.close();
     process.exit(0);
@@ -79,7 +94,9 @@ async function start() {
   process.on('SIGTERM', () => shutdown('SIGTERM'));
 }
 
-start().catch((err) => {
-  logger.error(err, 'Worker startup failed');
-  process.exit(1);
-});
+if (isMain(import.meta.url)) {
+  standalone().catch((err) => {
+    logger.error(err, 'Worker startup failed');
+    process.exit(1);
+  });
+}

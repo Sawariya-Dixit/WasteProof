@@ -10,7 +10,7 @@ import {
 import { enqueueReport, requeueReport } from '../queues/reportQueue.js';
 import { logger } from '../utils/logger.js';
 import { env } from '../config/env.js';
-export async function createReport(user, input, deviceId) {
+export async function createReport(user, input, deviceId, { targetSiteId } = {}) {
   const { key, sha256, lat, lng, accuracyM, capturedAt, type, note } = input;
 
   // 1) Key isi user ke folder ki honi chahiye
@@ -60,9 +60,9 @@ export async function createReport(user, input, deviceId) {
       capturedAt,
       note,
       deviceId,
+      ...(targetSiteId ? { targetSiteId } : {}),
     });
 
-    // TODO Day 6: yahan BullMQ queue me job daalna hai (jobId = report._id)
     // Report DB me save ho chuki hai. Ab queue me daalo.
     // Queue fail ho to bhi user ko 202 do. Report pending rahegi, baad me requeue kar sakte hain.
     try {

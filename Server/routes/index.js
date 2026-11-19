@@ -13,12 +13,22 @@ import placeRoutes from './place.routes.js';
 import letterRoutes from './letter.routes.js';
 import { getRules } from '../controllers/letterController.js';
 import nobinRoutes from './nobin.routes.js';
+import { VERIFY_THRESHOLD, AREA_MIN_VERIFIED } from '../config/defaults.js';
 const router = Router();
 
 router.get('/health', (req, res) => {
   res.json({
     success: true,
     data: { status: 'ok', db: mongoose.connection.readyState === 1 ? 'connected' : 'down' },
+  });
+});
+
+// Client in numbers ko yahin se padhta hai, taaki badalne ki jagah sirf server ka .env rahe
+router.get('/config', (req, res) => {
+  res.set('Cache-Control', 'public, max-age=300');
+  res.json({
+    success: true,
+    data: { verifyThreshold: VERIFY_THRESHOLD, areaMinVerified: AREA_MIN_VERIFIED },
   });
 });
 

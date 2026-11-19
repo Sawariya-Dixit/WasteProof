@@ -5,7 +5,7 @@ import { Report } from '../models/Report.js';
 import { getRedis } from '../config/redis.js';
 import {
   SITE_MERGE_RADIUS_M,
-    SITE_MERGE_BAND_M,
+  SITE_MERGE_BAND_M,
   SITE_BAND_PHASH_MAX,
   SITE_LOCK_CELL_DEG,
   SITE_LOCK_TTL_MS,
@@ -61,9 +61,13 @@ export async function withLocks(
   throw new Error('Site lock nahi mila, job retry hoga');
 }
 
-// Report ko 20 m ke andar ki site me jodo, ya nayi site banao. Idempotent: siteId pehle se ho to wahi.
+// Pehle: reporter ne 'Add photo' se khud site chuni ho (targetSiteId), to wahi site (agar abhi chalu hai).
+// Warna: 20 m ke andar ki site me jodo, ya nayi site banao.
+// Idempotent: siteId pehle se ho to wahi.
 export async function attachReportToSite(reportId, redis = getRedis()) {
-   const report = await Report.findById(reportId).select('userId type location blurredUrl siteId pHash');
+  const report = await Report.findById(reportId).select(
+    'userId type location blurredUrl siteId pHash targetSiteId',
+  );
   if (!report) throw new Error('Report nahi mili');
   if (report.siteId) return { siteId: report.siteId, joined: true, distanceM: null };
 
@@ -72,29 +76,44 @@ export async function attachReportToSite(reportId, redis = getRedis()) {
   const url = report.blurredUrl;
 
   return withLocks(redis, lockKeys(report.type, coords[1], coords[0]), async () => {
-    // Hidden aur cleaned site se nahi jodte (cleaned ke baad naya dher nayi site hai)
-       // 40 m tak ke candidates, paas wala pehle. Hidden aur cleaned site se nahi jodte (cleaned ke baad naya dher nayi site hai)
-    const candidates = await Site.find({
-      type: report.type,
-      status: { $in: ['unverified', 'verified'] },
-      location: { $near: { $geometry: point, $maxDistance: SITE_MERGE_BAND_M } },
-    })
-      .select('location firstReportId')
-      .limit(5);
+    let near = null;
 
-    // 20 m ke andar seedha jodo. 20-40 m sirf tab jab photo bhi site ki pehli photo se milti-julti ho
-    let near = candidates.find(
-      (c) => distanceM(coords, c.location.coordinates) <= SITE_MERGE_RADIUS_M,
-    );
-    if (!near && report.pHash) {
-      const firsts = await Report.find({ _id: { $in: candidates.map((c) => c.firstReportId).filter(Boolean) } })
-        .select('pHash')
-        .lean();
-      const hashOf = new Map(firsts.map((f) => [String(f._id), f.pHash]));
-      near = candidates.find((c) => {
-        const h = hashOf.get(String(c.firstReportId));
-        return h && hammingHex(h, report.pHash) <= SITE_BAND_PHASH_MAX;
-      });
+    // 1) 'Add photo': server pehle hi doori check kar chuka hai (sitePhotoService)
+    if (report.targetSiteId) {
+      near = await Site.findOne({
+        _id: report.targetSiteId,
+        type: report.type,
+        status: { $in: ['unverified', 'verified'] },
+      }).select('location firstReportId');
+    }
+
+    // 2) Aam report: 40 m tak ke candidates, paas wala pehle.
+    //    Hidden aur cleaned site se nahi jodte (cleaned ke baad naya dher nayi site hai)
+    if (!near) {
+      const candidates = await Site.find({
+        type: report.type,
+        status: { $in: ['unverified', 'verified'] },
+        location: { $near: { $geometry: point, $maxDistance: SITE_MERGE_BAND_M } },
+      })
+        .select('location firstReportId')
+        .limit(5);
+
+      // 20 m ke andar seedha jodo. 20-40 m sirf tab jab photo bhi site ki pehli photo se milti-julti ho
+      near = candidates.find(
+        (c) => distanceM(coords, c.location.coordinates) <= SITE_MERGE_RADIUS_M,
+      );
+      if (!near && report.pHash) {
+        const firsts = await Report.find({
+          _id: { $in: candidates.map((c) => c.firstReportId).filter(Boolean) },
+        })
+          .select('pHash')
+          .lean();
+        const hashOf = new Map(firsts.map((f) => [String(f._id), f.pHash]));
+        near = candidates.find((c) => {
+          const h = hashOf.get(String(c.firstReportId));
+          return h && hammingHex(h, report.pHash) <= SITE_BAND_PHASH_MAX;
+        });
+      }
     }
 
     let siteId;

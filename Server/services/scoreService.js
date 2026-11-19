@@ -1,7 +1,13 @@
 import { Site } from '../models/Site.js';
 import { Area } from '../models/Area.js';
 import { AreaScore } from '../models/AreaScore.js';
-import { SCORES, SCORE_LEVELS, BEHAVIOUR_TYPES, VERIFY_THRESHOLD } from '../config/defaults.js';
+import {
+  SCORES,
+  SCORE_LEVELS,
+  BEHAVIOUR_TYPES,
+  VERIFY_THRESHOLD,
+  AREA_MIN_VERIFIED,
+} from '../config/defaults.js';
 import { areaKm2, centroidOf } from '../utils/areaGeometry.js';
 import { logger } from '../utils/logger.js';
 
@@ -28,7 +34,7 @@ function diagnose({ cityScore, citizenScore, binScore, repeatShare }) {
 // Pure function (DB nahi chhuti), isliye test karna aasan hai.
 // c = aggregate counts, km2 = area ka size
 export function buildScore(c, km2) {
-  const visible = c.verified >= VERIFY_THRESHOLD;
+  const visible = c.verified >= AREA_MIN_VERIFIED;
   const eligible = c.binOnTime + c.binLate;
 
   const cityScore =

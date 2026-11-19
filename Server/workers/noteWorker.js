@@ -5,10 +5,12 @@ import { createRedis } from '../config/redis.js';
 import { NOTE_QUEUE, NOTES } from '../config/defaults.js';
 import { logger } from '../utils/logger.js';
 import { summarizeSite } from '../services/noteSummaryService.js';
+import { assertProductionSafe } from '../config/prodGuard.js';
+import { isMain } from '../utils/isMain.js';
 
-// Alag process: npm run worker:notes  (report worker ke saath ek aur terminal me)
-async function start() {
-  await connectDB();
+// Notes ke AI summary ka worker. DB pehle se connected hona chahiye.
+// Do tarike: (1) server.js ke andar (EMBEDDED_WORKERS=on), (2) alag process: npm run worker:notes
+export async function startNoteWorker() {
   const connection = createRedis('redis(note-worker)');
 
   const worker = new Worker(
@@ -31,10 +33,23 @@ async function start() {
   worker.on('error', (err) => logger.error({ err }, 'note worker error'));
   logger.info(`Note worker ready, queue=${NOTE_QUEUE}`);
 
+  return {
+    async close() {
+      await worker.close();
+      await connection.quit();
+    },
+  };
+}
+
+// ---- Alag process: npm run worker:notes ----
+async function standalone() {
+  assertProductionSafe();
+  await connectDB();
+  const w = await startNoteWorker();
+
   const shutdown = async (signal) => {
     logger.info(`${signal} received, note worker band ho raha hai`);
-    await worker.close();
-    await connection.quit();
+    await w.close();
     await mongoose.connection.close();
     process.exit(0);
   };
@@ -42,7 +57,9 @@ async function start() {
   process.on('SIGTERM', () => shutdown('SIGTERM'));
 }
 
-start().catch((err) => {
-  logger.error(err, 'Note worker startup failed');
-  process.exit(1);
-});
+if (isMain(import.meta.url)) {
+  standalone().catch((err) => {
+    logger.error(err, 'Note worker startup failed');
+    process.exit(1);
+  });
+}

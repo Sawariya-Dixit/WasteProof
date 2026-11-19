@@ -9,6 +9,7 @@ const reportSchema = new mongoose.Schema(
     userId: { type: ObjectId, ref: 'User', required: true },
     deviceId: { type: ObjectId, ref: 'Device' },
     siteId: { type: ObjectId, ref: 'Site' },
+    targetSiteId: { type: ObjectId, ref: 'Site' }, // 'Add photo': reporter ne kaha ki ye isi site ki photo hai
     type: { type: String, enum: REPORT_TYPES, required: true },
     originalKey: { type: String, required: true, select: false }, // private original, kabhi public nahi
     blurredUrl: String,

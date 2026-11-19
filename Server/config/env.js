@@ -31,6 +31,8 @@ const schema = z.object({
   SNAPS_PER_HOUR: z.coerce.number().default(20), // ek user ki reports per ghanta
   WRITE_LIMIT_PER_HOUR: z.coerce.number().default(60), // ek user ke vote / flag / confirm per ghanta
   API_RATE_LIMIT: z.coerce.number().default(300), // ek IP ki saari /api calls per 15 min
+    // Workers server ke andar chalao ya nahi. Na do to: development = on, production = off
+    EMBEDDED_WORKERS: z.enum(['on', 'off']).optional(),
     SCORES_CRON: z.enum(['on', 'off']).default('on'), // multiple API instance ho to ek ko hi 'on' rakho
       // Day 17: letters
   LETTER_LLM: z.enum(['on', 'off']).default('on'), // off = hamesha template (LLM cost nahi)

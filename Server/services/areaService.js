@@ -3,7 +3,7 @@ import { AreaScore } from '../models/AreaScore.js';
 import { Site } from '../models/Site.js';
 import { Representative } from '../models/Representative.js';
 import { AppError } from '../utils/AppError.js';
-import { SCORES, VERIFY_THRESHOLD, PUBLIC_SITE_STATUSES } from '../config/defaults.js';
+import { SCORES, AREA_MIN_VERIFIED, PUBLIC_SITE_STATUSES } from '../config/defaults.js';
 import { simplifyGeometry } from '../utils/areaGeometry.js';
 
 // Score tabhi bahar jata hai jab scoreVisible ho. Counts hamesha jate hain.
@@ -95,13 +95,13 @@ const NO_SCORE = {
 
 // Ek area ka score. Score tabhi jab scoreVisible. Counts hamesha. AreaScore na ho to zero counts.
 function scoreOf(s) {
-  if (!s) return { ...NO_SCORE, needed: VERIFY_THRESHOLD };
+  if (!s) return { ...NO_SCORE, needed: AREA_MIN_VERIFIED };
   const vis = s.scoreVisible;
   return {
     verifiedCount: s.verifiedCount,
     totalCount: s.totalCount,
     scoreVisible: vis,
-    needed: Math.max(0, VERIFY_THRESHOLD - s.verifiedCount),
+    needed: Math.max(0, AREA_MIN_VERIFIED - s.verifiedCount),
     overallScore: vis ? s.overallScore : null,
     cityScore: vis ? s.cityScore : null,
     citizenScore: vis ? s.citizenScore : null,
