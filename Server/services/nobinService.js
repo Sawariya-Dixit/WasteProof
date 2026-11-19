@@ -2,7 +2,7 @@ import { NobinZone } from '../models/NobinZone.js';
 import { AppError } from '../utils/AppError.js';
 import { logger } from '../utils/logger.js';
 import { getRedis } from '../config/redis.js';
-import { NOBIN } from '../config/defaults.js';
+import { NOBIN, SCORES } from '../config/defaults.js';
 import { resolveAreas } from './geoService.js';
 import { refreshZoneBin } from './binService.js';
 import { withLocks } from './siteMergeService.js';
@@ -52,7 +52,7 @@ async function areaIdsAt(lat, lng) {
 export async function listZones({ bbox, limit }) {
   const pad = NOBIN.bboxPadDeg; // zone ka centre box ke thoda bahar ho to bhi uska circle dikhna chahiye
   const [minLng, minLat, maxLng, maxLat] = [bbox[0] - pad, bbox[1] - pad, bbox[2] + pad, bbox[3] + pad];
-  const zones = await NobinZone.find({
+  const zoneFilter = {
     center: {
       $geoWithin: {
         $geometry: {
@@ -69,7 +69,9 @@ export async function listZones({ bbox, limit }) {
         },
       },
     },
-  })
+  };
+  if (!SCORES.includeTest) zoneFilter.isTest = { $ne: true }; // dummy zones public map par nahi
+  const zones = await NobinZone.find(zoneFilter)
     .select('center radiusM backerCount status nearestBin createdAt')
     .limit(limit)
     .lean();

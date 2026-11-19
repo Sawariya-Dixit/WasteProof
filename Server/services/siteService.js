@@ -4,7 +4,7 @@ import { Vote } from '../models/Vote.js';
 import { Representative } from '../models/Representative.js';
 import { LocalBody } from '../models/LocalBody.js';
 import { AppError } from '../utils/AppError.js';
-import { PUBLIC_SITE_STATUSES } from '../config/defaults.js';
+import { PUBLIC_SITE_STATUSES, SCORES } from '../config/defaults.js';
 import { resolveAreas } from './geoService.js';
 
 export async function findInBbox({ bbox, type, status, limit }) {
@@ -30,6 +30,7 @@ export async function findInBbox({ bbox, type, status, limit }) {
     status: status || { $ne: 'hidden' },
   };
   if (type) filter.type = type;
+  if (!SCORES.includeTest) filter.isTest = { $ne: true }; // dummy/seed sites public map par nahi
 
   return Site.find(filter)
     .select('type status location backerCount noCount reportCount photoUrls createdAt')
@@ -78,8 +79,10 @@ async function buildSeats(site) {
 }
 
 // GET /sites/:id (public). Hidden site 404 hai. backers (user ids) aur embedding bahar nahi jaate.
-export async function getSiteDetail(id , userId = null) {
-  const site = await Site.findOne({ _id: id, status: { $in: PUBLIC_SITE_STATUSES } }).lean();
+export async function getSiteDetail(id, userId = null) {
+  const match = { _id: id, status: { $in: PUBLIC_SITE_STATUSES } };
+  if (!SCORES.includeTest) match.isTest = { $ne: true };
+  const site = await Site.findOne(match).lean();
   if (!site) throw new AppError('Site nahi mili', 404, 'NOT_FOUND');
 
   const [seats, localBody, myVote] = await Promise.all([
@@ -106,7 +109,6 @@ export async function getSiteDetail(id , userId = null) {
       ? { id: localBody._id, name: localBody.name, type: localBody.type, headTitle: localBody.headTitle }
       : null,
     nearby: site.nearby ?? null,
-        myVote: myVote?.value ?? null, // 'yes' | 'no' | 'me_too' | null
-        
+    myVote: myVote?.value ?? null, // 'yes' | 'no' | 'me_too' | null
   };
 }

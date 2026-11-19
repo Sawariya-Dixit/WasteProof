@@ -19,6 +19,7 @@
     "stats:queue": "node scripts/queueStats.js",
     "scores": "node scripts/runScores.js",
     "seed:test": "node scripts/seedTestData.js",
+    "purge:test": "node scripts/purgeTestData.js",
     "fonts": "node scripts/downloadFonts.js",
     "seed:nobin": "node scripts/seedNobinZones.js",
     "test:bin": "node scripts/testBinParse.js",
@@ -27,7 +28,7 @@
     "build:rules": "node scripts/buildRules.js",
     "test:prompt": "node scripts/testPrompt.js",
     "audit:data": "node scripts/auditData.js",
-"make:icons": "node scripts/makeIcons.js",
+    "make:icons": "node scripts/makeIcons.js",
     "check:all": "node scripts/integrationCheck.js",
     "test": "node --test"
   },

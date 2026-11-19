@@ -119,7 +119,7 @@ export const SCORE_LEVELS = ['assembly', 'loksabha', 'district']; // ward baad m
 export const BEHAVIOUR_TYPES = ['waste_dump', 'contaminated_water', 'open_construction'];
 export const SCORES = {
   cronExpr: '*/15 * * * *', // har 15 min
-  includeTest: true, // Day 26 deploy se pehle false kar dena (test sites score me na jayein)
+  includeTest: false, // test/seed sites score, map aur letters me nahi aati (prodGuard bhi yahi maangta hai)
   cityCleanupDays: 7, // overflowing bin itne din me saaf hua to "on time"
   cityMinEligible: 3, // city score ke liye kam se kam itni bins chahiye
   citizenBadDensity: 0.01, // verified sites per km2, jahan citizen score 0 ho jata hai
@@ -128,15 +128,14 @@ export const SCORES = {
   repeatShare: 0.3, // verified sites me se itne hisse repeat spots hon to diagnosis repeat_spot
   lowScore: 50, // isse kam = problem
   mapMaxPoints: 300, // map ke liye polygon itne points tak simplify
-    topSites: 5, // area page par itni top sites
-
+  topSites: 5, // area page par itni top sites
 };
 // ---------- Day 17 (letters) ----------
 export const LETTER_SCOPES = ['site', 'ward', 'assembly', 'loksabha', 'district'];
 export const LETTER_LANGS = ['en', 'hi'];
 export const LETTER_DEDUPE_MINUTES = 10; // same letter itne min me dobara maango to wahi milega (LLM cost / spam)
 export const LETTER_PARA_MAX_CHARS = 900; // LLM ka ek paragraph isse bada ho to template
-  
+
 // ---------- Day 19 (no-bin zones) ----------
 export const NOBIN = {
   radiusM: 1000, // zone ka circle: "mere 1 km me dustbin nahi hai"
