@@ -27,7 +27,7 @@ if (env.NODE_ENV !== 'production') {
 }
 
 app.use(helmet());
-app.use(cors({ origin: env.CLIENT_URL.split(','), credentials: true }));
+app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
 app.use(
   pinoHttp({
     logger,
