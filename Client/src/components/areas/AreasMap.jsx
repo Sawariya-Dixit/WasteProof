@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Map as MapLibreMap, Marker, NavigationControl, setWorkerUrl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { KHATEGAON, OSM_STYLE } from '@/lib/mapConfig';
+import { AREA_MIN_VERIFIED, KHATEGAON, OSM_STYLE } from '@/lib/mapConfig';
 import { EMPTY_FC, SCORE_COLORS, geojsonBounds, scoreColor } from '@/lib/areaGeo';
 import { useMapTheme } from '@/lib/mapTheme';
 setWorkerUrl(`${import.meta.env.BASE_URL}maplibre-gl-worker.mjs`);
@@ -29,7 +29,7 @@ function makeLabel(p, selected, onClick) {
     ? p.overallScore == null
       ? '–'
       : String(Math.round(p.overallScore))
-    : `${p.verifiedCount}/10`;
+    : `${p.verifiedCount}/${AREA_MIN_VERIFIED}`;
   el.style.cssText =
     'min-width:38px;height:38px;padding:0 6px;border-radius:9999px;border:2px solid #fff;' +
     'color:#fff;font:700 12px system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.4);' +

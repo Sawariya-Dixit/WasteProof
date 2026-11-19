@@ -21,11 +21,20 @@ export const OSM_STYLE = {
 
 // Pin ke rang (legend me bhi yahi use hote hain)
 export const STATUS_COLORS = {
-  unverified: '#f59e0b', // amber: abhi 10 log confirm nahi kar paye
-  verified: '#dc2626', // red: 10 logon ne confirm kiya
+  unverified: '#f59e0b', // amber: abhi itne log confirm nahi kar paye
+  verified: '#dc2626', // red: zaroori logon ne confirm kiya
   cleaned: '#16a34a', // green: saaf ho gaya
 };
-export const VERIFY_THRESHOLD = 10; // server ke VERIFY_THRESHOLD se match
+// Ye numbers server ke .env se aate hain (GET /api/v1/config), yahan badalne ki zaroorat nahi.
+// 'let' export = live binding: app start par lib/appConfig.js inhe server wali value se badal deta hai.
+// Default server ke default jaise hi rakho (5 aur 10), taaki config na mile to bhi theek chale.
+export let VERIFY_THRESHOLD = 5; // site / no-bin zone itne logon se verified
+export let AREA_MIN_VERIFIED = 10; // area score aur area letter ke liye itni verified sites
+
+export function setThresholds({ verifyThreshold, areaMinVerified }) {
+  if (Number.isInteger(verifyThreshold) && verifyThreshold > 0) VERIFY_THRESHOLD = verifyThreshold;
+  if (Number.isInteger(areaMinVerified) && areaMinVerified > 0) AREA_MIN_VERIFIED = areaMinVerified;
+}
 
 // Pins paas-paas hon to cluster (gol number wala) ban jata hai
 export const CLUSTER = { maxZoom: 15, radius: 50 };

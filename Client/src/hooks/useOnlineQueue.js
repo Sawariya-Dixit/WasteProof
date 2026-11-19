@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { queueAll, queueCount, queuePut, queueRemove } from '@/lib/offlineQueue';
 import { createReport, signUpload, uploadToCloudinary } from '@/api/reports';
+import { addSitePhoto } from '@/api/sites';
 import { myReportsKey } from '@/hooks/useMyReports';
 import { QUEUE_MAX_AGE_MS } from '@/lib/snapConfig';
 import { useQueueStore } from '@/store/queueStore';
@@ -34,16 +35,18 @@ async function sendOne(item) {
     key = sign.public_id;
     await queuePut({ ...item, key }); // upload ho gaya, dobara upload nahi karenge
   }
-  await createReport({
+  const body = {
     key,
     sha256: item.sha256,
     lat: item.gps.lat,
     lng: item.gps.lng,
     accuracyM: item.gps.accuracyM,
     capturedAt: new Date(item.capturedAt).toISOString(),
-    type: item.type,
     ...(item.note ? { note: item.note } : {}),
-  });
+  };
+  // 'Add photo' wali item site se judti hai, baaki normal report
+  if (item.siteId) await addSitePhoto(item.siteId, body);
+  else await createReport({ ...body, type: item.type });
 }
 
 export async function flushQueue(owner, onSent) {

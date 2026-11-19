@@ -15,6 +15,7 @@ import { refreshQueueCount } from '@/hooks/useOnlineQueue';
 import { sha256Hex } from '@/lib/hash';
 import { MAX_GPS_ACCURACY_M, MAX_UPLOAD_BYTES, REPORT_TYPES, inIndia } from '@/lib/snapConfig';
 import { createReport, signUpload, uploadToCloudinary } from '@/api/reports';
+import { addSitePhoto } from '@/api/sites';
 import { useSearchParams } from 'react-router';
 
 // Server ke error code se message. Jo yahan nahi hai, wo generic error dikhata hai
@@ -25,15 +26,24 @@ const ERROR_KEY = {
   RATE_LIMIT: 'snap.errRate',
   UPLOAD_FAILED: 'snap.errUpload',
   NETWORK_ERROR: 'errors.network',
+  // 'Add photo' ke errors
+  TOO_FAR: 'snap.errTooFar',
+  GPS_TOO_WEAK: 'snap.errWeakGps',
+  SITE_CLOSED: 'snap.errSiteClosed',
+  NOT_FOUND: 'snap.errSiteClosed',
 };
 // In errors par dobara submit karne ka fayda nahi, photo dobara leni padegi
-const FATAL = ['STALE_PHOTO', 'BAD_TIME', 'DUPLICATE_IMAGE', 'FORBIDDEN_KEY'];
+const FATAL = ['STALE_PHOTO', 'BAD_TIME', 'DUPLICATE_IMAGE', 'FORBIDDEN_KEY', 'SITE_CLOSED', 'NOT_FOUND'];
+const OBJECT_ID = /^[a-f0-9]{24}$/i;
 
 export default function SnapPage() {
   const { t } = useTranslation();
   const { position, error } = useGeolocation();
   const { user } = useAuth();
   const [searchParams] = useSearchParams(); // <--- URL params read karne ke liye line
+  // /snap?site=<id>: 'Add photo', ye photo us site se judegi (type site ka hi rehta hai)
+  const rawSite = searchParams.get('site');
+  const siteId = rawSite && OBJECT_ID.test(rawSite) ? rawSite : null;
 
   const [shot, setShot] = useState(null); // { blob, url, capturedAt, gps, sha256 }
   const [type, setType] = useState('');
@@ -91,6 +101,7 @@ export default function SnapPage() {
         gps: { lat: shot.gps.lat, lng: shot.gps.lng, accuracyM: shot.gps.accuracyM },
         capturedAt: shot.capturedAt.getTime(),
         type,
+        siteId,
         note: note.trim(),
         key: signRef.current?.public_id ?? null, // upload ho chuka ho to dobara nahi
         tries: 0,
@@ -131,16 +142,17 @@ export default function SnapPage() {
         signRef.current = sign;
       }
       setStage('save');
-      await createReport({
+      const body = {
         key: signRef.current.public_id,
         sha256: shot.sha256,
         lat: shot.gps.lat,
         lng: shot.gps.lng,
         accuracyM: shot.gps.accuracyM,
         capturedAt: shot.capturedAt.toISOString(),
-        type,
         ...(note.trim() ? { note: note.trim() } : {}),
-      });
+      };
+      if (siteId) await addSitePhoto(siteId, body);
+      else await createReport({ ...body, type });
       setPhase('saved');
     } catch (err) {
       if (err.code === 'NETWORK_ERROR' || !navigator.onLine) return saveForLater();
@@ -180,7 +192,7 @@ export default function SnapPage() {
     if (!inIndia(shot.gps.lat, shot.gps.lng)) problems.push(t('snap.problemOutsideIndia'));
   }
   if (shot.blob.size > MAX_UPLOAD_BYTES) problems.push(t('snap.problemTooBig'));
-  const canSubmit = problems.length === 0 && !!shot.sha256 && !!type;
+  const canSubmit = problems.length === 0 && !!shot.sha256 && (!!type || !!siteId);
 
   const row = 'flex justify-between gap-4 py-1.5 text-sm';
   return (
@@ -208,7 +220,8 @@ export default function SnapPage() {
           </div>
         </dl>
 
-        <TypeSelect value={type} onChange={setType} disabled={working} />
+        {siteId && <Alert type="success">{t('snap.addToSite', { m: 300 })}</Alert>}
+        <TypeSelect value={type} onChange={setType} disabled={working || !!siteId} />
         <NoteInput value={note} onChange={setNote} disabled={working} />
 
         {working && <UploadProgress stage={stage} progress={progress} />}

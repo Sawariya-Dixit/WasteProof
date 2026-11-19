@@ -37,3 +37,9 @@ export async function claimCleanup(id, { key, lat, lng, accuracyM }) {
   );
   return res.data.data; // { cleanup: { id, status }, site: { id, status } }
 }
+
+// 'Add photo': isi site ki ek aur photo. body = reports jaisa, bas 'type' nahi (site se aata hai).
+export async function addSitePhoto(id, body) {
+  const res = await api.post(`/sites/${id}/photos`, body);
+  return res.data.data.report;
+}

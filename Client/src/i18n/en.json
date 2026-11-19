@@ -22,7 +22,8 @@
     "language": "Language",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "retry": "Try again"
   },
   "auth": {
     "loginTitle": "Welcome back",
@@ -50,7 +51,9 @@
     "logout": "Log out"
   },
   "account": {
-    "adminPanel": "Admin panel"
+    "adminPanel": "Admin panel",
+    "title": "Account",
+    "role": "Role"
   },
   "pages": {
     "map": "Map of reports",
@@ -66,7 +69,7 @@
   },
   "about": {
     "title": "How JunkSnap works",
-    "intro": "Snap a photo of waste, 10 people confirm it, and we draft a letter for the right authority.",
+    "intro": "Snap a photo of waste, {{siteN}} people confirm it, and we draft a letter for the right authority.",
     "cityTitle": "City response",
     "cityText": "How quickly the city clears waste and services bins.",
     "citizenTitle": "Citizen behaviour",
@@ -103,7 +106,15 @@
       "AREA_NOT_FOUND": "Area not found.",
       "PAYLOAD_TOO_LARGE": "File is too large.",
       "HTTP_413": "File is too large."
-    }
+    },
+    "network": "No internet connection. Check your network and try again.",
+    "generic": "Something went wrong. Please try again.",
+    "wrongCredentials": "Wrong email or password.",
+    "emailExists": "An account with this email already exists.",
+    "wrongCode": "That code is not correct.",
+    "codeExpired": "That code has expired. Request a new one.",
+    "tooMany": "Too many attempts. Please wait a while and try again.",
+    "weakPassword": "Password is too weak. Use 8+ characters with capital, small letter, number and a special character."
   },
   "map": {
     "loading": "Loading reports...",
@@ -118,12 +129,12 @@
     "reportsCount_one": "{{count}} report",
     "reportsCount_other": "{{count}} reports",
     "legend": {
-      "unverified": "Waiting for 10 people",
-      "verified": "Verified by 10 people",
+      "unverified": "Waiting for {{siteN}} people",
+      "verified": "Verified by {{siteN}} people",
       "cleaned": "Cleaned"
     },
     "status": {
-      "unverified": "Waiting for 10 people",
+      "unverified": "Waiting for {{siteN}} people",
       "verified": "Verified",
       "cleaned": "Cleaned"
     },
@@ -186,7 +197,11 @@
     "errRate": "Too many reports this hour. Please try again later.",
     "errUpload": "Photo upload failed. Check your internet and try again.",
     "queuedTitle": "Saved on your phone",
-    "queuedText": "You are offline. We will send this report automatically when the internet is back. Photos older than 10 minutes cannot be sent, so please reconnect soon."
+    "queuedText": "You are offline. We will send this report automatically when the internet is back. Photos older than 10 minutes cannot be sent, so please reconnect soon.",
+    "addToSite": "You are adding a photo to an existing site. Stay within {{m}} m of it. The photo will be checked and blurred like any other report.",
+    "errTooFar": "You are too far from this site. Go closer and take the photo again.",
+    "errWeakGps": "GPS is too weak to add a photo here. Move to an open area and retry.",
+    "errSiteClosed": "This site is closed or no longer available."
   },
   "activity": {
     "empty": "You have not reported anything yet.",
@@ -291,7 +306,7 @@
     "no": "Not here",
     "locating": "Getting your location...",
     "addPhoto": "Add a photo",
-    "addPhotoHint": "A new photo of the same problem within 20 m joins this site automatically.",
+    "addPhotoHint": "Take a new photo within 300 m of this site. It is added to this site after our checks.",
     "loginToVote": "Log in to confirm this site",
     "markCleaned": "This site is cleaned up",
     "done": {
@@ -336,7 +351,7 @@
   },
   "areas": {
     "title": "Which areas need attention",
-    "intro": "Worst-scoring areas come first. A score shows only after 10 verified sites.",
+    "intro": "Worst-scoring areas come first. A score shows only after {{areaN}} verified sites.",
     "level": {
       "assembly": "Assembly",
       "loksabha": "Lok Sabha",
@@ -348,7 +363,7 @@
       "bad": "Poor (below 40)",
       "none": "Score withheld"
     },
-    "withheld": "Score withheld until 10 verified sites",
+    "withheld": "Score withheld until {{areaN}} verified sites",
     "overall": "Overall score",
     "verifiedOf": "{{count}} of {{total}} verified sites",
     "sitesTotal_one": "{{count}} site in total",
@@ -537,7 +552,7 @@
       "openMap": "Open location in map",
       "reason": "Reason",
       "reasonPlaceholder": "Why? (at least 3 characters)",
-      "approveHint": "Approve means you replace the AI judge for this photo. The site still needs 10 different people to be verified.",
+      "approveHint": "Approve means you replace the AI judge for this photo. The site still needs {{siteN}} different people to be verified.",
       "approve": "Approve",
       "reject": "Reject",
       "retry": "Retry pipeline"

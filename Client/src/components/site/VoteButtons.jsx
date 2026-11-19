@@ -52,7 +52,7 @@ export default function VoteButtons({ site }) {
   const addPhoto = (
     <div className="space-y-1">
       <Link
-        to={`/snap?type=${site.type}`}
+        to={`/snap?type=${site.type}&site=${site.id}`}
         className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
       >
         <Camera className="h-4 w-4" />

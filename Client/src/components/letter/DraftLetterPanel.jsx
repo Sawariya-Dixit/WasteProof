@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button';
 import Alert from '@/components/ui/Alert';
 import { useAuth } from '@/hooks/useAuth';
 import { useCreateLetter } from '@/hooks/useLetters';
-import { VERIFY_THRESHOLD } from '@/lib/mapConfig';
+import { AREA_MIN_VERIFIED } from '@/lib/mapConfig';
 
 const ISSUE_TYPES = [
   'waste_dump',
@@ -45,7 +45,7 @@ export default function DraftLetterPanel({ scope, siteId, areaId, hidden = false
       case 'NOT_ENOUGH_EVIDENCE':
         return t('letter.err.NOT_ENOUGH_EVIDENCE', {
           have: err.details?.verified ?? 0,
-          need: err.details?.needed ?? VERIFY_THRESHOLD,
+          need: err.details?.needed ?? AREA_MIN_VERIFIED,
         });
       case 'SITE_CLEANED':
       case 'NOT_FOUND':
@@ -74,7 +74,7 @@ export default function DraftLetterPanel({ scope, siteId, areaId, hidden = false
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
           {scope === 'site'
             ? t('letter.panel.hintSite')
-            : t('letter.panel.hintArea', { total: VERIFY_THRESHOLD })}
+            : t('letter.panel.hintArea', { total: AREA_MIN_VERIFIED })}
         </p>
       </div>
 

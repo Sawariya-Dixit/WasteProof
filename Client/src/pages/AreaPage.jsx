@@ -8,7 +8,7 @@ import Alert from '@/components/ui/Alert';
 import { useAreaDetail } from '@/hooks/useAreas';
 import { scoreColor } from '@/lib/areaGeo';
 import DraftLetterPanel from '@/components/letter/DraftLetterPanel';
-const THRESHOLD = 10; // server ke VERIFY_THRESHOLD jaisa
+import { AREA_MIN_VERIFIED } from '@/lib/mapConfig';
 
 export default function AreaPage() {
   const { id } = useParams();
@@ -51,7 +51,7 @@ export default function AreaPage() {
   }
 
   const { area, score, topSites, representatives } = data;
-  const pct = Math.round((Math.min(score.verifiedCount, THRESHOLD) / THRESHOLD) * 100);
+  const pct = Math.round((Math.min(score.verifiedCount, AREA_MIN_VERIFIED) / AREA_MIN_VERIFIED) * 100);
 
   return (
     <div className="mx-auto w-full max-w-md space-y-5 p-4">
@@ -120,8 +120,8 @@ export default function AreaPage() {
             className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"
             role="progressbar"
             aria-valuemin={0}
-            aria-valuemax={THRESHOLD}
-            aria-valuenow={Math.min(score.verifiedCount, THRESHOLD)}
+            aria-valuemax={AREA_MIN_VERIFIED}
+            aria-valuenow={Math.min(score.verifiedCount, AREA_MIN_VERIFIED)}
           >
             <div className="h-full rounded-full bg-green-600" style={{ width: `${pct}%` }} />
           </div>
@@ -151,7 +151,7 @@ export default function AreaPage() {
                     </span>
                   </span>
                   <span className="shrink-0 text-sm font-medium">
-                    {t('map.backers', { count: Math.min(s.backerCount, THRESHOLD), total: THRESHOLD })}
+                    {t('map.backers', { count: Math.min(s.backerCount, AREA_MIN_VERIFIED), total: AREA_MIN_VERIFIED })}
                   </span>
                 </Link>
               </li>

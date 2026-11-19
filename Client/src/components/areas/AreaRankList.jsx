@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { scoreColor } from '@/lib/areaGeo';
 
-const THRESHOLD = 10; // server ke VERIFY_THRESHOLD jaisa
+import { AREA_MIN_VERIFIED } from '@/lib/mapConfig';
 
 export default function AreaRankList({ areas, selectedId, onSelect }) {
   const { t } = useTranslation();
@@ -11,7 +11,7 @@ export default function AreaRankList({ areas, selectedId, onSelect }) {
     <ol className="space-y-2">
       {areas.map((a) => {
         const selected = a.id === selectedId;
-        const pct = Math.round((Math.min(a.verifiedCount, THRESHOLD) / THRESHOLD) * 100);
+        const pct = Math.round((Math.min(a.verifiedCount, AREA_MIN_VERIFIED) / AREA_MIN_VERIFIED) * 100);
         return (
           <li key={a.id}>
             <div
@@ -54,7 +54,7 @@ export default function AreaRankList({ areas, selectedId, onSelect }) {
               {/* Counts hamesha dikhte hain, score withheld ho tab bhi */}
               <div className="mt-2">
                 <p className="text-xs text-slate-600 dark:text-slate-300">
-                  {t('areas.verifiedOf', { count: a.verifiedCount, total: THRESHOLD })} ·{' '}
+                  {t('areas.verifiedOf', { count: a.verifiedCount, total: AREA_MIN_VERIFIED })} ·{' '}
                   {t('areas.sitesTotal', { count: a.totalCount })}
                 </p>
                 {!a.scoreVisible && (
@@ -62,8 +62,8 @@ export default function AreaRankList({ areas, selectedId, onSelect }) {
                     className="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"
                     role="progressbar"
                     aria-valuemin={0}
-                    aria-valuemax={THRESHOLD}
-                    aria-valuenow={Math.min(a.verifiedCount, THRESHOLD)}
+                    aria-valuemax={AREA_MIN_VERIFIED}
+                    aria-valuenow={Math.min(a.verifiedCount, AREA_MIN_VERIFIED)}
                   >
                     <div className="h-full rounded-full bg-green-600" style={{ width: `${pct}%` }} />
                   </div>
