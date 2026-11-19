@@ -2,7 +2,7 @@ import { findInBbox, getSiteDetail } from '../services/siteService.js';
 import { castVote } from '../services/voteService.js';
 import { claimCleanup } from '../services/cleanupService.js';
 import { flagPhoto } from '../services/photoFlagService.js';
-import { addSitePhoto, listSitePhotos } from '../services/sitePhotoService.js';
+import { addSitePhoto, listSitePhotos } from '../services/SitePhotoService.js';
 export async function listSites(req, res) {
   const sites = await findInBbox(req.valid.query);
   res.json({ success: true, data: { sites }, meta: { count: sites.length } });
