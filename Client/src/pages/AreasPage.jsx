@@ -6,7 +6,7 @@ import Spinner from '@/components/ui/Spinner';
 import Alert from '@/components/ui/Alert';
 import { useAreaRanking, useAreasMap } from '@/hooks/useAreas';
 import { EMPTY_FC, SCORE_COLORS } from '@/lib/areaGeo';
-
+import { AREA_MIN_VERIFIED } from '@/lib/mapConfig'
 const LEVELS = ['assembly', 'loksabha', 'district'];
 
 const LEGEND = [
@@ -43,7 +43,9 @@ export default function AreasPage() {
       <div className="mx-auto w-full max-w-md space-y-4 p-4">
         <div>
           <h1 className="text-xl font-semibold">{t('areas.title')}</h1>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('areas.intro')}</p>
+         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+  {t('areas.intro', { areaN: AREA_MIN_VERIFIED })}
+</p>
         </div>
 
         <div className="flex gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="tablist">
