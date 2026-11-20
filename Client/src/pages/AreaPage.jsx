@@ -8,7 +8,7 @@ import Alert from '@/components/ui/Alert';
 import { useAreaDetail } from '@/hooks/useAreas';
 import { scoreColor } from '@/lib/areaGeo';
 import DraftLetterPanel from '@/components/letter/DraftLetterPanel';
-import { AREA_MIN_VERIFIED } from '@/lib/mapConfig';
+import { AREA_MIN_VERIFIED, VERIFY_THRESHOLD } from '@/lib/mapConfig';
 
 export default function AreaPage() {
   const { id } = useParams();
@@ -151,7 +151,7 @@ export default function AreaPage() {
                     </span>
                   </span>
                   <span className="shrink-0 text-sm font-medium">
-                    {t('map.backers', { count: Math.min(s.backerCount, AREA_MIN_VERIFIED), total: AREA_MIN_VERIFIED })}
+                    {t('map.backers', { count: Math.min(s.backerCount, VERIFY_THRESHOLD), total: VERIFY_THRESHOLD })}
                   </span>
                 </Link>
               </li>

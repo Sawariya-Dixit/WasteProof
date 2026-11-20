@@ -10,6 +10,7 @@ import { useUiStore, applyTheme } from './store/uiStore';
 import { useAuthStore } from './store/authStore';
 import { setUnauthorizedHandler } from './api/client';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import { loadServerConfig, syncI18nNumbers } from './lib/appConfig';
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false, staleTime: 30_000 } },
 });
@@ -31,6 +32,10 @@ setUnauthorizedHandler(() => useAuthStore.getState().logout());
 
 // App start: session check
 useAuthStore.getState().init();
+
+// {{siteN}} / {{areaN}} ke numbers: pehle defaults turant, phir server ki asli value aate hi dobara
+syncI18nNumbers();
+loadServerConfig().then(() => i18n.changeLanguage(i18n.language));
 registerSW();
 createRoot(document.getElementById('root')).render(
   <StrictMode>

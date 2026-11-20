@@ -15,7 +15,7 @@ const Stat = ({ label, value }) => (
 
 export default function QueueStats() {
   const { t } = useTranslation();
-  const q = useQuery({ queryKey: ['admin', 'stats'], queryFn: fetchQueueStats, refetchInterval: 10_000 });
+  const q = useQuery({ queryKey: ['admin', 'stats'], queryFn: fetchQueueStats, refetchInterval: 60_000 });
 
   if (q.isLoading) return <FullPageSpinner />;
   if (q.isError) return <Alert>{adminErrorText(q.error, t)}</Alert>;

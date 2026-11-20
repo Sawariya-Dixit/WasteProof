@@ -67,46 +67,49 @@ export default function MapPage() {
         onMapClick={clearAll}
       />
 
-      {/* List view: map ke upar poori screen */}
+      {/* List view: map ke upar poori screen (upar ke controls 3 line tak ja sakte hain, isliye zyada padding) */}
       {listMode && (
-        <div className="absolute inset-0 z-10 overflow-y-auto bg-slate-50 pt-14 dark:bg-slate-950">
+        <div className="absolute inset-0 z-10 overflow-y-auto bg-slate-50 pt-44 sm:pt-20 dark:bg-slate-950">
           <SiteList sites={sites} />
         </div>
       )}
 
-      {/* Upar: Places pill, filters, list/map toggle */}
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-20 flex flex-wrap items-center gap-2">
-        <PlacesPill bbox={debouncedView?.bbox} />
-        <MapFilters value={filters} onChange={setFilters} />
-        <button
-          onClick={() => setListMode((m) => !m)}
-          aria-pressed={listMode}
-          className="pointer-events-auto flex min-h-9 items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-sm font-medium shadow dark:bg-slate-900/90"
-        >
-          {listMode ? <MapIcon className="h-4 w-4" /> : <List className="h-4 w-4" />}
-          {listMode ? t('map.mapView') : t('map.listView')}
-        </button>
-      </div>
+      {/* Upar: controls + status chips ek hi column me (chhoti screen par wrap hone par ek dusre par nahi chadhte).
+          right-16: map ke zoom (+/-) buttons ke neeche na aaye */}
+      <div className="pointer-events-none absolute top-3 right-16 left-3 z-20 flex flex-col items-start gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <PlacesPill bbox={debouncedView?.bbox} />
+          <MapFilters value={filters} onChange={setFilters} />
+          <button
+            onClick={() => setListMode((m) => !m)}
+            aria-pressed={listMode}
+            className="pointer-events-auto flex min-h-9 items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-sm font-medium shadow dark:bg-slate-900/90"
+          >
+            {listMode ? <MapIcon className="h-4 w-4" /> : <List className="h-4 w-4" />}
+            {listMode ? t('map.mapView') : t('map.listView')}
+          </button>
+        </div>
 
-      {/* Status chips (loading / zoom in / count / error) */}
-      <div className="pointer-events-none absolute top-14 left-3 z-20 flex flex-col gap-2">
-        {isFetching && (
-          <div className={chip}>
-            <Spinner className="h-4 w-4" /> {t('map.loading')}
-          </div>
-        )}
-        {!isFetching && tooBig && <div className={chip}>{t('map.zoomIn')}</div>}
-        {!isFetching && !tooBig && !isError && debouncedView && (
-          <div className={chip}>{t('map.count', { count: sites.length })}</div>
-        )}
-        {isError && (
-          <div className={`${chip} text-red-700 dark:text-red-300`} role="alert">
-            {t('map.loadError')}
-            <button onClick={() => refetch()} className="font-semibold underline">
-              {t('map.retry')}
-            </button>
-          </div>
-        )}
+        {/* Status chips (loading / zoom in / count / error) */}
+        <div className="flex flex-col items-start gap-2">
+          {isFetching && (
+            <div className={chip}>
+              <Spinner className="h-4 w-4" /> {t('map.loading')}
+            </div>
+          )}
+          {!isFetching && tooBig && <div className={chip}>{t('map.zoomIn')}</div>}
+          {!isFetching && !tooBig && !isError && debouncedView && (
+            <div className={chip}>{t('map.count', { count: sites.length })}</div>
+          )}
+          {isError && (
+            <div className={`${chip} text-red-700 dark:text-red-300`} role="alert">
+              {t('map.loadError')}
+              <button onClick={() => refetch()} className="font-semibold underline">
+                {t('map.retry')}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Neeche: card khula ho to wo, warna legend + Add report + no-bin button */}
@@ -117,7 +120,7 @@ export default function MapPage() {
       ) : (
         <>
           {!listMode && (
-            <div className="pointer-events-none absolute bottom-6 left-3 z-10">
+            <div className="pointer-events-none absolute bottom-28 left-3 z-10 sm:bottom-6">
               <MapLegend />
             </div>
           )}
