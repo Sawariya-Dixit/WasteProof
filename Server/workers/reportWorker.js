@@ -15,6 +15,12 @@ import { requeuePending } from '../jobs/requeuePending.js';
 import { assertProductionSafe } from '../config/prodGuard.js';
 import { isMain } from '../utils/isMain.js';
 
+// Redis commands bachane ke liye (Upstash free = 500K/month). Idle worker bhi Redis ko "poll" karta hai:
+// drainDelay = queue khali ho to itne SECOND tak ek hi blocking call me ruko (default 5 = har 5s ek command).
+// Naya job aate hi BullMQ marker se worker turant jaag jata hai, isliye 60s rakhne se job late nahi hota.
+// stalledInterval = atke hue jobs ki jaanch kitne ms me (default 30s).
+const IDLE = { drainDelay: 60, stalledInterval: 120_000 };
+
 // Worker shuru karo. DB pehle se connected hona chahiye.
 // Do tarike: (1) server.js ke andar (EMBEDDED_WORKERS=on), (2) alag process: npm run worker
 export async function startReportWorker() {
@@ -32,7 +38,7 @@ export async function startReportWorker() {
       await runPipeline(job.data.reportId, log);
       log.info('job done');
     },
-    { connection, concurrency: WORKER_CONCURRENCY },
+    { connection, concurrency: WORKER_CONCURRENCY, ...IDLE },
   );
 
   // Jab koi attempt fail ho

@@ -8,6 +8,9 @@ import { summarizeSite } from '../services/noteSummaryService.js';
 import { assertProductionSafe } from '../config/prodGuard.js';
 import { isMain } from '../utils/isMain.js';
 
+// Redis commands bachane ke liye: notes kam aate hain, isliye idle polling aur bhi dheema (reportWorker.js dekho)
+const IDLE = { drainDelay: 120, stalledInterval: 300_000 };
+
 // Notes ke AI summary ka worker. DB pehle se connected hona chahiye.
 // Do tarike: (1) server.js ke andar (EMBEDDED_WORKERS=on), (2) alag process: npm run worker:notes
 export async function startNoteWorker() {
@@ -24,6 +27,7 @@ export async function startNoteWorker() {
       connection,
       concurrency: NOTES.concurrency,
       limiter: { max: 20, duration: 60_000 }, // LLM ki rate limit ka khayal
+      ...IDLE,
     },
   );
 
